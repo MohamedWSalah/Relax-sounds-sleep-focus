@@ -1,0 +1,7 @@
+{
+  "name": "Sleep Calm Sounds",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
