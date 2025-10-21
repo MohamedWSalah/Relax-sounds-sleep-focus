@@ -1,0 +1,31 @@
+<ion-content [fullscreen]="true" class="home-content">
+  <!-- Header -->
+  <div class="header">
+    <h1 class="app-title">Sleep Calm Sounds 🌙</h1>
+  </div>
+
+  <!-- Sound Grid -->
+  <div class="sound-grid">
+    <div
+      *ngFor="let sound of sounds"
+      class="sound-card"
+      [class.selected]="sound.selected"
+      (click)="toggleSound(sound)"
+    >
+      <div class="sound-icon">{{ sound.icon }}</div>
+      <div class="sound-name">{{ sound.name }}</div>
+    </div>
+  </div>
+
+  <!-- Footer Bar -->
+  <div class="footer-bar">
+    <ion-button fill="clear" class="footer-button">
+      <ion-icon name="time-outline" slot="start"></ion-icon>
+      Sleep Timer
+    </ion-button>
+    <ion-button fill="clear" class="footer-button">
+      <ion-icon name="settings-outline" slot="start"></ion-icon>
+      Settings
+    </ion-button>
+  </div>
+</ion-content>

@@ -1,0 +1,182 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+.home-content {
+  --background: linear-gradient(135deg, #1c2541 0%, #0b132b 100%);
+  background: var(--background);
+  font-family: "Poppins", sans-serif;
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+  padding-bottom: 100px; // Prevent overlap with footer
+}
+
+.header {
+  text-align: center;
+  padding: 2rem 1rem 1rem;
+
+  .app-title {
+    color: #eaeaea;
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin: 0;
+    text-shadow: 0 0 20px rgba(111, 255, 233, 0.3);
+    letter-spacing: 0.5px;
+  }
+}
+
+.sound-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  padding: 1rem;
+  max-width: 600px;
+  margin: 0 auto;
+
+  // Tablet and larger screens
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    padding: 2rem;
+  }
+}
+
+.sound-card {
+  background: #1b2a49;
+  border-radius: 1rem;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease-out;
+  border: 2px solid transparent;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+
+  // Hover effect
+  &:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  // Selected state
+  &.selected {
+    border-color: #6fffe9;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 20px rgba(111, 255, 233, 0.4);
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(111, 255, 233, 0.1),
+        transparent
+      );
+      border-radius: 1rem;
+    }
+  }
+}
+
+.sound-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  display: block;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+
+  .sound-card.selected & {
+    filter: drop-shadow(0 0 10px rgba(111, 255, 233, 0.5));
+  }
+}
+
+.sound-name {
+  color: #eaeaea;
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0;
+  letter-spacing: 0.3px;
+
+  .sound-card.selected & {
+    color: #6fffe9;
+    text-shadow: 0 0 8px rgba(111, 255, 233, 0.3);
+  }
+}
+
+.footer-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(27, 42, 73, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 1rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 1px solid rgba(111, 255, 233, 0.2);
+  z-index: 100;
+}
+
+.footer-button {
+  --color: #eaeaea;
+  --color-hover: #6fffe9;
+  --background: transparent;
+  --background-hover: rgba(111, 255, 233, 0.1);
+  --border-radius: 0.75rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+
+  &:hover {
+    --color: var(--color-hover);
+    transform: translateY(-1px);
+  }
+
+  ion-icon {
+    margin-right: 0.5rem;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 480px) {
+  .header .app-title {
+    font-size: 1.5rem;
+  }
+
+  .sound-grid {
+    gap: 0.75rem;
+    padding: 0.75rem;
+  }
+
+  .sound-card {
+    padding: 1.25rem 0.75rem;
+  }
+
+  .sound-icon {
+    font-size: 2rem;
+  }
+
+  .sound-name {
+    font-size: 0.9rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .sound-grid {
+    max-width: 800px;
+    gap: 2rem;
+  }
+
+  .sound-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .sound-icon {
+    font-size: 3rem;
+  }
+
+  .sound-name {
+    font-size: 1.1rem;
+  }
+}

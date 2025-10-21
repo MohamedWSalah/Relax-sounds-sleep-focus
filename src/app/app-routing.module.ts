@@ -8,9 +8,9 @@ const routes: Routes = [
       import('./pages/splash/splash.page').then((m) => m.SplashPage),
   },
   {
-    path: 'tabs',
-    loadChildren: () =>
-      import('./tabs/tabs.module').then((m) => m.TabsPageModule),
+    path: 'home',
+    loadComponent: () =>
+      import('./pages/home/home.page').then((m) => m.HomePage),
   },
   {
     path: '',

@@ -16,10 +16,10 @@ export class SplashPage implements OnInit {
     // Start the splash animation sequence
     setTimeout(() => {
       this.navigateToHome();
-    }, 5000); // 5 seconds total
+    }, 1500);
   }
 
   private navigateToHome() {
-    this.router.navigate(['/tabs/tab1']);
+    this.router.navigate(['/home']);
   }
 }
