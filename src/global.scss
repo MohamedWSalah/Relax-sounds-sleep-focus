@@ -35,3 +35,50 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
+:root {
+  padding-top: env(safe-area-inset-top);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+/* Global background for the entire app */
+ion-app {
+  --background: url("./assets/images/background.png");
+  background: var(--background);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* Ensure all ion-content elements inherit the background properly */
+ion-content {
+  --background: transparent;
+}
+
+/* Responsive background adjustments */
+@media (max-width: 480px) {
+  ion-app {
+    background-size: cover;
+    background-position: center;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  ion-app {
+    background-size: cover;
+    background-position: center;
+  }
+}
+
+@media (min-width: 769px) {
+  ion-app {
+    background-size: cover;
+    background-position: center;
+  }
+}
+
+/* Add extra spacing for footer */
+.scroll-content {
+  padding-bottom: calc(120px + env(safe-area-inset-bottom)) !important;
+}

@@ -1,57 +1,77 @@
 <ion-content [fullscreen]="true" class="home-content">
+  <!-- Animated Background -->
+  <div class="background-effects">
+    <div class="wave-pattern"></div>
+    <div class="floating-particles">
+      <div class="particle" *ngFor="let particle of backgroundParticles"></div>
+    </div>
+  </div>
+
   <!-- Header -->
   <div class="header">
-    <h1 class="app-title">Sleep Calm Sounds 🌙</h1>
+    <div class="header-content">
+      <div class="moon-icon">🌙</div>
+      <h1 class="app-title">Sleep Calm Sounds</h1>
+    </div>
+  </div>
+
+  <!-- Category Tabs -->
+  <div class="category-tabs">
+    @for (category of categories(); track category.id) {
+    <div
+      class="tab"
+      [class.active]="selectedCategory() === category.id"
+      (click)="selectCategory(category.id)"
+    >
+      <span class="tab-icon">{{ category.icon }}</span>
+      <span class="tab-name">{{ category.name }}</span>
+    </div>
+    }
   </div>
 
   <!-- Sound Grid -->
   <div class="sound-grid">
-    @for (sound of sounds(); track sound.id) {
-    <div
-      class="sound-card"
-      [class]="{
-          'selected': sound.selected,
-          'loading': sound.loading
-        }"
-    >
-      <div class="sound-main" (click)="toggleSound(sound)">
+    @for (sound of filteredSounds(); track sound.id) {
+    <div class="sound-item">
+      <!-- Compact Sound Card -->
+      <div
+        class="sound-card"
+        [class]="{
+            'selected': sound.selected,
+            'premium': sound.premium
+          }"
+        (click)="!sound.premium && toggleSound(sound)"
+      >
+        @if (sound.premium) {
+        <div class="premium-badge">
+          <ion-icon name="lock-closed-outline"></ion-icon>
+        </div>
+        }
+
         <div class="sound-icon">
-          @if (!sound.loading) {
           <span>{{ sound.icon }}</span>
-          } @if (sound.loading) {
-          <ion-spinner name="crescent"></ion-spinner>
-          }
         </div>
         <div class="sound-name">{{ sound.name }}</div>
       </div>
 
-      <!-- Volume Controls (only shown when selected) -->
-      @if (sound.selected) {
-      <div class="volume-controls">
-        <ion-range
-          min="0"
-          max="100"
-          [value]="sound.volume * 100"
-          (ionChange)="setVolume(sound, $event.detail.value)"
-          color="light"
-          class="volume-slider"
-        >
-        </ion-range>
-        <ion-button
-          fill="clear"
-          size="small"
-          shape="round"
-          (click)="toggleMute(sound)"
-          class="mute-button"
-        >
-          <ion-icon
-            slot="icon-only"
-            [name]="sound.muted ? 'volume-mute-outline' : 'volume-high-outline'"
+      <!-- Reserved Space for Sound Bar -->
+      <div class="sound-bar-container">
+        @if (sound.selected) {
+        <div class="sound-bar" (click)="$event.stopPropagation()">
+          <ion-range
+            class="volume-slider"
+            min="0"
+            max="100"
+            [value]="sound.volume * 100"
+            (ionChange)="setVolume(sound, $event.detail.value)"
+            (click)="$event.stopPropagation()"
           >
-          </ion-icon>
-        </ion-button>
+          </ion-range>
+        </div>
+        } @else {
+        <div class="sound-bar-placeholder"></div>
+        }
       </div>
-      }
     </div>
     }
   </div>
@@ -62,6 +82,7 @@
       <ion-icon name="time-outline" slot="start"></ion-icon>
       Sleep Timer
     </ion-button>
+
     <ion-button fill="clear" class="footer-button">
       <ion-icon name="settings-outline" slot="start"></ion-icon>
       Settings

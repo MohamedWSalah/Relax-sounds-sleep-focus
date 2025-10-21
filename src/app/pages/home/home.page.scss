@@ -1,97 +1,283 @@
+@use "sass:math";
+@use "../../../theme/variables" as *;
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
 .home-content {
-  --background: linear-gradient(135deg, #1c2541 0%, #0b132b 100%);
-  background: var(--background);
   font-family: "Poppins", sans-serif;
   min-height: 100vh;
   padding: 0;
   margin: 0;
-  padding-top: env(
-    safe-area-inset-top
-  ); // Respect top safe area (notch/status bar)
-  padding-left: env(safe-area-inset-left); // Respect left safe area
-  padding-right: env(safe-area-inset-right); // Respect right safe area
-  padding-bottom: calc(
-    100px + env(safe-area-inset-bottom)
-  ); // Prevent overlap with footer and respect safe area
+  padding-top: env(safe-area-inset-top);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+  padding-bottom: calc(120px + env(safe-area-inset-bottom));
+  position: relative;
+  overflow-x: hidden;
 
   // Landscape mode adjustments
   @media (orientation: landscape) {
-    padding-bottom: calc(
-      120px + env(safe-area-inset-bottom)
-    ); // Extra padding for landscape
+    padding-bottom: calc(140px + env(safe-area-inset-bottom));
+  }
+}
+
+// Background Effects
+.background-effects {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.wave-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+      circle at 20% 80%,
+      rgba(147, 197, 253, 0.02) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(129, 140, 248, 0.03) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      circle at 40% 40%,
+      rgba(165, 243, 252, 0.015) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      circle at 60% 70%,
+      rgba(196, 181, 253, 0.02) 0%,
+      transparent 50%
+    );
+  animation: wavePattern 25s ease-in-out infinite;
+}
+
+.floating-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.particle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: $particle-color-1;
+  border-radius: 50%;
+  animation: particleFloat 30s linear infinite;
+  box-shadow: 0 0 6px $particle-color-1;
+}
+
+.particle:nth-child(odd) {
+  background: $particle-color-2;
+  animation-duration: 35s;
+  box-shadow: 0 0 6px $particle-color-2;
+}
+
+.particle:nth-child(even) {
+  background: $particle-color-3;
+  animation-duration: 40s;
+  box-shadow: 0 0 6px $particle-color-3;
+}
+
+.particle:nth-child(3n) {
+  background: $particle-color-4;
+  animation-duration: 45s;
+  box-shadow: 0 0 6px $particle-color-4;
+}
+
+// Generate random positions for particles
+@for $i from 1 through 90 {
+  .particle:nth-child(#{$i}) {
+    left: math.random() * 100 * 1%;
+    top: math.random() * 100 * 1%;
+    animation-delay: math.random() * 30 * -1s;
   }
 }
 
 .header {
   text-align: center;
-  padding: 2rem 1rem 1rem;
+  padding: 1.5rem 1rem 1rem;
+  position: relative;
+  z-index: 2;
+
+  .header-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .moon-icon {
+    font-size: 2rem;
+    animation: moonFloat 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 10px rgba(111, 255, 233, 0.5));
+  }
 
   .app-title {
-    color: #eaeaea;
+    color: #ffffff;
     font-size: 1.75rem;
     font-weight: 600;
     margin: 0;
-    text-shadow: 0 0 20px rgba(111, 255, 233, 0.3);
+    text-shadow: 0 0 20px rgba(111, 255, 233, 0.4);
     letter-spacing: 0.5px;
+  }
+
+  .header-subtitle {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    font-weight: 300;
+    letter-spacing: 0.3px;
+    text-shadow: 0 0 10px rgba(111, 255, 233, 0.2);
+  }
+}
+
+// Category Tabs
+.category-tabs {
+  display: flex;
+  gap: 0.5rem;
+  padding: 1rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  position: relative;
+  z-index: 2;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    min-width: 80px;
+    flex-shrink: 0;
+
+    &:hover {
+      background: rgba(111, 255, 233, 0.12);
+      border-color: rgba(111, 255, 233, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(111, 255, 233, 0.15),
+        inset 0 1px 0 rgba(111, 255, 233, 0.25);
+    }
+
+    &.active {
+      background: rgba(111, 255, 233, 0.15);
+      border-color: rgba(111, 255, 233, 0.4);
+      box-shadow: 0 8px 24px rgba(111, 255, 233, 0.2),
+        inset 0 1px 0 rgba(111, 255, 233, 0.3),
+        inset 0 -1px 0 rgba(111, 255, 233, 0.1);
+    }
+
+    .tab-icon {
+      font-size: 1.2rem;
+      filter: drop-shadow(0 0 5px rgba(111, 255, 233, 0.3));
+    }
+
+    .tab-name {
+      color: #ffffff;
+      font-size: 0.8rem;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    &.active .tab-name {
+      color: #6fffe9;
+      text-shadow: 0 0 8px rgba(111, 255, 233, 0.3);
+    }
   }
 }
 
 .sound-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
   padding: 1rem;
-  max-width: 600px;
+  padding-bottom: calc(1rem + 120px); // Extra space for footer
+  max-width: 800px;
   margin: 0 auto;
-
-  // Tablet and larger screens
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-    padding: 2rem;
-  }
+  position: relative;
+  z-index: 2;
+  justify-content: center;
 
   // Landscape mode adjustments
   @media (orientation: landscape) {
-    padding-bottom: 2rem; // Extra bottom padding in landscape
-    max-height: calc(100vh - 200px); // Limit height to prevent overflow
-    overflow-y: auto; // Allow scrolling if needed
+    padding-bottom: calc(2rem + 140px); // Extra space for footer in landscape
+    max-height: calc(100vh - 250px);
+    overflow-y: auto;
   }
 }
 
+.sound-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: calc(33.333% - 0.67rem); // 3 items per row with gap
+}
+
 .sound-card {
-  background: #1b2a49;
+  // Glass morphism background
+  background: rgba(255, 255, 255, 0.06);
   border-radius: 1rem;
-  padding: 1.5rem 1rem;
+  padding: 0.4rem;
   text-align: center;
   cursor: pointer;
-  transition: all 0.3s ease-out;
-  border: 2px solid transparent;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1);
   position: relative;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-
-  // Hover effect
-  &:hover {
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-  }
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  min-height: 50px;
+  user-select: none;
+  aspect-ratio: 1;
 
   // Loading state
   &.loading {
-    opacity: 0.7;
+    opacity: 0.6;
     cursor: wait;
   }
 
-  // Selected state
-  &.selected {
-    border-color: #6fffe9;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 20px rgba(111, 255, 233, 0.4);
+  // Premium state
+  &.premium {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 215, 0, 0.3);
+    cursor: not-allowed;
+    opacity: 0.8;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15),
+      inset 0 1px 0 rgba(255, 215, 0, 0.2),
+      inset 0 -1px 0 rgba(255, 215, 0, 0.1);
 
-    &::before {
+    &::after {
       content: "";
       position: absolute;
       top: 0;
@@ -101,21 +287,70 @@
       background: linear-gradient(
         45deg,
         transparent,
-        rgba(111, 255, 233, 0.1),
+        rgba(255, 215, 0, 0.05),
         transparent
+      );
+      border-radius: 1rem;
+    }
+  }
+
+  // Selected state
+  &.selected {
+    background: rgba(111, 255, 233, 0.12);
+    border-color: rgba(111, 255, 233, 0.4);
+    box-shadow: 0 12px 40px rgba(111, 255, 233, 0.15),
+      inset 0 1px 0 rgba(111, 255, 233, 0.3),
+      inset 0 -1px 0 rgba(111, 255, 233, 0.1), 0 0 20px rgba(111, 255, 233, 0.2);
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(111, 255, 233, 0.08),
+        transparent,
+        rgba(111, 255, 233, 0.05)
       );
       border-radius: 1rem;
     }
   }
 }
 
+.premium-badge {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: rgba(255, 215, 0, 0.9);
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(255, 215, 0, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  z-index: 3;
+
+  ion-icon {
+    color: #1a1a1a;
+    font-size: 12px;
+  }
+}
+
 .sound-main {
-  cursor: pointer;
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  pointer-events: none;
 }
 
 .volume-controls {
@@ -128,6 +363,7 @@
   border-radius: 0.75rem;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(111, 255, 233, 0.2);
+  pointer-events: auto;
 }
 
 .volume-slider {
@@ -138,6 +374,7 @@
   --knob-size: 20px;
   --bar-height: 4px;
   --bar-border-radius: 2px;
+  height: 10px;
 }
 
 .mute-button {
@@ -158,37 +395,73 @@
 }
 
 .sound-icon {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
-  display: block;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-  min-height: 2.5rem;
+  font-size: 3.4rem;
+  margin-bottom: 0.2rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.2));
+  transition: all 0.3s ease;
 
   .sound-card.selected & {
-    filter: drop-shadow(0 0 10px rgba(111, 255, 233, 0.5));
+    filter: drop-shadow(0 0 8px rgba(111, 255, 233, 0.4));
+    transform: scale(1.1);
   }
 
   ion-spinner {
     --color: #6fffe9;
-    width: 2rem;
-    height: 2rem;
+    width: 1.2rem;
+    height: 1.2rem;
   }
 }
 
 .sound-name {
-  color: #eaeaea;
-  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.6rem;
   font-weight: 500;
   margin: 0;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.1px;
+  text-align: center;
+  line-height: 1.1;
+  transition: all 0.3s ease;
 
   .sound-card.selected & {
     color: #6fffe9;
-    text-shadow: 0 0 8px rgba(111, 255, 233, 0.3);
+    text-shadow: 0 0 6px rgba(111, 255, 233, 0.3);
+    font-weight: 600;
   }
+}
+
+// Sound Bar Container
+.sound-bar-container {
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.sound-bar {
+  width: 100%;
+  padding: 0.25rem 0;
+  animation: slideInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sound-bar-placeholder {
+  height: 30px;
+  width: 100%;
+  opacity: 0;
+}
+
+.volume-slider {
+  width: 100%;
+  --bar-background: rgba(111, 255, 233, 0.3);
+  --bar-background-active: #6fffe9;
+  --knob-background: #6fffe9;
+  --knob-size: 25px;
+  --bar-height: 2px;
+  --bar-border-radius: 1px;
+  height: 10px !important;
 }
 
 .footer-bar {
@@ -196,8 +469,9 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(27, 42, 73, 0.95);
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
   padding: 1rem;
   padding-left: calc(1rem + env(safe-area-inset-left));
   padding-right: calc(1rem + env(safe-area-inset-right));
@@ -205,22 +479,20 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  border-top: 1px solid rgba(111, 255, 233, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
   z-index: 100;
 
   // Landscape mode adjustments
   @media (orientation: landscape) {
-    padding-bottom: calc(
-      1.5rem + env(safe-area-inset-bottom)
-    ); // Extra padding for landscape
+    padding-bottom: calc(1.5rem + env(safe-area-inset-bottom));
   }
 
   // Mobile landscape specific adjustments
   @media (orientation: landscape) and (max-height: 500px) {
-    padding-bottom: calc(
-      2rem + env(safe-area-inset-bottom)
-    ); // Even more padding for short landscape screens
-    min-height: 80px; // Ensure footer has minimum height
+    padding-bottom: calc(2rem + env(safe-area-inset-bottom));
+    min-height: 80px;
   }
 }
 
@@ -243,56 +515,55 @@
   }
 }
 
-// Responsive adjustments
-@media (max-width: 480px) {
-  .header .app-title {
-    font-size: 1.5rem;
+// Animations
+@keyframes moonFloat {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
   }
-
-  .sound-grid {
-    gap: 0.75rem;
-    padding: 0.75rem;
-  }
-
-  .sound-card {
-    padding: 1.25rem 0.75rem;
-  }
-
-  .sound-icon {
-    font-size: 2rem;
-  }
-
-  .sound-name {
-    font-size: 0.9rem;
+  50% {
+    transform: translateY(-8px) rotate(2deg);
   }
 }
 
-@media (min-width: 1024px) {
-  .sound-grid {
-    max-width: 800px;
-    gap: 2rem;
+@keyframes wavePattern {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 0.3;
   }
-
-  .sound-card {
-    padding: 2rem 1.5rem;
+  50% {
+    transform: scale(1.1) rotate(1deg);
+    opacity: 0.5;
   }
+}
 
-  .sound-icon {
-    font-size: 3rem;
+@keyframes particleFloat {
+  0% {
+    transform: translateY(100vh) translateX(0px) scale(0);
+    opacity: 0;
   }
-
-  .sound-name {
-    font-size: 1.1rem;
+  10% {
+    opacity: 1;
+    transform: translateY(90vh) translateX(10px) scale(1);
   }
-
-  .volume-controls {
-    padding: 1rem;
-    gap: 0.75rem;
+  90% {
+    opacity: 1;
+    transform: translateY(10vh) translateX(-10px) scale(1);
   }
+  100% {
+    transform: translateY(0vh) translateX(0px) scale(0);
+    opacity: 0;
+  }
+}
 
-  .mute-button {
-    min-width: 45px;
-    height: 45px;
-    font-size: 1.3rem;
+@keyframes slideInUp {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
   }
 }

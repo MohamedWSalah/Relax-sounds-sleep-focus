@@ -10,13 +10,18 @@ import { IonicModule } from '@ionic/angular';
   imports: [CommonModule, IonicModule],
 })
 export class SplashPage implements OnInit {
+  particles: number[] = [];
+
   constructor(private router: Router) {}
 
   ngOnInit() {
+    // Generate floating particles
+    this.particles = Array.from({ length: 30 }, (_, i) => i);
+
     // Start the splash animation sequence
     setTimeout(() => {
       this.navigateToHome();
-    }, 1500);
+    }, 3000);
   }
 
   private navigateToHome() {

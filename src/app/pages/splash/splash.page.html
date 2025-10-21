@@ -1,8 +1,27 @@
 <div class="splash-container">
+  <!-- Animated Background -->
+  <div class="wave-background">
+    <div class="wave wave1"></div>
+    <div class="wave wave2"></div>
+    <div class="wave wave3"></div>
+  </div>
+
+  <!-- Floating Particles -->
+  <div class="particles">
+    <div class="particle" *ngFor="let particle of particles"></div>
+  </div>
+
+  <!-- Main Content -->
   <div class="splash-content">
     <div class="logo-container">
-      <img src="assets/icon/favicon.png" alt="Sleep Calm Sounds" class="logo" />
+      <div class="moon-glow"></div>
+      <div class="moon">
+        <div class="moon-crater"></div>
+        <div class="moon-crater small"></div>
+        <div class="moon-crater tiny"></div>
+      </div>
     </div>
     <div class="app-title">Sleep Calm Sounds</div>
+    <div class="subtitle">Find your perfect sound for deep relaxation</div>
   </div>
 </div>

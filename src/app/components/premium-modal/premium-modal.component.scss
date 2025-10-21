@@ -1,0 +1,313 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(11, 19, 43, 0.9);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+  font-family: "Poppins", sans-serif;
+}
+
+.modal-content {
+  background: linear-gradient(145deg, #1b2a49 0%, #2a3f5f 100%);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  max-width: 400px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(111, 255, 233, 0.2);
+  animation: slideUp 0.3s ease-out;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      45deg,
+      transparent,
+      rgba(111, 255, 233, 0.05),
+      transparent
+    );
+    border-radius: 1.5rem;
+  }
+}
+
+.modal-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 2;
+
+  .premium-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    animation: sparkle 2s ease-in-out infinite;
+  }
+
+  .modal-title {
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    text-shadow: 0 0 20px rgba(111, 255, 233, 0.3);
+  }
+
+  .modal-subtitle {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    font-weight: 300;
+    margin: 0;
+    line-height: 1.4;
+  }
+}
+
+.features-list {
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 2;
+
+  .feature-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .feature-icon {
+      font-size: 1.5rem;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(111, 255, 233, 0.1);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .feature-text {
+      flex: 1;
+
+      h3 {
+        color: #ffffff;
+        font-size: 1rem;
+        font-weight: 500;
+        margin: 0 0 0.25rem 0;
+      }
+
+      p {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.8rem;
+        font-weight: 300;
+        margin: 0;
+        line-height: 1.3;
+      }
+    }
+  }
+}
+
+.pricing-section {
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 2;
+
+  .price-card {
+    background: linear-gradient(145deg, #2a3f5f 0%, #3a4a6b 100%);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    text-align: center;
+    border: 2px solid rgba(111, 255, 233, 0.3);
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(111, 255, 233, 0.1),
+        transparent
+      );
+      border-radius: 1rem;
+    }
+
+    .price-badge {
+      position: absolute;
+      top: -1px;
+      right: 1rem;
+      background: linear-gradient(45deg, #ffd700, #ffed4e);
+      color: #1a1a1a;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.25rem 0.75rem;
+      border-radius: 0 0 0.5rem 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .price-amount {
+      color: #6fffe9;
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin: 0.5rem 0 0.25rem 0;
+      text-shadow: 0 0 20px rgba(111, 255, 233, 0.4);
+    }
+
+    .price-period {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 1rem;
+      font-weight: 400;
+      margin: 0 0 0.5rem 0;
+    }
+
+    .price-description {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.8rem;
+      font-weight: 300;
+      margin: 0;
+    }
+  }
+}
+
+.modal-actions {
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 2;
+
+  .upgrade-button {
+    width: 100%;
+    background: linear-gradient(45deg, #6fffe9, #5bc0be);
+    color: #0b132b;
+    border: none;
+    border-radius: 1rem;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 15px rgba(111, 255, 233, 0.3);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(111, 255, 233, 0.4);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    .button-icon {
+      font-size: 1.2rem;
+    }
+  }
+
+  .restore-button {
+    width: 100%;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+    }
+  }
+}
+
+.modal-footer {
+  position: relative;
+  z-index: 2;
+
+  .terms-text {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.7rem;
+    font-weight: 300;
+    text-align: center;
+    line-height: 1.4;
+    margin: 0;
+  }
+}
+
+// Animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sparkle {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+    filter: drop-shadow(0 0 10px rgba(111, 255, 233, 0.5));
+  }
+  50% {
+    transform: scale(1.1) rotate(5deg);
+    filter: drop-shadow(0 0 20px rgba(111, 255, 233, 0.8));
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 480px) {
+  .modal-content {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+
+  .modal-header .modal-title {
+    font-size: 1.3rem;
+  }
+
+  .pricing-section .price-card .price-amount {
+    font-size: 2rem;
+  }
+}

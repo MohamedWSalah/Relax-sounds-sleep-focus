@@ -1,15 +1,124 @@
+@use "sass:math";
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
 .splash-container {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle at center, #1c2541 0%, #0b132b 100%);
+  background: url("../../../assets/images/background.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 9999;
-  animation: fadeIn 0.5s ease-in-out, fadeOut 0.5s ease-in-out 4.5s forwards;
+  animation: fadeIn 0.8s ease-in-out, fadeOut 0.8s ease-in-out 2.2s forwards;
+  overflow: hidden;
+  font-family: "Poppins", sans-serif;
+
+  // Ensure background covers all screen sizes
+  @media (max-width: 480px) {
+    background-size: cover;
+    background-position: center;
+  }
+
+  @media (min-width: 481px) and (max-width: 768px) {
+    background-size: cover;
+    background-position: center;
+  }
+
+  @media (min-width: 769px) {
+    background-size: cover;
+    background-position: center;
+  }
+}
+
+// Wave Background Animation
+.wave-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.wave {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 200%;
+  height: 100px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(111, 255, 233, 0.1),
+    transparent
+  );
+  animation: waveMove 8s ease-in-out infinite;
+}
+
+.wave1 {
+  animation-delay: 0s;
+  opacity: 0.3;
+}
+
+.wave2 {
+  animation-delay: -2s;
+  opacity: 0.2;
+  height: 80px;
+}
+
+.wave3 {
+  animation-delay: -4s;
+  opacity: 0.1;
+  height: 60px;
+}
+
+// Floating Particles
+.particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+.particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: rgba(111, 255, 233, 0.8);
+  border-radius: 50%;
+  animation: particleFloat 20s linear infinite;
+  box-shadow: 0 0 6px rgba(111, 255, 233, 0.4);
+}
+
+.particle:nth-child(odd) {
+  animation-delay: -5s;
+  background: rgba(91, 192, 190, 0.6);
+  box-shadow: 0 0 6px rgba(91, 192, 190, 0.4);
+}
+
+.particle:nth-child(even) {
+  animation-delay: -10s;
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.3);
+}
+
+// Generate random positions for particles
+@for $i from 1 through 30 {
+  .particle:nth-child(#{$i}) {
+    left: math.random() * 100 * 1%;
+    top: math.random() * 100 * 1%;
+    animation-duration: (15 + math.random() * 20) * 1s;
+  }
 }
 
 .splash-content {
@@ -18,27 +127,87 @@
   align-items: center;
   justify-content: center;
   text-align: center;
+  z-index: 3;
+  position: relative;
 }
 
 .logo-container {
-  margin-bottom: 20px;
-  animation: logoFloat 2s ease-in-out infinite;
+  margin-bottom: 2rem;
+  animation: logoFloat 3s ease-in-out infinite;
+  position: relative;
 }
 
-.logo {
+.moon-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 160px;
+  height: 160px;
+  background: radial-gradient(
+    circle,
+    rgba(111, 255, 233, 0.3) 0%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  animation: moonGlow 3s ease-in-out infinite alternate;
+}
+
+.moon {
+  position: relative;
   width: 120px;
   height: 120px;
+  background: linear-gradient(145deg, #f8f8f8, #e8e8e8);
   border-radius: 50%;
-  box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 30px rgba(111, 255, 233, 0.4),
+    inset -10px -10px 20px rgba(0, 0, 0, 0.1);
+  animation: moonFloat 3s ease-in-out infinite;
+}
+
+.moon-crater {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+}
+
+.moon-crater:first-child {
+  width: 20px;
+  height: 20px;
+  top: 30px;
+  left: 40px;
+}
+
+.moon-crater.small {
+  width: 12px;
+  height: 12px;
+  top: 60px;
+  left: 70px;
+}
+
+.moon-crater.tiny {
+  width: 8px;
+  height: 8px;
+  top: 80px;
+  left: 30px;
 }
 
 .app-title {
   color: #ffffff;
-  font-size: 24px;
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-shadow: 0 0 20px rgba(111, 255, 233, 0.5);
+  animation: titleGlow 3s ease-in-out infinite alternate;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
   font-weight: 300;
-  letter-spacing: 2px;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-  animation: titleGlow 2s ease-in-out infinite alternate;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 10px rgba(111, 255, 233, 0.3);
+  animation: subtitleFade 3s ease-in-out infinite alternate;
 }
 
 @keyframes fadeIn {
@@ -65,15 +234,71 @@
     transform: translateY(0px);
   }
   50% {
-    transform: translateY(-10px);
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes moonFloat {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(2deg);
+  }
+}
+
+@keyframes moonGlow {
+  from {
+    opacity: 0.3;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  to {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}
+
+@keyframes waveMove {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes particleFloat {
+  0% {
+    transform: translateY(100vh) translateX(0px);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px) translateX(50px);
+    opacity: 0;
   }
 }
 
 @keyframes titleGlow {
   from {
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    text-shadow: 0 0 20px rgba(111, 255, 233, 0.5);
   }
   to {
-    text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+    text-shadow: 0 0 30px rgba(111, 255, 233, 0.8);
+  }
+}
+
+@keyframes subtitleFade {
+  from {
+    opacity: 0.6;
+  }
+  to {
+    opacity: 1;
   }
 }
