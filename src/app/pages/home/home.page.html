@@ -6,15 +6,54 @@
 
   <!-- Sound Grid -->
   <div class="sound-grid">
+    @for (sound of sounds(); track sound.id) {
     <div
-      *ngFor="let sound of sounds"
       class="sound-card"
-      [class.selected]="sound.selected"
-      (click)="toggleSound(sound)"
+      [class]="{
+          'selected': sound.selected,
+          'loading': sound.loading
+        }"
     >
-      <div class="sound-icon">{{ sound.icon }}</div>
-      <div class="sound-name">{{ sound.name }}</div>
+      <div class="sound-main" (click)="toggleSound(sound)">
+        <div class="sound-icon">
+          @if (!sound.loading) {
+          <span>{{ sound.icon }}</span>
+          } @if (sound.loading) {
+          <ion-spinner name="crescent"></ion-spinner>
+          }
+        </div>
+        <div class="sound-name">{{ sound.name }}</div>
+      </div>
+
+      <!-- Volume Controls (only shown when selected) -->
+      @if (sound.selected) {
+      <div class="volume-controls">
+        <ion-range
+          min="0"
+          max="100"
+          [value]="sound.volume * 100"
+          (ionChange)="setVolume(sound, $event.detail.value)"
+          color="light"
+          class="volume-slider"
+        >
+        </ion-range>
+        <ion-button
+          fill="clear"
+          size="small"
+          shape="round"
+          (click)="toggleMute(sound)"
+          class="mute-button"
+        >
+          <ion-icon
+            slot="icon-only"
+            [name]="sound.muted ? 'volume-mute-outline' : 'volume-high-outline'"
+          >
+          </ion-icon>
+        </ion-button>
+      </div>
+      }
     </div>
+    }
   </div>
 
   <!-- Footer Bar -->
