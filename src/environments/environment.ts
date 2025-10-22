@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  appId: 'com.moon.sleepcalmsounds',
+  appName: 'Sleep Calm Sounds',
+  version: '1.0.0',
 };
 
 /*

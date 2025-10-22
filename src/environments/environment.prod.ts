@@ -1,3 +1,6 @@
 export const environment = {
-  production: true
+  production: true,
+  appId: 'com.moon.sleepcalmsounds',
+  appName: 'Sleep Calm Sounds',
+  version: '1.0.0',
 };
