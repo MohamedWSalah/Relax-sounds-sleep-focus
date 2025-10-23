@@ -20,91 +20,6 @@
   }
 }
 
-// Background Effects
-.background-effects {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  pointer-events: none;
-}
-
-.wave-pattern {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(
-      circle at 20% 80%,
-      rgba(147, 197, 253, 0.02) 0%,
-      transparent 60%
-    ),
-    radial-gradient(
-      circle at 80% 20%,
-      rgba(129, 140, 248, 0.03) 0%,
-      transparent 60%
-    ),
-    radial-gradient(
-      circle at 40% 40%,
-      rgba(165, 243, 252, 0.015) 0%,
-      transparent 70%
-    ),
-    radial-gradient(
-      circle at 60% 70%,
-      rgba(196, 181, 253, 0.02) 0%,
-      transparent 50%
-    );
-  animation: wavePattern 25s ease-in-out infinite;
-}
-
-.floating-particles {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.particle {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background: $particle-color-1;
-  border-radius: 50%;
-  animation: particleFloat 30s linear infinite;
-  box-shadow: 0 0 6px $particle-color-1;
-}
-
-.particle:nth-child(odd) {
-  background: $particle-color-2;
-  animation-duration: 35s;
-  box-shadow: 0 0 6px $particle-color-2;
-}
-
-.particle:nth-child(even) {
-  background: $particle-color-3;
-  animation-duration: 40s;
-  box-shadow: 0 0 6px $particle-color-3;
-}
-
-.particle:nth-child(3n) {
-  background: $particle-color-4;
-  animation-duration: 45s;
-  box-shadow: 0 0 6px $particle-color-4;
-}
-
-// Generate random positions for particles
-@for $i from 1 through 90 {
-  .particle:nth-child(#{$i}) {
-    left: math.random() * 100 * 1%;
-    top: math.random() * 100 * 1%;
-    animation-delay: math.random() * 30 * -1s;
-  }
-}
-
 .header {
   text-align: center;
   padding: 1.5rem 1rem 1rem;
@@ -523,37 +438,6 @@
   }
   50% {
     transform: translateY(-8px) rotate(2deg);
-  }
-}
-
-@keyframes wavePattern {
-  0%,
-  100% {
-    transform: scale(1) rotate(0deg);
-    opacity: 0.3;
-  }
-  50% {
-    transform: scale(1.1) rotate(1deg);
-    opacity: 0.5;
-  }
-}
-
-@keyframes particleFloat {
-  0% {
-    transform: translateY(100vh) translateX(0px) scale(0);
-    opacity: 0;
-  }
-  10% {
-    opacity: 1;
-    transform: translateY(90vh) translateX(10px) scale(1);
-  }
-  90% {
-    opacity: 1;
-    transform: translateY(10vh) translateX(-10px) scale(1);
-  }
-  100% {
-    transform: translateY(0vh) translateX(0px) scale(0);
-    opacity: 0;
   }
 }
 

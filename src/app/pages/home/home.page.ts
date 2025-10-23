@@ -15,28 +15,21 @@ import {
   IonButton,
 } from '@ionic/angular/standalone';
 import { SoundsService, Sound } from '../../services/sounds.service';
+import { Particles } from 'src/app/components/particles/particles';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
-  imports: [CommonModule, IonRange, IonContent, IonIcon, IonButton],
+  imports: [CommonModule, IonRange, IonContent, IonIcon, IonButton, Particles],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HomePage implements OnInit, OnDestroy {
+export class HomePage implements OnDestroy {
   private soundsService = inject(SoundsService);
 
-  backgroundParticles: number[] = [];
-
-  // Service getters
-  selectedCategory = this.soundsService.getSelectedCategory;
+  selectedCategory = this.soundsService.selectedCategory;
   categories = this.soundsService.categories;
   filteredSounds = this.soundsService.filteredSounds;
-
-  ngOnInit(): void {
-    // Generate background particles
-    this.backgroundParticles = Array.from({ length: 35 }, (_, i) => i);
-  }
 
   selectCategory(categoryId: string): void {
     this.soundsService.selectCategory(categoryId);

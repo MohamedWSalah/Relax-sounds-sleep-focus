@@ -1,4 +1,5 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, inject } from '@angular/core';
+import { MusicControlsService } from './music-controls.service';
 
 export interface Sound {
   id: string;
@@ -25,7 +26,18 @@ export interface Category {
   providedIn: 'root',
 })
 export class SoundsService {
-  private sounds = signal<Sound[]>([
+  #musicControlsService = inject(MusicControlsService);
+
+  constructor() {
+    // Set up event handlers to avoid circular dependency
+    this.#musicControlsService.setEventHandlers({
+      pauseAllSounds: () => this.pauseAllSounds(),
+      resumeAllSounds: () => this.resumeAllSounds(),
+      stopAllSounds: () => this.stopAllSounds(),
+    });
+  }
+
+  #sounds = signal<Sound[]>([
     {
       id: 'rain',
       name: 'Rain',
@@ -221,9 +233,9 @@ export class SoundsService {
     },
   ]);
 
-  private selectedCategory = signal<string>('nature');
+  #selectedCategory = signal<string>('nature');
 
-  categories = signal<Category[]>([
+  #categories = signal<Category[]>([
     { id: 'nature', name: 'Nature', icon: '🌿' },
     { id: 'city', name: 'City', icon: '🏙️' },
     { id: 'meditation', name: 'Meditation', icon: '🧘' },
@@ -231,18 +243,18 @@ export class SoundsService {
     { id: 'asmr', name: 'ASMR', icon: '✨' },
   ]);
 
-  // Public getters
-  getSounds = () => this.sounds();
-  getSelectedCategory = () => this.selectedCategory();
+  sounds = computed(() => this.#sounds());
+  selectedCategory = computed(() => this.#selectedCategory());
+  categories = computed(() => this.#categories());
 
   filteredSounds = computed(() => {
-    return this.sounds().filter(
-      (sound) => sound.category === this.selectedCategory()
+    return this.#sounds().filter(
+      (sound) => sound.category === this.#selectedCategory()
     );
   });
 
   selectCategory(categoryId: string): void {
-    this.selectedCategory.set(categoryId);
+    this.#selectedCategory.set(categoryId);
   }
 
   private updateSoundProperty(
@@ -250,7 +262,7 @@ export class SoundsService {
     property: keyof Sound,
     value: any
   ): void {
-    const currentSounds = this.sounds();
+    const currentSounds = this.#sounds();
     const updatedSounds = currentSounds.map((s) => {
       if (s.id === soundId) {
         // Preserve the audio instance when updating
@@ -262,15 +274,13 @@ export class SoundsService {
       }
       return s;
     });
-    this.sounds.set(updatedSounds);
+    this.#sounds.set(updatedSounds);
   }
 
   toggleSound(selectedSound: Sound): void {
-    console.log('selectedSound', selectedSound);
-
     const newSelectedState = !selectedSound.selected;
 
-    this.sounds.update((s) =>
+    this.#sounds.update((s) =>
       s.map((sound) =>
         sound.id === selectedSound.id
           ? { ...sound, selected: newSelectedState }
@@ -283,11 +293,13 @@ export class SoundsService {
     } else {
       this.stopSound(selectedSound);
     }
+
+    // Notify music controls service about the change
+    const playingSounds = this.#sounds().filter((sound) => sound.selected);
+    this.#musicControlsService.updatePlayingState(playingSounds);
   }
 
   playSound(sound: Sound): void {
-    console.log(sound);
-
     if (!sound.audio) {
       this.updateSoundProperty(sound.id, 'loading', true);
       const audio = new Audio(`assets/sounds/${sound.file}`);
@@ -306,14 +318,14 @@ export class SoundsService {
       });
 
       // Update the signal with the new audio instance
-      const currentSounds = this.sounds();
+      const currentSounds = this.#sounds();
       const updatedSounds = currentSounds.map((s) => {
         if (s.id === sound.id) {
           return { ...s, audio };
         }
         return s;
       });
-      this.sounds.set(updatedSounds);
+      this.#sounds.set(updatedSounds);
       sound.audio = audio;
     }
 
@@ -325,6 +337,9 @@ export class SoundsService {
     // Set volume based on current settings
     const targetVolume = sound.muted ? 0 : sound.volume;
     this.fadeAudio(sound.audio, targetVolume, 500);
+
+    // Resume all other selected sounds that might be paused
+    this.#resumeAllSelectedSounds();
   }
 
   stopSound(sound: Sound): void {
@@ -367,8 +382,45 @@ export class SoundsService {
     audio.dataset['fadeInterval'] = fadeInterval.toString();
   }
 
+  pauseAllSounds(): void {
+    const sounds = this.#sounds();
+
+    sounds.forEach((sound) => {
+      if (sound.selected && sound.audio) {
+        if (!sound.audio.paused) {
+          try {
+            sound.audio.pause();
+          } catch (error) {
+            console.error(`Failed to pause ${sound.name}:`, error);
+          }
+        }
+        // Clear any pending fade intervals
+        if (sound.audio.dataset['fadeInterval']) {
+          clearInterval(parseInt(sound.audio.dataset['fadeInterval']));
+          delete sound.audio.dataset['fadeInterval'];
+        }
+      }
+    });
+
+    // Force update the signals to ensure consistency
+    this.#sounds.set([...sounds]);
+  }
+
+  resumeAllSounds(): void {
+    const sounds = this.#sounds();
+    sounds.forEach((sound) => {
+      if (sound.selected && sound.audio && sound.audio.paused) {
+        sound.audio.play().catch((error) => {
+          console.warn(`Failed to resume sound: ${sound.name}`, error);
+        });
+      }
+    });
+    // Force update the signals to ensure consistency
+    this.#sounds.set([...sounds]);
+  }
+
   stopAllSounds(): void {
-    this.sounds().forEach((sound) => {
+    this.#sounds().forEach((sound) => {
       if (sound.audio) {
         sound.audio.pause();
         sound.audio.currentTime = 0;
@@ -382,9 +434,13 @@ export class SoundsService {
     });
 
     // Reset all sounds to unselected state
-    const currentSounds = this.sounds();
+    const currentSounds = this.#sounds();
     const updatedSounds = currentSounds.map((s) => ({ ...s, selected: false }));
-    this.sounds.set(updatedSounds);
+    this.#sounds.set(updatedSounds);
+
+    // Notify music controls service about the change
+    const playingSounds = this.#sounds().filter((sound) => sound.selected);
+    this.#musicControlsService.updatePlayingState(playingSounds);
   }
 
   setVolume(
@@ -403,7 +459,7 @@ export class SoundsService {
     const newVolume = volumeValue / 100; // Convert from 0-100 to 0-1
     this.updateSoundProperty(sound.id, 'volume', newVolume);
 
-    const updatedSound = this.sounds().find((s) => s.id === sound.id)!;
+    const updatedSound = this.#sounds().find((s) => s.id === sound.id)!;
     if (updatedSound.audio && !updatedSound.muted) {
       updatedSound.audio.volume = newVolume;
     }
@@ -412,9 +468,20 @@ export class SoundsService {
   toggleMute(sound: Sound): void {
     this.updateSoundProperty(sound.id, 'muted', !sound.muted);
 
-    const updatedSound = this.sounds().find((s) => s.id === sound.id)!;
+    const updatedSound = this.#sounds().find((s) => s.id === sound.id)!;
     if (updatedSound.audio) {
       updatedSound.audio.volume = updatedSound.muted ? 0 : updatedSound.volume;
     }
+  }
+
+  #resumeAllSelectedSounds(): void {
+    const sounds = this.#sounds();
+    sounds.forEach((sound) => {
+      if (sound.selected && sound.audio && sound.audio.paused) {
+        sound.audio.play().catch((error) => {
+          console.warn(`Failed to resume sound: ${sound.name}`, error);
+        });
+      }
+    });
   }
 }
