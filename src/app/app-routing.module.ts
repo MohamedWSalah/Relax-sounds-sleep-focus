@@ -13,6 +13,13 @@ const routes: Routes = [
       import('./pages/home/home.page').then((m) => m.HomePage),
   },
   {
+    path: 'sleep-timer',
+    loadComponent: () =>
+      import('./pages/sleep-timer/sleep-timer.page').then(
+        (m) => m.SleepTimerPage
+      ),
+  },
+  {
     path: '',
     redirectTo: '/splash',
     pathMatch: 'full',

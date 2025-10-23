@@ -14,6 +14,7 @@ import {
   IonIcon,
   IonButton,
 } from '@ionic/angular/standalone';
+import { RouterModule } from '@angular/router';
 import { SoundsService, Sound } from '../../services/sounds.service';
 import { Particles } from 'src/app/components/particles/particles';
 
@@ -21,7 +22,15 @@ import { Particles } from 'src/app/components/particles/particles';
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
-  imports: [CommonModule, IonRange, IonContent, IonIcon, IonButton, Particles],
+  imports: [
+    CommonModule,
+    IonRange,
+    IonContent,
+    IonIcon,
+    IonButton,
+    Particles,
+    RouterModule,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomePage implements OnDestroy {
