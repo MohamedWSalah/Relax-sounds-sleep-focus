@@ -43,6 +43,18 @@
         </div>
         }
 
+        <!-- Heart Icon for Favorites -->
+        <div
+          class="favorite-heart"
+          [class.favorited]="isFavorite(sound.id)"
+          (click)="toggleFavorite(sound, $event)"
+        >
+          <ion-icon
+            [name]="isFavorite(sound.id) ? 'heart' : 'heart-outline'"
+            class="heart-icon"
+          ></ion-icon>
+        </div>
+
         <div class="sound-icon">
           <span>{{ sound.icon }}</span>
         </div>

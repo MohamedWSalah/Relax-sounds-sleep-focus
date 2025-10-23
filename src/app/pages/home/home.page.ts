@@ -17,6 +17,7 @@ import {
 import { RouterModule } from '@angular/router';
 import { SoundsService, Sound } from '../../services/sounds.service';
 import { Particles } from 'src/app/components/particles/particles';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -35,6 +36,7 @@ import { Particles } from 'src/app/components/particles/particles';
 })
 export class HomePage implements OnDestroy {
   private soundsService = inject(SoundsService);
+  private toastController = inject(ToastController);
 
   selectedCategory = this.soundsService.selectedCategory;
   categories = this.soundsService.categories;
@@ -57,6 +59,28 @@ export class HomePage implements OnDestroy {
 
   toggleMute(sound: Sound): void {
     this.soundsService.toggleMute(sound);
+  }
+
+  isFavorite(soundId: string): boolean {
+    return this.soundsService.isFavorite(soundId);
+  }
+
+  async toggleFavorite(sound: Sound, event: Event): Promise<void> {
+    event.stopPropagation();
+    const isNowFavorite = await this.soundsService.toggleFavorite(sound.id);
+    this.toastController.dismiss();
+    // Show toast notification
+    const toast = await this.toastController.create({
+      message: isNowFavorite
+        ? `Added to Favorites 🌙`
+        : `Removed from Favorites 💨`,
+      duration: 200000,
+      position: 'bottom',
+      translucent: true,
+      animated: true,
+    });
+
+    await toast.present();
   }
 
   ngOnDestroy(): void {

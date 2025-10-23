@@ -82,3 +82,19 @@ ion-content {
 .scroll-content {
   padding-bottom: calc(120px + env(safe-area-inset-bottom)) !important;
 }
+
+/* Toast width control and glass effect */
+ion-toast {
+  --width: auto;
+  --max-width: fit-content;
+  --min-width: auto;
+  --background: rgb(56, 105, 98);
+  --border-radius: 16px;
+  --box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Apply glass effect only to the toast content, not the backdrop */
+ion-toast .toast-wrapper {
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}

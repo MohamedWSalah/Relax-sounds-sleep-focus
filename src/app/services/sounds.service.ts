@@ -1,5 +1,6 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
 import { MusicControlsService } from './music-controls.service';
+import { FavoritesService } from './favorites.service';
 
 export interface Sound {
   id: string;
@@ -27,6 +28,7 @@ export interface Category {
 })
 export class SoundsService {
   #musicControlsService = inject(MusicControlsService);
+  #favoritesService = inject(FavoritesService);
 
   constructor() {
     // Set up event handlers to avoid circular dependency
@@ -235,7 +237,7 @@ export class SoundsService {
 
   #selectedCategory = signal<string>('nature');
 
-  #categories = signal<Category[]>([
+  #baseCategories = signal<Category[]>([
     { id: 'nature', name: 'Nature', icon: '🌿' },
     { id: 'city', name: 'City', icon: '🏙️' },
     { id: 'meditation', name: 'Meditation', icon: '🧘' },
@@ -245,16 +247,52 @@ export class SoundsService {
 
   sounds = computed(() => this.#sounds());
   selectedCategory = computed(() => this.#selectedCategory());
-  categories = computed(() => this.#categories());
+
+  // Dynamic categories that include Favorites if there are any
+  categories = computed(() => {
+    const baseCategories = this.#baseCategories();
+    const favorites = this.#favoritesService.favorites();
+
+    // If there are favorites, add the Favorites category at the beginning
+    if (favorites.length > 0) {
+      return [
+        { id: 'favorites', name: 'Favorites', icon: '❤️' },
+        ...baseCategories,
+      ];
+    }
+
+    return baseCategories;
+  });
 
   filteredSounds = computed(() => {
+    const selectedCategory = this.#selectedCategory();
+
+    if (selectedCategory === 'favorites') {
+      // Return only favorite sounds
+      return this.#favoritesService.getFavoriteSounds(this.#sounds());
+    }
+
+    // Return sounds filtered by category
     return this.#sounds().filter(
-      (sound) => sound.category === this.#selectedCategory()
+      (sound) => sound.category === selectedCategory
     );
   });
 
   selectCategory(categoryId: string): void {
     this.#selectedCategory.set(categoryId);
+  }
+
+  // Favorites methods
+  isFavorite(soundId: string): boolean {
+    return this.#favoritesService.isFavorite(soundId);
+  }
+
+  async toggleFavorite(soundId: string): Promise<boolean> {
+    return await this.#favoritesService.toggleFavorite(soundId);
+  }
+
+  getFavorites(): string[] {
+    return this.#favoritesService.getFavorites();
   }
 
   private updateSoundProperty(
