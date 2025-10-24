@@ -88,7 +88,6 @@ export class SoundsPage {
       });
   }
 
-  ngOnDestroy(): void {
-    this.#soundsService.stopAllSounds();
-  }
+  // Removed ngOnDestroy to preserve sounds when switching tabs
+  // The service will handle cleanup when the app is actually closed
 }

@@ -6,12 +6,37 @@
   <div class="header">
     <div class="header-content">
       <div class="moon-icon">🌙</div>
+      @if(activeTab() === 'sounds') {
       <h1 class="app-title">Sleep Calm Sounds</h1>
+      }
     </div>
   </div>
 
-  <app-sounds></app-sounds>
+  <!-- Dynamic Content -->
+  <div class="content-container">
+    <!-- Sounds Tab -->
+    <div [style.display]="activeTab() === 'sounds' ? 'block' : 'none'">
+      <app-sounds></app-sounds>
+    </div>
 
-  <!-- Footer -->
-  <moon-footer></moon-footer>
+    <!-- Timer Tab -->
+    <div [style.display]="activeTab() === 'timer' ? 'block' : 'none'">
+      <app-sleep-timer></app-sleep-timer>
+    </div>
+
+    <!-- Mixes Tab -->
+    <div [style.display]="activeTab() === 'mixes' ? 'block' : 'none'">
+      <div class="mixes-placeholder">
+        <div class="placeholder-content">
+          <ion-icon name="bookmark-outline" class="placeholder-icon"></ion-icon>
+          <h2>My Mixes</h2>
+          <p>Your saved sound combinations will appear here</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation Footer -->
+  <moon-footer [activeTab]="activeTab()" (tabChanged)="onTabChanged($event)">
+  </moon-footer>
 </ion-content>

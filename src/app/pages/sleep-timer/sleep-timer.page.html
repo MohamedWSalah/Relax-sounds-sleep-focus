@@ -1,186 +1,176 @@
-<ion-content [fullscreen]="true" class="timer-content">
-  <!-- Animated Background -->
-  <div class="background-particles"></div>
+<!-- Timer Input Section -->
+@if (!isRunning() && !isPaused()) {
+<div class="timer-input-section">
+  <ion-card class="input-card">
+    <div class="input-container">
+      <h3 class="input-title">Set Timer Duration</h3>
 
-  <!-- Header -->
-  <div class="header">
-    <div class="moon-icon">🌙</div>
-  </div>
-
-  <!-- Timer Input Section -->
-  @if (!isRunning() && !isPaused()) {
-  <div class="timer-input-section">
-    <ion-card class="input-card">
-      <div class="input-container">
-        <h3 class="input-title">Set Timer Duration</h3>
-
-        <div class="time-inputs">
-          <div class="input-group">
-            <ion-label>Hours</ion-label>
-            <ion-input
-              type="number"
-              [value]="hours()"
-              (ionInput)="onHoursChange($event)"
-              placeholder="0"
-              min="0"
-              max="23"
-              class="time-input"
-            ></ion-input>
-          </div>
-
-          <div class="input-group">
-            <ion-label>Minutes</ion-label>
-            <ion-input
-              type="number"
-              [value]="minutes()"
-              (ionInput)="onMinutesChange($event)"
-              placeholder="30"
-              min="0"
-              max="59"
-              class="time-input"
-            ></ion-input>
-          </div>
-
-          <div class="input-group">
-            <ion-label>Seconds</ion-label>
-            <ion-input
-              type="number"
-              [value]="seconds()"
-              (ionInput)="onSecondsChange($event)"
-              placeholder="0"
-              min="0"
-              max="59"
-              class="time-input"
-            ></ion-input>
-          </div>
+      <div class="time-inputs">
+        <div class="input-group">
+          <ion-label>Hours</ion-label>
+          <ion-input
+            type="number"
+            [value]="hours()"
+            (ionInput)="onHoursChange($event)"
+            placeholder="0"
+            min="0"
+            max="23"
+            class="time-input"
+          ></ion-input>
         </div>
 
-        @if (inputError()) {
-        <ion-text color="danger" class="error-message">
-          {{ inputError() }}
-        </ion-text>
-        }
-      </div>
-    </ion-card>
-  </div>
-  }
+        <div class="input-group">
+          <ion-label>Minutes</ion-label>
+          <ion-input
+            type="number"
+            [value]="minutes()"
+            (ionInput)="onMinutesChange($event)"
+            placeholder="30"
+            min="0"
+            max="59"
+            class="time-input"
+          ></ion-input>
+        </div>
 
-  <!-- Circular Countdown Timer -->
-  <div class="timer-display-section">
-    <div class="countdown-container">
-      <!-- SVG Circular Progress -->
-      <svg class="countdown-circle" viewBox="0 0 100 100">
-        <!-- Background circle -->
-        <circle
-          cx="50"
-          cy="50"
-          r="45"
-          fill="none"
-          stroke="rgba(255, 255, 255, 0.1)"
-          stroke-width="8"
-        />
-        <!-- Progress circle -->
-        <circle
-          cx="50"
-          cy="50"
-          r="45"
-          fill="none"
-          stroke="#6fffe9"
-          stroke-width="8"
-          stroke-linecap="round"
-          stroke-dasharray="283"
-          [attr.stroke-dashoffset]="283 - (283 * progressPercentage() / 100)"
-          class="progress-circle"
-        />
-      </svg>
-
-      <!-- Timer Display -->
-      <div class="timer-display">
-        <div class="time-text">{{ displayTime().formatted }}</div>
-        @if (isRunning() && !isPaused()) {
-        <div class="status-text">Running</div>
-        } @else if (isPaused()) {
-        <div class="status-text paused">Paused</div>
-        } @else {
-        <div class="status-text">Ready</div>
-        }
+        <div class="input-group">
+          <ion-label>Seconds</ion-label>
+          <ion-input
+            type="number"
+            [value]="seconds()"
+            (ionInput)="onSecondsChange($event)"
+            placeholder="0"
+            min="0"
+            max="59"
+            class="time-input"
+          ></ion-input>
+        </div>
       </div>
+
+      @if (inputError()) {
+      <ion-text color="danger" class="error-message">
+        {{ inputError() }}
+      </ion-text>
+      }
+    </div>
+  </ion-card>
+</div>
+}
+
+<!-- Circular Countdown Timer -->
+<div class="timer-display-section">
+  <div class="countdown-container">
+    <!-- SVG Circular Progress -->
+    <svg class="countdown-circle" viewBox="0 0 100 100">
+      <!-- Background circle -->
+      <circle
+        cx="50"
+        cy="50"
+        r="45"
+        fill="none"
+        stroke="rgba(255, 255, 255, 0.1)"
+        stroke-width="8"
+      />
+      <!-- Progress circle -->
+      <circle
+        cx="50"
+        cy="50"
+        r="45"
+        fill="none"
+        stroke="#6fffe9"
+        stroke-width="8"
+        stroke-linecap="round"
+        stroke-dasharray="283"
+        [attr.stroke-dashoffset]="283 - (283 * progressPercentage() / 100)"
+        class="progress-circle"
+      />
+    </svg>
+
+    <!-- Timer Display -->
+    <div class="timer-display">
+      <div class="time-text">{{ displayTime().formatted }}</div>
+      @if (isRunning() && !isPaused()) {
+      <div class="status-text">Running</div>
+      } @else if (isPaused()) {
+      <div class="status-text paused">Paused</div>
+      } @else {
+      <div class="status-text">Ready</div>
+      }
     </div>
   </div>
+</div>
 
-  <!-- Control Buttons -->
-  <div class="control-buttons">
-    <ion-grid>
-      <ion-row>
-        @if (!isRunning() && !isPaused()) {
-        <ion-col size="12">
-          <ion-button
-            expand="block"
-            fill="solid"
-            [disabled]="!canStart()"
-            (click)="startTimer()"
-            class="control-button start-button"
-          >
-            <ion-icon name="play" slot="start"></ion-icon>
-            Start Timer
-          </ion-button>
-        </ion-col>
+<!-- Control Buttons -->
+<div class="control-buttons">
+  <ion-grid>
+    <ion-row>
+      @if (!isRunning() && !isPaused()) {
+      <ion-col size="12">
+        <ion-button
+          expand="block"
+          fill="solid"
+          [disabled]="!canStart()"
+          (click)="startTimer()"
+          class="control-button start-button"
+        >
+          <ion-icon name="play" slot="start"></ion-icon>
+          Start Timer
+        </ion-button>
+      </ion-col>
+      } @else {
+      <ion-col size="6">
+        @if (canPause()) {
+        <ion-button
+          expand="block"
+          fill="outline"
+          color="warning"
+          (click)="pauseTimer()"
+          class="control-button pause-button"
+        >
+          <ion-icon name="pause" slot="start"></ion-icon>
+          Pause
+        </ion-button>
         } @else {
-        <ion-col size="6">
-          @if (canPause()) {
-          <ion-button
-            expand="block"
-            fill="outline"
-            color="warning"
-            (click)="pauseTimer()"
-            class="control-button pause-button"
-          >
-            <ion-icon name="pause" slot="start"></ion-icon>
-            Pause
-          </ion-button>
-          } @else {
-          <ion-button
-            expand="block"
-            fill="solid"
-            color="success"
-            (click)="resumeTimer()"
-            class="control-button resume-button"
-          >
-            <ion-icon name="play" slot="start"></ion-icon>
-            Resume
-          </ion-button>
-          }
-        </ion-col>
-
-        <ion-col size="6">
-          <ion-button
-            expand="block"
-            fill="outline"
-            color="danger"
-            (click)="resetTimer()"
-            class="control-button reset-button"
-          >
-            <ion-icon name="stop" slot="start"></ion-icon>
-            Reset
-          </ion-button>
-        </ion-col>
+        <ion-button
+          expand="block"
+          fill="solid"
+          color="success"
+          (click)="resumeTimer()"
+          class="control-button resume-button"
+        >
+          <ion-icon name="play" slot="start"></ion-icon>
+          Resume
+        </ion-button>
         }
-      </ion-row>
-    </ion-grid>
-  </div>
+      </ion-col>
 
-  <!-- Completion Message -->
-  @if (showCompletionMessage()) {
-  <div class="completion-message">
-    <ion-card class="completion-card">
-      <div class="completion-content">
-        <div class="completion-icon">🌙</div>
-        <h3 class="completion-title">Sweet Dreams</h3>
-        <p class="completion-text">
-          Your sleep timer has ended. All sounds have been stopped.
-        </p>
-      </div>
-    </ion-card>
-  </div>
-  }
-</ion-content>
+      <ion-col size="6">
+        <ion-button
+          expand="block"
+          fill="outline"
+          color="danger"
+          (click)="resetTimer()"
+          class="control-button reset-button"
+        >
+          <ion-icon name="stop" slot="start"></ion-icon>
+          Reset
+        </ion-button>
+      </ion-col>
+      }
+    </ion-row>
+  </ion-grid>
+</div>
+
+<!-- Completion Message -->
+@if (showCompletionMessage()) {
+<div class="completion-message">
+  <ion-card class="completion-card">
+    <div class="completion-content">
+      <div class="completion-icon">🌙</div>
+      <h3 class="completion-title">Sweet Dreams</h3>
+      <p class="completion-text">
+        Your sleep timer has ended. All sounds have been stopped.
+      </p>
+    </div>
+  </ion-card>
+</div>
+}
