@@ -34,6 +34,11 @@
         </div>
       </div>
     </div>
+
+    <!-- Settings Tab -->
+    <div [style.display]="activeTab() === 'settings' ? 'block' : 'none'">
+      <app-settings></app-settings>
+    </div>
   </div>
 
   <!-- Navigation Footer -->

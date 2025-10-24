@@ -1,187 +1,76 @@
-<ion-content [fullscreen]="true" class="settings-content">
-  <!-- Animated Background -->
-  <div class="background-effects">
-    <div class="wave-pattern"></div>
-    <div class="floating-particles">
-      <div class="particle" *ngFor="let particle of backgroundParticles"></div>
+<div class="settings-container">
+  <div class="settings-card">
+    <div class="settings-header">
+      <ion-icon name="settings-outline" class="header-icon"></ion-icon>
+      <h2>Settings</h2>
+      <p class="subtitle">Customize your experience</p>
     </div>
-  </div>
 
-  <!-- Header -->
-  <div class="header">
-    <div class="header-content">
-      <div class="back-button" (click)="goBack()">
-        <ion-icon name="arrow-back-outline"></ion-icon>
-      </div>
-      <h1 class="page-title">Settings</h1>
-      <div class="header-spacer"></div>
-    </div>
-  </div>
-
-  <!-- Settings Sections -->
-  <div class="settings-sections">
-    <!-- Audio Settings -->
     <div class="settings-section">
-      <h2 class="section-title">Audio Settings</h2>
-
-      <div class="setting-item">
-        <div class="setting-info">
-          <div class="setting-icon">🔊</div>
-          <div class="setting-text">
-            <h3>Master Volume</h3>
-            <p>Control overall app volume</p>
-          </div>
-        </div>
-        <ion-range
-          min="0"
-          max="100"
-          [value]="masterVolume"
-          (ionChange)="setMasterVolume($event.detail.value)"
-          color="light"
-          class="volume-slider"
-        >
-        </ion-range>
+      <div class="section-header">
+        <ion-icon name="volume-high-outline" class="section-icon"></ion-icon>
+        <h3>Audio</h3>
       </div>
 
       <div class="setting-item">
         <div class="setting-info">
-          <div class="setting-icon">🎵</div>
-          <div class="setting-text">
-            <h3>Audio Quality</h3>
-            <p>High quality audio for better experience</p>
+          <div class="setting-label">
+            <ion-icon
+              name="musical-notes-outline"
+              class="setting-icon"
+            ></ion-icon>
+            <span class="setting-name">Master Volume</span>
           </div>
-        </div>
-        <ion-toggle
-          [checked]="highQualityAudio"
-          (ionChange)="toggleHighQuality($event.detail.checked)"
-          color="light"
-        ></ion-toggle>
-      </div>
-
-      <div class="setting-item">
-        <div class="setting-info">
-          <div class="setting-icon">⏰</div>
-          <div class="setting-text">
-            <h3>Sleep Timer</h3>
-            <p>Auto-stop sounds after set time</p>
-          </div>
-        </div>
-        <ion-select
-          [value]="sleepTimer"
-          (ionChange)="setSleepTimer($event.detail.value)"
-          placeholder="Select timer"
-          class="timer-select"
-        >
-          <ion-select-option value="off">Off</ion-select-option>
-          <ion-select-option value="15">15 minutes</ion-select-option>
-          <ion-select-option value="30">30 minutes</ion-select-option>
-          <ion-select-option value="60">1 hour</ion-select-option>
-          <ion-select-option value="120">2 hours</ion-select-option>
-        </ion-select>
-      </div>
-    </div>
-
-    <!-- App Settings -->
-    <div class="settings-section">
-      <h2 class="section-title">App Settings</h2>
-
-      <div class="setting-item">
-        <div class="setting-info">
-          <div class="setting-icon">🌙</div>
-          <div class="setting-text">
-            <h3>Dark Mode</h3>
-            <p>Always use dark theme</p>
-          </div>
-        </div>
-        <ion-toggle
-          [checked]="darkMode"
-          (ionChange)="toggleDarkMode($event.detail.checked)"
-          color="light"
-        ></ion-toggle>
-      </div>
-
-      <div class="setting-item">
-        <div class="setting-info">
-          <div class="setting-icon">🔔</div>
-          <div class="setting-text">
-            <h3>Notifications</h3>
-            <p>Receive app notifications</p>
-          </div>
-        </div>
-        <ion-toggle
-          [checked]="notifications"
-          (ionChange)="toggleNotifications($event.detail.checked)"
-          color="light"
-        ></ion-toggle>
-      </div>
-
-      <div class="setting-item">
-        <div class="setting-info">
-          <div class="setting-icon">📱</div>
-          <div class="setting-text">
-            <h3>Background Play</h3>
-            <p>Continue playing when app is closed</p>
-          </div>
-        </div>
-        <ion-toggle
-          [checked]="backgroundPlay"
-          (ionChange)="toggleBackgroundPlay($event.detail.checked)"
-          color="light"
-        ></ion-toggle>
-      </div>
-    </div>
-
-    <!-- Premium Section -->
-    <div class="settings-section">
-      <h2 class="section-title">Premium</h2>
-
-      <div class="premium-card" (click)="openPremium()">
-        <div class="premium-icon">✨</div>
-        <div class="premium-content">
-          <h3>Sleep Calm Premium</h3>
-          <p>Unlock all sounds and features</p>
-        </div>
-        <div class="premium-arrow">
-          <ion-icon name="chevron-forward-outline"></ion-icon>
+          <p class="setting-description">Coming soon</p>
         </div>
       </div>
     </div>
 
-    <!-- About Section -->
     <div class="settings-section">
-      <h2 class="section-title">About</h2>
+      <div class="section-header">
+        <ion-icon name="notifications-outline" class="section-icon"></ion-icon>
+        <h3>Notifications</h3>
+      </div>
 
       <div class="setting-item">
         <div class="setting-info">
-          <div class="setting-icon">ℹ️</div>
-          <div class="setting-text">
-            <h3>App Version</h3>
-            <p>1.0.0</p>
+          <div class="setting-label">
+            <ion-icon name="alarm-outline" class="setting-icon"></ion-icon>
+            <span class="setting-name">Timer Notifications</span>
           </div>
+          <p class="setting-description">Get notified when timer ends</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <div class="section-header">
+        <ion-icon
+          name="information-circle-outline"
+          class="section-icon"
+        ></ion-icon>
+        <h3>About</h3>
+      </div>
+
+      <div class="setting-item">
+        <div class="setting-info">
+          <div class="setting-label">
+            <ion-icon name="code-outline" class="setting-icon"></ion-icon>
+            <span class="setting-name">Version</span>
+          </div>
+          <p class="setting-description">1.0.0</p>
         </div>
       </div>
 
-      <div class="setting-item clickable" (click)="openPrivacy()">
+      <div class="setting-item">
         <div class="setting-info">
-          <div class="setting-icon">🔒</div>
-          <div class="setting-text">
-            <h3>Privacy Policy</h3>
-            <p>Read our privacy policy</p>
+          <div class="setting-label">
+            <ion-icon name="heart-outline" class="setting-icon"></ion-icon>
+            <span class="setting-name">Made with love</span>
           </div>
+          <p class="setting-description">For peaceful sleep & relaxation</p>
         </div>
-        <ion-icon name="chevron-forward-outline"></ion-icon>
-      </div>
-
-      <div class="setting-item clickable" (click)="openTerms()">
-        <div class="setting-info">
-          <div class="setting-icon">📄</div>
-          <div class="setting-text">
-            <h3>Terms of Service</h3>
-            <p>Read our terms of service</p>
-          </div>
-        </div>
-        <ion-icon name="chevron-forward-outline"></ion-icon>
       </div>
     </div>
   </div>
-</ion-content>
+</div>

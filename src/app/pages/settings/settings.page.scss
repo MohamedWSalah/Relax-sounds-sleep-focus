@@ -1,397 +1,156 @@
-@use "sass:math";
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+@use "../../../theme/variables" as *;
 
-.settings-content {
-  --background: url("../../../assets/images/background.png");
-  background: var(--background);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  font-family: "Poppins", sans-serif;
-  min-height: 100vh;
-  padding: 0;
-  margin: 0;
-  padding-top: env(safe-area-inset-top);
-  padding-left: env(safe-area-inset-left);
-  padding-right: env(safe-area-inset-right);
-  padding-bottom: calc(2rem + env(safe-area-inset-bottom));
-  position: relative;
-  overflow-x: hidden;
-
-  // Ensure background covers all screen sizes
-  @media (max-width: 480px) {
-    background-size: cover;
-    background-position: center;
-  }
-
-  @media (min-width: 481px) and (max-width: 768px) {
-    background-size: cover;
-    background-position: center;
-  }
-
-  @media (min-width: 769px) {
-    background-size: cover;
-    background-position: center;
-  }
-}
-
-// Background Effects
-.background-effects {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  pointer-events: none;
-}
-
-.wave-pattern {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(
-      circle at 20% 80%,
-      rgba(111, 255, 233, 0.03) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      circle at 80% 20%,
-      rgba(91, 192, 190, 0.05) 0%,
-      transparent 50%
-    );
-  animation: wavePattern 20s ease-in-out infinite;
-}
-
-.floating-particles {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.particle {
-  position: absolute;
-  width: 3px;
-  height: 3px;
-  background: rgba(111, 255, 233, 0.5);
-  border-radius: 50%;
-  animation: particleFloat 30s linear infinite;
-  box-shadow: 0 0 3px rgba(111, 255, 233, 0.3);
-}
-
-.particle:nth-child(odd) {
-  background: rgba(91, 192, 190, 0.4);
-  animation-duration: 35s;
-  box-shadow: 0 0 3px rgba(91, 192, 190, 0.2);
-}
-
-.particle:nth-child(even) {
-  background: rgba(255, 255, 255, 0.3);
-  animation-duration: 40s;
-  box-shadow: 0 0 3px rgba(255, 255, 255, 0.1);
-}
-
-// Generate random positions for particles
-@for $i from 1 through 25 {
-  .particle:nth-child(#{$i}) {
-    left: math.random() * 100 * 1%;
-    top: math.random() * 100 * 1%;
-    animation-delay: math.random() * 30 * -1s;
-  }
-}
-
-// Header
-.header {
+.settings-container {
   padding: 1rem;
+  max-width: 600px;
+  margin: 0 auto;
   position: relative;
   z-index: 2;
+}
 
-  .header-content {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+.settings-card {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.settings-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+
+  .header-icon {
+    font-size: 3rem;
+    color: #6fffe9;
+    filter: drop-shadow(0 0 12px rgba(111, 255, 233, 0.4));
+    margin-bottom: 0.5rem;
   }
 
-  .back-button {
-    width: 40px;
-    height: 40px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-
-    &:hover {
-      background: rgba(111, 255, 233, 0.2);
-      transform: scale(1.1);
-    }
-
-    ion-icon {
-      color: #ffffff;
-      font-size: 1.2rem;
-    }
-  }
-
-  .page-title {
+  h2 {
     color: #ffffff;
-    font-size: 1.5rem;
+    font-size: 1.75rem;
     font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    text-shadow: 0 0 10px rgba(111, 255, 233, 0.2);
+  }
+
+  .subtitle {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
     margin: 0;
-    text-shadow: 0 0 20px rgba(111, 255, 233, 0.3);
+    font-weight: 300;
   }
-
-  .header-spacer {
-    flex: 1;
-  }
-}
-
-// Settings Sections
-.settings-sections {
-  padding: 1rem;
-  position: relative;
-  z-index: 2;
 }
 
 .settings-section {
   margin-bottom: 2rem;
 
-  .section-title {
-    color: #ffffff;
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin: 0 0 1rem 0;
-    text-shadow: 0 0 10px rgba(111, 255, 233, 0.2);
-    padding-left: 0.5rem;
-  }
-}
-
-.setting-item {
-  background: linear-gradient(145deg, #1b2a49 0%, #2a3f5f 100%);
-  border-radius: 1rem;
-  padding: 1rem;
-  margin-bottom: 0.75rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  transition: all 0.3s ease;
-
-  &.clickable {
-    cursor: pointer;
-
-    &:hover {
-      background: linear-gradient(145deg, #2a3f5f 0%, #3a4a6b 100%);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    }
+  &:last-child {
+    margin-bottom: 0;
   }
 
-  .setting-info {
+  .section-header {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    flex: 1;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 
-    .setting-icon {
-      font-size: 1.2rem;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(111, 255, 233, 0.1);
-      border-radius: 50%;
-      flex-shrink: 0;
+    .section-icon {
+      font-size: 1.5rem;
+      color: #6fffe9;
     }
-
-    .setting-text {
-      flex: 1;
-
-      h3 {
-        color: #ffffff;
-        font-size: 1rem;
-        font-weight: 500;
-        margin: 0 0 0.25rem 0;
-      }
-
-      p {
-        color: rgba(255, 255, 255, 0.6);
-        font-size: 0.8rem;
-        font-weight: 300;
-        margin: 0;
-        line-height: 1.3;
-      }
-    }
-  }
-
-  ion-toggle {
-    --background: rgba(255, 255, 255, 0.1);
-    --background-checked: #6fffe9;
-    --handle-background: #ffffff;
-    --handle-background-checked: #0b132b;
-  }
-
-  ion-range {
-    flex: 1;
-    --bar-background: rgba(255, 255, 255, 0.2);
-    --bar-background-active: #6fffe9;
-    --knob-background: #6fffe9;
-    --knob-size: 20px;
-    --bar-height: 4px;
-  }
-
-  ion-select {
-    --color: #ffffff;
-    --placeholder-color: rgba(255, 255, 255, 0.6);
-    --background: rgba(255, 255, 255, 0.1);
-    --border-radius: 0.5rem;
-    --padding-start: 0.75rem;
-    --padding-end: 0.75rem;
-    min-width: 120px;
-  }
-
-  ion-icon {
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 1.2rem;
-  }
-}
-
-// Premium Card
-.premium-card {
-  background: linear-gradient(145deg, #2a3f5f 0%, #3a4a6b 100%);
-  border-radius: 1rem;
-  padding: 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border: 2px solid rgba(255, 215, 0, 0.3);
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(
-      45deg,
-      transparent,
-      rgba(255, 215, 0, 0.05),
-      transparent
-    );
-    border-radius: 1rem;
-  }
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(255, 215, 0, 0.2);
-  }
-
-  .premium-icon {
-    font-size: 2rem;
-    animation: sparkle 2s ease-in-out infinite;
-  }
-
-  .premium-content {
-    flex: 1;
-    position: relative;
-    z-index: 2;
 
     h3 {
       color: #ffffff;
       font-size: 1.1rem;
       font-weight: 600;
-      margin: 0 0 0.25rem 0;
-      text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
-    }
-
-    p {
-      color: rgba(255, 255, 255, 0.7);
-      font-size: 0.9rem;
-      font-weight: 300;
       margin: 0;
     }
   }
+}
 
-  .premium-arrow {
-    position: relative;
-    z-index: 2;
+.setting-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.3s ease;
+  margin-bottom: 0.75rem;
 
-    ion-icon {
-      color: rgba(255, 215, 0, 0.8);
-      font-size: 1.2rem;
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(111, 255, 233, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.setting-info {
+  flex: 1;
+
+  .setting-label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.25rem;
+
+    .setting-icon {
+      font-size: 1.25rem;
+      color: rgba(255, 255, 255, 0.7);
     }
+
+    .setting-name {
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+  }
+
+  .setting-description {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.85rem;
+    margin: 0 0 0 2rem;
+    line-height: 1.4;
   }
 }
 
 // Animations
-@keyframes wavePattern {
-  0%,
-  100% {
-    transform: scale(1) rotate(0deg);
-    opacity: 0.3;
-  }
-  50% {
-    transform: scale(1.1) rotate(1deg);
-    opacity: 0.5;
-  }
-}
-
-@keyframes particleFloat {
-  0% {
-    transform: translateY(100vh) translateX(0px) scale(0);
+@keyframes slideInUp {
+  from {
     opacity: 0;
+    transform: translateY(20px);
   }
-  10% {
+  to {
     opacity: 1;
-    transform: translateY(90vh) translateX(10px) scale(1);
-  }
-  90% {
-    opacity: 1;
-    transform: translateY(10vh) translateX(-10px) scale(1);
-  }
-  100% {
-    transform: translateY(0vh) translateX(0px) scale(0);
-    opacity: 0;
+    transform: translateY(0);
   }
 }
 
-@keyframes sparkle {
-  0%,
-  100% {
-    transform: scale(1) rotate(0deg);
-    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
-  }
-  50% {
-    transform: scale(1.1) rotate(5deg);
-    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
-  }
+.settings-card {
+  animation: slideInUp 0.4s ease-out;
 }
 
-// Responsive adjustments
-@media (max-width: 480px) {
-  .settings-sections {
-    padding: 0.75rem;
-  }
+.setting-item {
+  animation: slideInUp 0.4s ease-out backwards;
 
-  .setting-item {
-    padding: 0.75rem;
-  }
-
-  .premium-card {
-    padding: 1.25rem;
+  @for $i from 1 through 10 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.05}s;
+    }
   }
 }

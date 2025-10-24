@@ -37,15 +37,24 @@ import { IonIcon } from '@ionic/angular/standalone';
       <ion-icon name="bookmark-outline" class="nav-icon"></ion-icon>
       <span class="nav-label">Mixes</span>
     </button>
+
+    <button
+      class="nav-item"
+      [class.active]="activeTab() === 'settings'"
+      (click)="onTabClick('settings')"
+    >
+      <ion-icon name="settings-outline" class="nav-icon"></ion-icon>
+      <span class="nav-label">Settings</span>
+    </button>
   </div>`,
   styleUrl: './footer.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Footer {
-  activeTab = input<'sounds' | 'timer' | 'mixes'>('sounds');
-  tabChanged = output<'sounds' | 'timer' | 'mixes'>();
+  activeTab = input<'sounds' | 'timer' | 'mixes' | 'settings'>('sounds');
+  tabChanged = output<'sounds' | 'timer' | 'mixes' | 'settings'>();
 
-  onTabClick(tab: 'sounds' | 'timer' | 'mixes') {
+  onTabClick(tab: 'sounds' | 'timer' | 'mixes' | 'settings') {
     this.tabChanged.emit(tab);
   }
 }
