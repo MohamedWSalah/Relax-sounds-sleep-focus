@@ -6,7 +6,9 @@ import {
   computed,
   ChangeDetectionStrategy,
   inject,
+  DestroyRef,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import {
@@ -37,27 +39,21 @@ import { TimerService } from '../../services/timer.service';
     CommonModule,
     IonContent,
     IonInput,
-    IonButton,
     IonIcon,
     IonCard,
     IonGrid,
     IonRow,
     IonCol,
     IonLabel,
-    IonItem,
     IonText,
-    IonBackButton,
-    IonButtons,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
+    IonButton,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SleepTimerPage implements OnInit, OnDestroy {
   private timerService = inject(TimerService);
   private router = inject(Router);
-
+  #destroyRef = inject(DestroyRef);
   // Input values
   hours = signal<number>(0);
   minutes = signal<number>(30);
@@ -120,27 +116,28 @@ export class SleepTimerPage implements OnInit, OnDestroy {
     this.clearError();
   }
 
-  async startTimer(): Promise<void> {
-    try {
-      const totalSeconds =
-        this.hours() * 3600 + this.minutes() * 60 + this.seconds();
+  startTimer(): void {
+    const totalSeconds =
+      this.hours() * 3600 + this.minutes() * 60 + this.seconds();
 
-      if (totalSeconds <= 0) {
-        this.inputError.set('Please set a timer duration');
-        return;
-      }
-
-      await this.timerService.setTimer(
-        this.hours(),
-        this.minutes(),
-        this.seconds()
-      );
-      this.timerService.startTimer();
-      this.clearError();
-    } catch (error) {
-      this.inputError.set('Failed to start timer');
-      console.error('Timer start error:', error);
+    if (totalSeconds <= 0) {
+      this.inputError.set('Please set a timer duration');
+      return;
     }
+
+    this.timerService
+      .setTimer(this.hours(), this.minutes(), this.seconds())
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe({
+        next: () => {
+          this.timerService.startTimer();
+          this.clearError();
+        },
+        error: (error) => {
+          this.inputError.set('Failed to start timer');
+          console.error('Timer start error:', error);
+        },
+      });
   }
 
   pauseTimer(): void {

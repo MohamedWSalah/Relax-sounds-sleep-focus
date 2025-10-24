@@ -1,6 +1,8 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
 import { MusicControlsService } from './music-controls.service';
 import { FavoritesService } from './favorites.service';
+import { Observable, from, of } from 'rxjs';
+import { catchError, switchMap } from 'rxjs/operators';
 
 export interface Sound {
   id: string;
@@ -287,8 +289,8 @@ export class SoundsService {
     return this.#favoritesService.isFavorite(soundId);
   }
 
-  async toggleFavorite(soundId: string): Promise<boolean> {
-    return await this.#favoritesService.toggleFavorite(soundId);
+  toggleFavorite(soundId: string): Observable<boolean> {
+    return this.#favoritesService.toggleFavorite(soundId);
   }
 
   getFavorites(): string[] {

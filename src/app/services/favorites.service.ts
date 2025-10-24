@@ -1,6 +1,8 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { Preferences } from '@capacitor/preferences';
 import { Sound } from './sounds.service';
+import { Observable, from, of } from 'rxjs';
+import { catchError, tap, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -21,37 +23,45 @@ export class FavoritesService {
   }
 
   constructor() {
-    this.loadFavorites();
+    this.loadFavorites().subscribe();
   }
 
   /**
    * Load favorites from storage on service initialization
    */
-  private async loadFavorites(): Promise<void> {
-    try {
-      const { value } = await Preferences.get({ key: this.STORAGE_KEY });
-      if (value) {
-        const favorites = JSON.parse(value);
-        this.#favorites.set(favorites);
-      }
-    } catch (error) {
-      console.warn('Failed to load favorites from storage:', error);
-    }
+  private loadFavorites(): Observable<void> {
+    return from(Preferences.get({ key: this.STORAGE_KEY })).pipe(
+      tap(({ value }) => {
+        if (value) {
+          const favorites = JSON.parse(value);
+          this.#favorites.set(favorites);
+        }
+      }),
+      switchMap(() => of(undefined as void)),
+      catchError((error) => {
+        console.warn('Failed to load favorites from storage:', error);
+        return of(undefined as void);
+      })
+    );
   }
 
   /**
    * Save favorites to storage
    */
-  private async saveFavorites(): Promise<void> {
-    try {
-      const favorites = this.#favorites();
-      await Preferences.set({
+  private saveFavorites(): Observable<void> {
+    const favorites = this.#favorites();
+    return from(
+      Preferences.set({
         key: this.STORAGE_KEY,
         value: JSON.stringify(favorites),
-      });
-    } catch (error) {
-      console.warn('Failed to save favorites to storage:', error);
-    }
+      })
+    ).pipe(
+      switchMap(() => of(undefined as void)),
+      catchError((error) => {
+        console.warn('Failed to save favorites to storage:', error);
+        return of(undefined as void);
+      })
+    );
   }
 
   /**
@@ -64,7 +74,7 @@ export class FavoritesService {
   /**
    * Toggle favorite status of a sound
    */
-  async toggleFavorite(soundId: string): Promise<boolean> {
+  toggleFavorite(soundId: string): Observable<boolean> {
     const currentFavorites = this.#favorites();
     const isCurrentlyFavorite = currentFavorites.includes(soundId);
 
@@ -84,10 +94,14 @@ export class FavoritesService {
     // Update the signal
     this.#favorites.set(newFavorites);
 
-    // Save to storage
-    await this.saveFavorites();
-
-    return isNowFavorite;
+    // Save to storage and return the result
+    return this.saveFavorites().pipe(
+      switchMap(() => of(isNowFavorite)),
+      catchError((error) => {
+        console.warn('Failed to save favorites after toggle:', error);
+        return of(isNowFavorite);
+      })
+    );
   }
 
   /**
@@ -100,30 +114,31 @@ export class FavoritesService {
   /**
    * Add a sound to favorites
    */
-  async addToFavorites(soundId: string): Promise<void> {
+  addToFavorites(soundId: string): Observable<void> {
     const currentFavorites = this.#favorites();
     if (!currentFavorites.includes(soundId)) {
       const newFavorites = [...currentFavorites, soundId];
       this.#favorites.set(newFavorites);
-      await this.saveFavorites();
+      return this.saveFavorites();
     }
+    return of(undefined as void);
   }
 
   /**
    * Remove a sound from favorites
    */
-  async removeFromFavorites(soundId: string): Promise<void> {
+  removeFromFavorites(soundId: string): Observable<void> {
     const currentFavorites = this.#favorites();
     const newFavorites = currentFavorites.filter((id) => id !== soundId);
     this.#favorites.set(newFavorites);
-    await this.saveFavorites();
+    return this.saveFavorites();
   }
 
   /**
    * Clear all favorites
    */
-  async clearFavorites(): Promise<void> {
+  clearFavorites(): Observable<void> {
     this.#favorites.set([]);
-    await this.saveFavorites();
+    return this.saveFavorites();
   }
 }

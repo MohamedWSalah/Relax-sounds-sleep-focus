@@ -1,5 +1,7 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
 import { SoundsService } from './sounds.service';
+import { Observable, from, of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 
 export interface TimerState {
   isRunning: boolean;
@@ -61,14 +63,10 @@ export class TimerService {
   });
 
   constructor() {
-    this.loadTimerState();
+    this.loadTimerState().subscribe();
   }
 
-  async setTimer(
-    hours: number,
-    minutes: number,
-    seconds: number
-  ): Promise<void> {
+  setTimer(hours: number, minutes: number, seconds: number): Observable<void> {
     const totalSeconds = hours * 3600 + minutes * 60 + seconds;
 
     if (totalSeconds <= 0) {
@@ -84,7 +82,7 @@ export class TimerService {
       pausedAt: null,
     });
 
-    await this.saveTimerState();
+    return this.saveTimerState();
   }
 
   startTimer(): void {
@@ -188,7 +186,7 @@ export class TimerService {
     }
   }
 
-  private async onTimerComplete(): Promise<void> {
+  private onTimerComplete(): void {
     this.stopCountdown();
 
     // Stop all sounds
@@ -204,51 +202,69 @@ export class TimerService {
       pausedAt: null,
     });
 
-    await this.saveTimerState();
+    this.saveTimerState().subscribe();
 
     // Show completion message (this could be handled by the component)
     // For now, we'll just log it
     console.log('Timer completed! Sweet dreams 🌙');
   }
 
-  private async saveTimerState(): Promise<void> {
-    try {
-      const state = this.#timerState();
-      localStorage.setItem('timerState', JSON.stringify(state));
-    } catch (error) {
-      console.error('Failed to save timer state:', error);
-    }
+  private saveTimerState(): Observable<void> {
+    return of(undefined).pipe(
+      tap(() => {
+        try {
+          const state = this.#timerState();
+          localStorage.setItem('timerState', JSON.stringify(state));
+        } catch (error) {
+          console.error('Failed to save timer state:', error);
+        }
+      }),
+      catchError((error) => {
+        console.error('Failed to save timer state:', error);
+        return of(undefined);
+      })
+    );
   }
 
-  private async loadTimerState(): Promise<void> {
-    try {
-      const stored = localStorage.getItem('timerState');
-      if (stored) {
-        const state: TimerState = JSON.parse(stored);
+  private loadTimerState(): Observable<void> {
+    return of(undefined).pipe(
+      tap(() => {
+        try {
+          const stored = localStorage.getItem('timerState');
+          if (stored) {
+            const state: TimerState = JSON.parse(stored);
 
-        // Only restore if timer was running and not completed
-        if (state.isRunning && state.remainingSeconds > 0) {
-          const now = Date.now();
-          const elapsed = Math.floor((now - (state.startTime || now)) / 1000);
-          const newRemaining = Math.max(0, state.totalSeconds - elapsed);
+            // Only restore if timer was running and not completed
+            if (state.isRunning && state.remainingSeconds > 0) {
+              const now = Date.now();
+              const elapsed = Math.floor(
+                (now - (state.startTime || now)) / 1000
+              );
+              const newRemaining = Math.max(0, state.totalSeconds - elapsed);
 
-          if (newRemaining > 0) {
-            this.#timerState.set({
-              ...state,
-              remainingSeconds: newRemaining,
-            });
-            this.startCountdown();
-          } else {
-            // Timer completed while app was closed
-            this.onTimerComplete();
+              if (newRemaining > 0) {
+                this.#timerState.set({
+                  ...state,
+                  remainingSeconds: newRemaining,
+                });
+                this.startCountdown();
+              } else {
+                // Timer completed while app was closed
+                this.onTimerComplete();
+              }
+            } else {
+              this.#timerState.set(state);
+            }
           }
-        } else {
-          this.#timerState.set(state);
+        } catch (error) {
+          console.error('Failed to load timer state:', error);
         }
-      }
-    } catch (error) {
-      console.error('Failed to load timer state:', error);
-    }
+      }),
+      catchError((error) => {
+        console.error('Failed to load timer state:', error);
+        return of(undefined);
+      })
+    );
   }
 
   ngOnDestroy(): void {
