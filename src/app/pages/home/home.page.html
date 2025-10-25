@@ -26,13 +26,7 @@
 
     <!-- Mixes Tab -->
     <div [style.display]="activeTab() === 'mixes' ? 'block' : 'none'">
-      <div class="mixes-placeholder">
-        <div class="placeholder-content">
-          <ion-icon name="bookmark-outline" class="placeholder-icon"></ion-icon>
-          <h2>My Mixes</h2>
-          <p>Your saved sound combinations will appear here</p>
-        </div>
-      </div>
+      <app-mixes></app-mixes>
     </div>
 
     <!-- Settings Tab -->
