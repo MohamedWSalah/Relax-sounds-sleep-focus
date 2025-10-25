@@ -1,3 +1,5 @@
+@use "./theme/dark-theme.scss" as *;
+
 /*
  * App Global CSS
  * ----------------------------------------------------------------------------
@@ -43,12 +45,31 @@
 
 /* Global background for the entire app */
 ion-app {
-  --background: url("./assets/images/background.png");
-  background: var(--background);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
+  transition: background-image 0.3s ease;
+}
+
+/* Dark theme background */
+body.dark ion-app {
+  background-image: url("./assets/images/background.png");
+}
+
+/* Light theme background */
+body.light ion-app {
+  background-image: url("./assets/images/Gemini_Generated_Image_uexyrruexyrruexy (2).png");
+}
+
+/* Add smooth transitions for theme changes */
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+* {
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* Ensure all ion-content elements inherit the background properly */
@@ -88,13 +109,13 @@ ion-toast {
   --width: auto;
   --max-width: fit-content;
   --min-width: auto;
-  --background: rgb(56, 105, 98);
+  --background: #{$bg-toast};
   --border-radius: 16px;
-  --box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  --box-shadow: 0 4px 30px #{$shadow-black-10};
 }
 
 /* Apply glass effect only to the toast content, not the backdrop */
 ion-toast .toast-wrapper {
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: $backdrop-blur-light;
+  -webkit-backdrop-filter: $backdrop-blur-light;
 }

@@ -1,6 +1,26 @@
 @use "sass:math";
-@use "../../../theme/variables" as *;
+@use "../../../theme/dark-theme.scss" as *;
+@use "../../../theme/light-theme.scss" as light;
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+// Dynamic text colors that change with theme
+:host {
+  --page-text-primary: #{$text-white};
+  --page-text-secondary: #{$text-secondary};
+  --page-text-tertiary: #{$text-tertiary};
+  --button-pause-text: #{$button-pause-text};
+  --button-pause-border: #{$button-pause-border};
+  --status-paused-text: #{$status-paused-text};
+}
+
+:host-context(body.light) {
+  --page-text-primary: #{light.$text-primary};
+  --page-text-secondary: #{light.$text-secondary};
+  --page-text-tertiary: #{light.$text-tertiary};
+  --button-pause-text: #{light.$button-pause-text};
+  --button-pause-border: #{light.$button-pause-border};
+  --status-paused-text: #{light.$status-paused-text};
+}
 
 .timer-content {
   font-family: "Poppins", sans-serif;
@@ -25,19 +45,11 @@
     height: 100%;
     background: radial-gradient(
         circle at 20% 80%,
-        rgba(111, 255, 233, 0.1) 0%,
+        $primary-10 0%,
         transparent 50%
       ),
-      radial-gradient(
-        circle at 80% 20%,
-        rgba(138, 43, 226, 0.1) 0%,
-        transparent 50%
-      ),
-      radial-gradient(
-        circle at 40% 40%,
-        rgba(75, 0, 130, 0.05) 0%,
-        transparent 50%
-      );
+      radial-gradient(circle at 80% 20%, $deep-purple 0%, transparent 50%),
+      radial-gradient(circle at 40% 40%, $deep-indigo 0%, transparent 50%);
     z-index: 1;
     animation: particleFloat 20s ease-in-out infinite;
   }
@@ -52,7 +64,7 @@
   .moon-icon {
     font-size: 3rem;
     animation: moonFloat 3s ease-in-out infinite;
-    filter: drop-shadow(0 0 15px rgba(111, 255, 233, 0.6));
+    filter: $drop-shadow-primary-60;
   }
 }
 
@@ -71,19 +83,28 @@
 
   backdrop-filter: blur(1px);
   -webkit-backdrop-filter: blur(1px);
-  background: rgba(111, 255, 233, 0.08);
+  background: $primary-08;
   border-radius: 16px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 30px $shadow-black-10;
+
+  // Light mode glass effect (css.glass style)
+  :host-context(body.light) & {
+    background: rgba(111, 255, 233, 0.19);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+  }
 
   .input-container {
     text-align: center;
 
     .input-title {
-      color: #ffffff;
+      color: var(--page-text-primary);
       font-size: 1.2rem;
       font-weight: 500;
       margin: 0 0 1.5rem 0;
-      text-shadow: 0 0 10px rgba(111, 255, 233, 0.3);
+      text-shadow: $text-shadow-primary-30;
     }
 
     .time-inputs {
@@ -101,7 +122,7 @@
         max-width: 80px;
 
         ion-label {
-          color: rgba(255, 255, 255, 0.8);
+          color: var(--page-text-tertiary);
           font-size: 0.9rem;
           font-weight: 500;
           text-transform: uppercase;
@@ -109,9 +130,9 @@
         }
 
         .time-input {
-          --background: rgba(255, 255, 255, 0.1);
-          --color: #ffffff;
-          --placeholder-color: rgba(255, 255, 255, 0.5);
+          --background: #{$glass-white-10};
+          --color: #{$text-white};
+          --placeholder-color: #{$text-lighter};
           --border-radius: 0.75rem;
           --padding-start: 0.75rem;
           --padding-end: 0.75rem;
@@ -121,12 +142,25 @@
           font-size: 1.2rem;
           font-weight: 600;
           border-radius: 0.75rem;
-          backdrop-filter: blur(10px);
+          backdrop-filter: $backdrop-blur-medium;
           transition: all 0.3s ease;
 
+          // Light mode styling
+          :host-context(body.light) & {
+            --background: rgba(255, 255, 255, 0.5);
+            --color: #1b1f24;
+            --placeholder-color: #94a3b8;
+          }
+
           &:focus {
-            border-color: rgba(111, 255, 233, 0.6);
-            box-shadow: 0 0 15px rgba(111, 255, 233, 0.2);
+            border-color: $primary-60;
+            box-shadow: 0 0 15px $shadow-primary-20;
+
+            // Light mode focus
+            :host-context(body.light) & {
+              border-color: rgba(61, 139, 138, 0.6);
+              box-shadow: 0 0 15px rgba(61, 139, 138, 0.2);
+            }
           }
         }
       }
@@ -168,13 +202,25 @@
   height: 100%;
   transform: rotate(-90deg);
   border-radius: 50%;
-  box-shadow: 0 0 5px rgba(111, 255, 233, 0.8),
-    0 0 15px rgba(111, 255, 233, 0.6), 0 0 30px rgba(111, 255, 233, 0.4),
-    0 0 60px rgba(111, 255, 233, 0.2);
+  box-shadow: 0 0 5px $primary-80, 0 0 15px $primary-60, 0 0 30px $primary-40,
+    0 0 60px $shadow-primary-20;
+
+  // Light mode - more glowy effect
+  :host-context(body.light) & {
+    box-shadow: 0 0 8px rgba(61, 139, 138, 0.8),
+      0 0 20px rgba(61, 139, 138, 0.6), 0 0 40px rgba(61, 139, 138, 0.4),
+      0 0 80px rgba(61, 139, 138, 0.25), 0 0 120px rgba(61, 139, 138, 0.15);
+  }
 
   .progress-circle {
     transition: stroke-dashoffset 0.3s ease;
-    filter: drop-shadow(0 0 20px rgba(111, 255, 233, 0.8));
+    filter: $drop-shadow-primary-80;
+
+    // Light mode - darker progress circle with same color as glow
+    :host-context(body.light) & {
+      stroke: #3d8b8a;
+      filter: drop-shadow(0 0 12px rgba(61, 139, 138, 0.8));
+    }
   }
 }
 
@@ -187,27 +233,37 @@
   z-index: 3;
 
   .time-text {
-    color: #ffffff;
+    color: var(--page-text-primary);
     font-size: 2.5rem;
     font-weight: 700;
     font-family: "Courier New", monospace;
-    text-shadow: 0 0 20px rgba(111, 255, 233, 0.6);
+    text-shadow: $text-shadow-primary-60;
     letter-spacing: 2px;
     margin-bottom: 0.5rem;
     line-height: 1;
+
+    // Light mode - darker text shadow
+    :host-context(body.light) & {
+      text-shadow: 0 0 10px rgba(61, 139, 138, 0.3);
+    }
   }
 
   .status-text {
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--page-text-tertiary);
     font-size: 1rem;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 1px;
-    text-shadow: 0 0 10px rgba(111, 255, 233, 0.3);
+    text-shadow: $text-shadow-primary-30;
 
     &.paused {
-      color: #ffa726;
-      text-shadow: 0 0 10px rgba(255, 167, 38, 0.4);
+      color: var(--status-paused-text);
+      text-shadow: $text-shadow-orange;
+    }
+
+    // Light mode - darker text shadow
+    :host-context(body.light) & {
+      text-shadow: 0 0 6px rgba(61, 139, 138, 0.2);
     }
   }
 }
@@ -229,23 +285,23 @@
     transition: all 0.3s ease;
 
     &.start-button {
-      // --background: rgba(111, 255, 233, 0.12);
-      // --border-color: #6fffe9;
-      // --box-shadow: 0 12px 40px rgba(111, 255, 233, 0.363),
-      //   inset 0 1px 0 rgba(111, 255, 233, 0.603),
-      //   inset 0 -1px 0 rgba(111, 255, 233, 0.274),
-      //   0 0 20px rgba(111, 255, 233, 0.2);
-      --color: white;
-
+      --color: #{$text-white};
       --backdrop-filter: blur(1px);
-      --background: rgba(111, 255, 233, 0.19);
-      --box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      --background: #{$primary-19};
+      --box-shadow: 0 4px 30px #{$shadow-black-10};
+
+      // Light mode - match footer selected item color
+      :host-context(body.light) & {
+        --color: white;
+        --background: linear-gradient(135deg, #3d8b8a, #5ba5a4);
+        --box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+      }
     }
 
     &.pause-button {
-      --background: rgba(111, 255, 233, 0.1);
-      --color: #6fffe9;
-      border-color: rgba(111, 255, 233, 0.3);
+      --background: transparent !important;
+      --color: var(--button-pause-text) !important;
+      --border-color: var(--button-pause-border) !important;
 
       &:hover {
         --background: rgba(111, 255, 233, 0.2);
@@ -254,23 +310,23 @@
     }
 
     &.resume-button {
-      --background: linear-gradient(135deg, #6fffe9, #4fc3f7);
-      --color: #1a1a1a;
-      filter: drop-shadow(0 8px 24px rgba(111, 255, 233, 0.3));
+      --background: #{$gradient-button};
+      --color: #{$bg-dark};
+      filter: drop-shadow(0 8px 24px $shadow-primary-30);
 
       &:hover {
         transform: translateY(-2px);
-        filter: drop-shadow(0 12px 32px rgba(111, 255, 233, 0.4));
+        filter: drop-shadow(0 12px 32px $shadow-primary-40);
       }
     }
 
     &.reset-button {
-      --background: rgba(111, 255, 233, 0.1);
-      --color: #6fffe9;
-      border-color: rgba(111, 255, 233, 0.3);
+      --background: #{$primary-10};
+      --color: #{$primary};
+      border-color: $primary-30;
 
       &:hover {
-        --background: rgba(111, 255, 233, 0.2);
+        --background: #{$primary-20};
         transform: translateY(-2px);
       }
     }
@@ -284,7 +340,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.8);
+  background: $shadow-black-80;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -293,17 +349,24 @@
   animation: fadeIn 0.5s ease;
 
   .completion-card {
-    background: rgba(255, 255, 255, 0.1);
+    background: $glass-white-10;
     border-radius: 2rem;
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3),
-      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    backdrop-filter: $backdrop-glass;
+    -webkit-backdrop-filter: $backdrop-glass;
+    box-shadow: 0 20px 60px $shadow-black-30, inset 0 1px 0 $shadow-white-20;
     margin: 0;
     padding: 2rem;
     text-align: center;
     max-width: 400px;
     animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+
+    // Light mode glass effect
+    :host-context(body.light) & {
+      background: rgba(111, 255, 233, 0.25);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+    }
 
     .completion-content {
       .completion-icon {
@@ -313,15 +376,20 @@
       }
 
       .completion-title {
-        color: #ffffff;
+        color: var(--page-text-primary);
         font-size: 1.8rem;
         font-weight: 600;
         margin: 0 0 1rem 0;
-        text-shadow: 0 0 20px rgba(111, 255, 233, 0.4);
+        text-shadow: $text-shadow-primary-40;
+
+        // Light mode
+        :host-context(body.light) & {
+          text-shadow: 0 0 10px rgba(61, 139, 138, 0.3);
+        }
       }
 
       .completion-text {
-        color: rgba(255, 255, 255, 0.8);
+        color: var(--page-text-tertiary);
         font-size: 1rem;
         line-height: 1.5;
         margin: 0;

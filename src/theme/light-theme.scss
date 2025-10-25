@@ -1,0 +1,340 @@
+// =============================================================================
+// SLEEP CALM SOUNDS - LIGHT THEME VARIABLES (IMPROVED v2.0)
+// =============================================================================
+// This file contains ALL color variables used throughout the app
+// Organized by category for easy maintenance and consistency
+//
+// IMPROVEMENTS:
+// ✓ Reduced overall brightness - no more harsh whites
+// ✓ Gentle pastel backgrounds (pale blue-gray: #dfe7ec, #c9d6e2)
+// ✓ Clear text contrast with dark gray tones (#1b1f24, #2d3748, #475569)
+// ✓ Glass morphism at ~0.7 opacity for soft translucency
+// ✓ Muted teal (#6cb3b3) and lavender (#a99ff2) accents
+// ✓ Natural, blended gradients without harsh transitions
+// ✓ Maintains relaxing, sleep-calming atmosphere
+// ✓ Smooth 0.3s transitions between themes (defined in global.scss)
+//
+// Base Palette:
+// - Primary: #6cb3b3 (muted teal)
+// - Secondary: #7ecde0 (soft aqua)
+// - Backgrounds: #dfe7ec, #c9d6e2 (pale blue-gray)
+// - Text: #1b1f24, #2d3748, #475569 (dark grays)
+// - Accents: #a99ff2 (muted lavender), #6ba3d9 (muted blue)
+// =============================================================================
+
+// =============================================================================
+// PRIMARY COLORS (Muted Teal - Calmer than original)
+// =============================================================================
+$primary: #6cb3b3; // Softer, more muted teal
+$primary-light: rgba(108, 179, 179, 0.3);
+$primary-lighter: rgba(108, 179, 179, 0.1);
+$primary-dark: #4a9191;
+
+// Primary color variations (different opacity levels)
+$primary-02: rgba(108, 179, 179, 0.05);
+$primary-05: rgba(108, 179, 179, 0.08);
+$primary-08: rgba(108, 179, 179, 0.12);
+$primary-10: rgba(108, 179, 179, 0.15);
+$primary-12: rgba(108, 179, 179, 0.18);
+$primary-15: rgba(108, 179, 179, 0.22);
+$primary-19: rgba(108, 179, 179, 0.25);
+$primary-20: rgba(108, 179, 179, 0.28);
+$primary-25: rgba(108, 179, 179, 0.32);
+$primary-30: rgba(108, 179, 179, 0.35);
+$primary-40: rgba(108, 179, 179, 0.45);
+$primary-50: rgba(108, 179, 179, 0.55);
+$primary-60: rgba(108, 179, 179, 0.65);
+$primary-80: rgba(108, 179, 179, 0.85);
+
+// =============================================================================
+// SECONDARY COLORS (Softer aqua)
+// =============================================================================
+$secondary: #7ecde0; // Softer aqua from user's palette
+$secondary-light: rgba(126, 205, 224, 0.3);
+$secondary-40: rgba(126, 205, 224, 0.4);
+$secondary-60: rgba(126, 205, 224, 0.6);
+
+// =============================================================================
+// ACCENT COLORS (Muted for light mode)
+// =============================================================================
+$accent-blue: #6ba3d9; // Muted blue
+$accent-purple: #8e92db; // Muted purple
+$accent-cyan: #7ecde0; // Matches secondary
+$accent-violet: #a99ff2; // From user's palette - muted lavender
+$accent-pink: #e680b8; // Softer pink
+$accent-orange: #e8a54e; // Softer orange
+$accent-light-cyan: #6ba3d9; // Muted cyan-blue
+
+// Accent color variations (updated for muted colors)
+$accent-blue-02: rgba(107, 163, 217, 0.02);
+$accent-blue-03: rgba(107, 163, 217, 0.03);
+$accent-purple-03: rgba(142, 146, 219, 0.03);
+$accent-purple-10: rgba(142, 146, 219, 0.1);
+$accent-cyan-015: rgba(126, 205, 224, 0.015);
+$accent-violet-02: rgba(169, 159, 242, 0.02);
+$accent-pink-20: rgba(230, 128, 184, 0.2);
+$accent-pink-40: rgba(230, 128, 184, 0.4);
+$accent-pink-80: rgba(230, 128, 184, 0.8);
+
+// Deep purple/indigo for backgrounds (very subtle)
+$deep-purple: rgba(138, 43, 226, 0.015);
+$deep-indigo: rgba(75, 0, 130, 0.01);
+
+// =============================================================================
+// BACKGROUND COLORS (Darker blue-gray for reduced brightness)
+// =============================================================================
+$bg-primary: #c9d6e2; // Darker - reduced brightness
+$bg-secondary: #b5c4d1; // Darker - reduced brightness
+$bg-tertiary: #bcc9d6; // Darker variation
+$bg-quaternary: #a5b4c3; // Deeper muted blue-gray
+
+// Modal and overlay backgrounds (darker, less bright)
+$bg-modal-dark: rgba(201, 214, 226, 0.96);
+$bg-modal-blue-1: #bcc9d6;
+$bg-modal-blue-2: #b5c4d1;
+$bg-modal-blue-3: #a5b4c3;
+$bg-toast: rgb(108, 179, 179); // Updated to match new primary
+$bg-very-dark: #d5dfe6; // Darker
+$bg-dark: #c9d6e2; // Matches bg-primary
+
+// =============================================================================
+// GLASS MORPHISM / CARD BACKGROUNDS (Darker, ~0.65 opacity glass effect)
+// =============================================================================
+// Using cream-tinted whites for warmth, not pure white - reduced for less brightness
+$glass-white-04: rgba(235, 240, 245, 0.5);
+$glass-white-06: rgba(235, 240, 245, 0.57);
+$glass-white-08: rgba(235, 240, 245, 0.63);
+$glass-white-10: rgba(235, 240, 245, 0.68); // ~0.65 target
+$glass-white-12: rgba(235, 240, 245, 0.72);
+$glass-white-15: rgba(235, 240, 245, 0.75);
+$glass-white-18: rgba(235, 240, 245, 0.78);
+$glass-white-20: rgba(235, 240, 245, 0.82);
+
+// Card-specific backgrounds (darker, less bright)
+$card-bg-primary: rgba(235, 240, 245, 0.65); // ~0.65 glass effect
+$card-bg-secondary: rgba(235, 240, 245, 0.7);
+$card-bg-premium: rgba(235, 240, 245, 0.75);
+
+// =============================================================================
+// BORDER COLORS (Subtle borders for light mode)
+// =============================================================================
+$border-white-08: rgba(0, 0, 0, 0.08);
+$border-white-10: rgba(0, 0, 0, 0.12);
+$border-white-12: rgba(0, 0, 0, 0.15);
+$border-white-18: rgba(0, 0, 0, 0.18);
+$border-white-20: rgba(0, 0, 0, 0.22);
+$border-primary: rgba(108, 179, 179, 0.4); // Updated to new primary
+$border-primary-30: rgba(108, 179, 179, 0.5);
+$border-primary-selected: rgba(108, 179, 179, 0.7);
+$border-pink: rgba(230, 128, 184, 0.6); // Updated to new pink
+
+// =============================================================================
+// TEXT COLORS (Dark gray tones for clear contrast on light backgrounds)
+// =============================================================================
+$text-white: #1b1f24; // From user's palette - darkest for titles
+$text-primary: #1b1f24; // Primary text color - very dark gray
+$text-secondary: #2d3748; // From user's palette - secondary text
+$text-tertiary: #475569; // From user's palette - tertiary text
+$text-muted: #64748b; // Slightly lighter for muted text
+$text-light: #94a3b8; // Light gray for subtle text
+$text-lighter: #cbd5e1; // Even lighter for disabled states
+$text-lightest: #e2e8f0; // Lightest for borders/dividers
+$text-accent: $primary;
+
+// =============================================================================
+// BUTTON COLORS
+// =============================================================================
+$button-pause-bg: transparent;
+$button-pause-text: #92400e; // Very dark yellow for light mode
+$button-pause-border: #92400e;
+
+// Status text
+$status-paused-text: #92400e; // Very dark yellow for light mode
+
+// =============================================================================
+// PREMIUM / GOLD COLORS
+// =============================================================================
+$premium-gold: #f5b800;
+$premium-gold-light: #ffca28;
+$premium-gold-05: rgba(245, 184, 0, 0.05);
+$premium-gold-10: rgba(245, 184, 0, 0.1);
+$premium-gold-20: rgba(245, 184, 0, 0.2);
+$premium-gold-30: rgba(245, 184, 0, 0.3);
+$premium-gold-90: rgba(245, 184, 0, 0.9);
+
+// =============================================================================
+// PARTICLE / ANIMATION COLORS (Softer, muted particles)
+// =============================================================================
+$particle-1: rgba(107, 163, 217, 0.35); // Muted blue
+$particle-2: rgba(142, 146, 219, 0.3); // Muted purple
+$particle-3: rgba(126, 205, 224, 0.3); // Muted cyan
+$particle-4: rgba(169, 159, 242, 0.3); // Muted lavender
+
+// =============================================================================
+// SHADOW COLORS (for box-shadow) - Softer shadows for light mode
+// =============================================================================
+$shadow-black-10: rgba(0, 0, 0, 0.06);
+$shadow-black-12: rgba(0, 0, 0, 0.08);
+$shadow-black-15: rgba(0, 0, 0, 0.1);
+$shadow-black-20: rgba(0, 0, 0, 0.12);
+$shadow-black-30: rgba(0, 0, 0, 0.15);
+$shadow-black-50: rgba(0, 0, 0, 0.22);
+$shadow-black-80: rgba(0, 0, 0, 0.35);
+
+// Primary color shadows (updated to new primary)
+$shadow-primary-15: rgba(108, 179, 179, 0.15);
+$shadow-primary-20: rgba(108, 179, 179, 0.2);
+$shadow-primary-30: rgba(108, 179, 179, 0.25);
+$shadow-primary-40: rgba(108, 179, 179, 0.3);
+$shadow-primary-60: rgba(108, 179, 179, 0.4);
+$shadow-primary-80: rgba(108, 179, 179, 0.5);
+
+// Gold shadows
+$shadow-gold-30: rgba(245, 184, 0, 0.22);
+$shadow-gold-20: rgba(245, 184, 0, 0.18);
+
+// Pink shadows (updated to new pink)
+$shadow-pink-30: rgba(230, 128, 184, 0.22);
+$shadow-pink-60: rgba(230, 128, 184, 0.35);
+
+// Orange shadow (updated to new orange)
+$shadow-orange-40: rgba(232, 165, 78, 0.28);
+
+// White shadows for inset
+$shadow-white-10: rgba(0, 0, 0, 0.06);
+$shadow-white-15: rgba(0, 0, 0, 0.08);
+$shadow-white-20: rgba(0, 0, 0, 0.1);
+$shadow-white-30: rgba(0, 0, 0, 0.15);
+
+// =============================================================================
+// MOON / SPECIAL COLORS (for splash screen) - Softer tones
+// =============================================================================
+$moon-light: #fdfbf5; // Softer cream
+$moon-light-alt: #f5f0e8; // Warmer cream
+
+// =============================================================================
+// GRADIENT DEFINITIONS (Natural, blended gradients - no harsh whites)
+// =============================================================================
+$gradient-primary: linear-gradient(45deg, $primary, $secondary);
+$gradient-gold: linear-gradient(45deg, #e8ad00, #f5c84e); // Softer gold
+$gradient-modal: linear-gradient(
+  145deg,
+  $bg-modal-blue-1 0%,
+  $bg-modal-blue-2 100%
+);
+$gradient-card: linear-gradient(
+  145deg,
+  $bg-modal-blue-2 0%,
+  $bg-modal-blue-3 100%
+);
+$gradient-button: linear-gradient(135deg, $primary, $accent-light-cyan);
+$gradient-moon: linear-gradient(145deg, $moon-light, $moon-light-alt);
+
+// =============================================================================
+// FILTER DROP-SHADOW COLORS
+// =============================================================================
+// These are used in filter: drop-shadow() CSS properties
+// Note: drop-shadow uses a different syntax than box-shadow
+
+// Primary drop shadows
+$drop-shadow-primary-30: drop-shadow(0 0 5px $primary-30);
+$drop-shadow-primary-40: drop-shadow(0 0 8px $primary-40);
+$drop-shadow-primary-50: drop-shadow(0 0 10px $primary-50);
+$drop-shadow-primary-60: drop-shadow(0 0 15px $primary-60);
+$drop-shadow-primary-80: drop-shadow(0 0 20px $primary-80);
+
+// Pink drop shadows
+$drop-shadow-pink-60: drop-shadow(0 0 8px rgba(255, 142, 201, 0.5));
+
+// White drop shadows
+$drop-shadow-white-10: drop-shadow(0 0 4px rgba(0, 0, 0, 0.1));
+
+// Black drop shadows
+$drop-shadow-black-20: drop-shadow(0 1px 3px $shadow-black-20);
+
+// Gold drop shadow
+$drop-shadow-gold-50: drop-shadow(0 0 10px rgba(245, 184, 0, 0.4));
+$drop-shadow-gold-80: drop-shadow(0 0 20px rgba(245, 184, 0, 0.6));
+
+// =============================================================================
+// TEXT SHADOW COLORS
+// =============================================================================
+// Primary text shadows
+$text-shadow-primary-20: 0 0 10px $primary-20;
+$text-shadow-primary-30: 0 0 6px $primary-30;
+$text-shadow-primary-40: 0 0 20px $primary-40;
+$text-shadow-primary-50: 0 0 20px $primary-50;
+$text-shadow-primary-80: 0 0 30px $primary-80;
+
+// Orange text shadow
+$text-shadow-orange: 0 0 10px $shadow-orange-40;
+
+// Other text shadows
+$text-shadow-primary-60: 0 0 20px $primary-60;
+$text-shadow-primary-glow: 0 0 8px $primary-30;
+
+// =============================================================================
+// BACKDROP FILTER VALUES
+// =============================================================================
+$backdrop-blur-light: blur(3px);
+$backdrop-blur-medium: blur(10px);
+$backdrop-blur-strong: blur(20px);
+$backdrop-blur-extra: blur(25px);
+$backdrop-saturate: saturate(180%);
+$backdrop-glass: blur(20px) saturate(180%);
+$backdrop-footer: blur(25px) saturate(180%);
+
+// =============================================================================
+// RADIAL GRADIENT COLORS (for background effects) - Very subtle
+// =============================================================================
+$radial-primary-30: radial-gradient(circle, $primary-30 0%, transparent 70%);
+$radial-blue-subtle: radial-gradient(
+  circle at 20% 80%,
+  $accent-blue-02 0%,
+  transparent 65%
+);
+$radial-purple-subtle: radial-gradient(
+  circle at 80% 20%,
+  $accent-purple-03 0%,
+  transparent 65%
+);
+$radial-cyan-subtle: radial-gradient(
+  circle at 40% 40%,
+  $accent-cyan-015 0%,
+  transparent 75%
+);
+$radial-violet-subtle: radial-gradient(
+  circle at 60% 70%,
+  $accent-violet-02 0%,
+  transparent 55%
+);
+
+// =============================================================================
+// EXPORT FOR BACKWARDS COMPATIBILITY
+// =============================================================================
+// Keep old variable names for existing code
+$primary-color: $primary;
+$primary-color-light: $primary-light;
+$primary-color-lighter: $primary-lighter;
+$primary-color-dark: $primary-dark;
+$secondary-color: $secondary;
+$secondary-color-light: $secondary-light;
+$bg-primary: $bg-primary;
+$bg-secondary: $bg-secondary;
+$bg-tertiary: $bg-tertiary;
+$bg-quaternary: $bg-quaternary;
+$card-bg-primary: $card-bg-primary;
+$card-bg-secondary: $card-bg-secondary;
+$card-bg-premium: $card-bg-premium;
+$card-border: $border-white-10;
+$card-border-selected: $border-primary-selected;
+$text-primary: $text-primary;
+$text-secondary: $text-secondary;
+$text-muted: $text-muted;
+$text-accent: $text-accent;
+$premium-gold: $premium-gold;
+$premium-gold-light: $premium-gold-30;
+$particle-color-1: $particle-1;
+$particle-color-2: $particle-2;
+$particle-color-3: $particle-3;
+$particle-color-4: $particle-4;

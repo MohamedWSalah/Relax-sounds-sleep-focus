@@ -1,0 +1,322 @@
+// =============================================================================
+// SLEEP CALM SOUNDS - DARK THEME VARIABLES
+// =============================================================================
+// This file contains ALL color variables used throughout the app
+// Organized by category for easy maintenance and consistency
+// =============================================================================
+
+// =============================================================================
+// PRIMARY COLORS
+// =============================================================================
+$primary: #6fffe9;
+$primary-light: rgba(111, 255, 233, 0.3);
+$primary-lighter: rgba(111, 255, 233, 0.1);
+$primary-dark: #5bc0be;
+
+// Primary color variations (different opacity levels)
+$primary-02: rgba(111, 255, 233, 0.02);
+$primary-05: rgba(111, 255, 233, 0.05);
+$primary-08: rgba(111, 255, 233, 0.08);
+$primary-10: rgba(111, 255, 233, 0.1);
+$primary-12: rgba(111, 255, 233, 0.12);
+$primary-15: rgba(111, 255, 233, 0.15);
+$primary-19: rgba(111, 255, 233, 0.19);
+$primary-20: rgba(111, 255, 233, 0.2);
+$primary-25: rgba(111, 255, 233, 0.25);
+$primary-30: rgba(111, 255, 233, 0.3);
+$primary-40: rgba(111, 255, 233, 0.4);
+$primary-50: rgba(111, 255, 233, 0.5);
+$primary-60: rgba(111, 255, 233, 0.6);
+$primary-80: rgba(111, 255, 233, 0.8);
+
+// =============================================================================
+// SECONDARY COLORS
+// =============================================================================
+$secondary: #5bc0be;
+$secondary-light: rgba(91, 192, 190, 0.3);
+$secondary-40: rgba(91, 192, 190, 0.4);
+$secondary-60: rgba(91, 192, 190, 0.6);
+
+// =============================================================================
+// ACCENT COLORS
+// =============================================================================
+$accent-blue: #93c5fd;
+$accent-purple: #818cf8;
+$accent-cyan: #a5f3fc;
+$accent-violet: #c4b5fd;
+$accent-pink: #ff69b4;
+$accent-orange: #ffa726;
+$accent-light-cyan: #4fc3f7;
+
+// Accent color variations
+$accent-blue-02: rgba(147, 197, 253, 0.02);
+$accent-blue-03: rgba(147, 197, 253, 0.03);
+$accent-purple-03: rgba(129, 140, 248, 0.03);
+$accent-purple-10: rgba(129, 140, 248, 0.1);
+$accent-cyan-015: rgba(165, 243, 252, 0.015);
+$accent-violet-02: rgba(196, 181, 253, 0.02);
+$accent-pink-20: rgba(255, 105, 180, 0.2);
+$accent-pink-40: rgba(255, 105, 180, 0.4);
+$accent-pink-80: rgba(255, 105, 180, 0.8);
+
+// Deep purple/indigo for backgrounds
+$deep-purple: rgba(138, 43, 226, 0.1);
+$deep-indigo: rgba(75, 0, 130, 0.05);
+
+// =============================================================================
+// BACKGROUND COLORS
+// =============================================================================
+$bg-primary: #0a0e1a;
+$bg-secondary: #1a2332;
+$bg-tertiary: #2d3748;
+$bg-quaternary: #4a5568;
+
+// Modal and overlay backgrounds
+$bg-modal-dark: rgba(11, 19, 43, 0.9);
+$bg-modal-blue-1: #1b2a49;
+$bg-modal-blue-2: #2a3f5f;
+$bg-modal-blue-3: #3a4a6b;
+$bg-toast: rgb(56, 105, 98);
+$bg-very-dark: #0b132b;
+$bg-dark: #1a1a1a;
+
+// =============================================================================
+// GLASS MORPHISM / CARD BACKGROUNDS
+// =============================================================================
+$glass-white-04: rgba(255, 255, 255, 0.04);
+$glass-white-06: rgba(255, 255, 255, 0.06);
+$glass-white-08: rgba(255, 255, 255, 0.08);
+$glass-white-10: rgba(255, 255, 255, 0.1);
+$glass-white-12: rgba(255, 255, 255, 0.12);
+$glass-white-15: rgba(255, 255, 255, 0.15);
+$glass-white-18: rgba(255, 255, 255, 0.18);
+$glass-white-20: rgba(255, 255, 255, 0.2);
+
+// Card-specific backgrounds
+$card-bg-primary: rgba(27, 42, 73, 0.8);
+$card-bg-secondary: rgba(42, 63, 95, 0.9);
+$card-bg-premium: rgba(58, 74, 107, 0.95);
+
+// =============================================================================
+// BORDER COLORS
+// =============================================================================
+$border-white-08: rgba(255, 255, 255, 0.08);
+$border-white-10: rgba(255, 255, 255, 0.1);
+$border-white-12: rgba(255, 255, 255, 0.12);
+$border-white-18: rgba(255, 255, 255, 0.18);
+$border-white-20: rgba(255, 255, 255, 0.2);
+$border-primary: rgba(111, 255, 233, 0.2);
+$border-primary-30: rgba(111, 255, 233, 0.3);
+$border-primary-selected: rgba(111, 255, 233, 0.5);
+$border-pink: rgba(255, 105, 180, 0.4);
+
+// =============================================================================
+// TEXT COLORS
+// =============================================================================
+$text-white: #ffffff;
+$text-primary: #ffffff;
+$text-secondary: rgba(255, 255, 255, 0.9);
+$text-tertiary: rgba(255, 255, 255, 0.8);
+$text-muted: rgba(255, 255, 255, 0.7);
+$text-light: rgba(255, 255, 255, 0.6);
+$text-lighter: rgba(255, 255, 255, 0.5);
+$text-lightest: rgba(255, 255, 255, 0.4);
+$text-accent: $primary;
+
+// =============================================================================
+// BUTTON COLORS
+// =============================================================================
+$button-pause-bg: transparent;
+$button-pause-text: $primary;
+$button-pause-border: $primary-30;
+
+// Status text
+$status-paused-text: $accent-orange;
+
+// =============================================================================
+// PREMIUM / GOLD COLORS
+// =============================================================================
+$premium-gold: #ffd700;
+$premium-gold-light: #ffed4e;
+$premium-gold-05: rgba(255, 215, 0, 0.05);
+$premium-gold-10: rgba(255, 215, 0, 0.1);
+$premium-gold-20: rgba(255, 215, 0, 0.2);
+$premium-gold-30: rgba(255, 215, 0, 0.3);
+$premium-gold-90: rgba(255, 215, 0, 0.9);
+
+// =============================================================================
+// PARTICLE / ANIMATION COLORS
+// =============================================================================
+$particle-1: rgba(147, 197, 253, 0.4);
+$particle-2: rgba(129, 140, 248, 0.3);
+$particle-3: rgba(165, 243, 252, 0.3);
+$particle-4: rgba(196, 181, 253, 0.3);
+
+// =============================================================================
+// SHADOW COLORS (for box-shadow)
+// =============================================================================
+$shadow-black-10: rgba(0, 0, 0, 0.1);
+$shadow-black-12: rgba(0, 0, 0, 0.12);
+$shadow-black-15: rgba(0, 0, 0, 0.15);
+$shadow-black-20: rgba(0, 0, 0, 0.2);
+$shadow-black-30: rgba(0, 0, 0, 0.3);
+$shadow-black-50: rgba(0, 0, 0, 0.5);
+$shadow-black-80: rgba(0, 0, 0, 0.8);
+
+// Primary color shadows
+$shadow-primary-15: rgba(111, 255, 233, 0.15);
+$shadow-primary-20: rgba(111, 255, 233, 0.2);
+$shadow-primary-30: rgba(111, 255, 233, 0.3);
+$shadow-primary-40: rgba(111, 255, 233, 0.4);
+$shadow-primary-60: rgba(111, 255, 233, 0.6);
+$shadow-primary-80: rgba(111, 255, 233, 0.8);
+
+// Gold shadows
+$shadow-gold-30: rgba(255, 215, 0, 0.3);
+$shadow-gold-20: rgba(255, 215, 0, 0.2);
+
+// Pink shadows
+$shadow-pink-30: rgba(255, 105, 180, 0.3);
+$shadow-pink-60: rgba(255, 105, 180, 0.6);
+
+// Orange shadow
+$shadow-orange-40: rgba(255, 167, 38, 0.4);
+
+// White shadows for inset
+$shadow-white-10: rgba(255, 255, 255, 0.1);
+$shadow-white-15: rgba(255, 255, 255, 0.15);
+$shadow-white-20: rgba(255, 255, 255, 0.2);
+$shadow-white-30: rgba(255, 255, 255, 0.3);
+
+// =============================================================================
+// MOON / SPECIAL COLORS (for splash screen)
+// =============================================================================
+$moon-light: #f8f8f8;
+$moon-light-alt: #e8e8e8;
+
+// =============================================================================
+// GRADIENT DEFINITIONS
+// =============================================================================
+$gradient-primary: linear-gradient(45deg, $primary, $secondary);
+$gradient-gold: linear-gradient(45deg, $premium-gold, $premium-gold-light);
+$gradient-modal: linear-gradient(
+  145deg,
+  $bg-modal-blue-1 0%,
+  $bg-modal-blue-2 100%
+);
+$gradient-card: linear-gradient(
+  145deg,
+  $bg-modal-blue-2 0%,
+  $bg-modal-blue-3 100%
+);
+$gradient-button: linear-gradient(135deg, $primary, $accent-light-cyan);
+$gradient-moon: linear-gradient(145deg, $moon-light, $moon-light-alt);
+
+// =============================================================================
+// FILTER DROP-SHADOW COLORS
+// =============================================================================
+// These are used in filter: drop-shadow() CSS properties
+// Note: drop-shadow uses a different syntax than box-shadow
+
+// Primary drop shadows
+$drop-shadow-primary-30: drop-shadow(0 0 5px $primary-30);
+$drop-shadow-primary-40: drop-shadow(0 0 8px $primary-40);
+$drop-shadow-primary-50: drop-shadow(0 0 10px $primary-50);
+$drop-shadow-primary-60: drop-shadow(0 0 15px $primary-60);
+$drop-shadow-primary-80: drop-shadow(0 0 20px $primary-80);
+
+// Pink drop shadows
+$drop-shadow-pink-60: drop-shadow(0 0 8px rgba(255, 105, 180, 0.6));
+
+// White drop shadows
+$drop-shadow-white-10: drop-shadow(0 0 4px rgba(255, 255, 255, 0.1));
+
+// Black drop shadows
+$drop-shadow-black-20: drop-shadow(0 1px 3px $shadow-black-20);
+
+// Gold drop shadow
+$drop-shadow-gold-50: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+$drop-shadow-gold-80: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
+
+// =============================================================================
+// TEXT SHADOW COLORS
+// =============================================================================
+// Primary text shadows
+$text-shadow-primary-20: 0 0 10px $primary-20;
+$text-shadow-primary-30: 0 0 6px $primary-30;
+$text-shadow-primary-40: 0 0 20px $primary-40;
+$text-shadow-primary-50: 0 0 20px $primary-50;
+$text-shadow-primary-80: 0 0 30px $primary-80;
+
+// Orange text shadow
+$text-shadow-orange: 0 0 10px $shadow-orange-40;
+
+// Other text shadows
+$text-shadow-primary-60: 0 0 20px $primary-60;
+$text-shadow-primary-glow: 0 0 8px $primary-30;
+
+// =============================================================================
+// BACKDROP FILTER VALUES
+// =============================================================================
+$backdrop-blur-light: blur(3px);
+$backdrop-blur-medium: blur(10px);
+$backdrop-blur-strong: blur(20px);
+$backdrop-blur-extra: blur(25px);
+$backdrop-saturate: saturate(180%);
+$backdrop-glass: blur(20px) saturate(180%);
+$backdrop-footer: blur(5px);
+
+// =============================================================================
+// RADIAL GRADIENT COLORS (for background effects)
+// =============================================================================
+$radial-primary-30: radial-gradient(circle, $primary-30 0%, transparent 70%);
+$radial-blue-subtle: radial-gradient(
+  circle at 20% 80%,
+  $accent-blue-02 0%,
+  transparent 60%
+);
+$radial-purple-subtle: radial-gradient(
+  circle at 80% 20%,
+  $accent-purple-03 0%,
+  transparent 60%
+);
+$radial-cyan-subtle: radial-gradient(
+  circle at 40% 40%,
+  $accent-cyan-015 0%,
+  transparent 70%
+);
+$radial-violet-subtle: radial-gradient(
+  circle at 60% 70%,
+  $accent-violet-02 0%,
+  transparent 50%
+);
+
+// =============================================================================
+// EXPORT FOR BACKWARDS COMPATIBILITY
+// =============================================================================
+// Keep old variable names for existing code
+$primary-color: $primary;
+$primary-color-light: $primary-light;
+$primary-color-lighter: $primary-lighter;
+$primary-color-dark: $primary-dark;
+$secondary-color: $secondary;
+$secondary-color-light: $secondary-light;
+$bg-primary: $bg-primary;
+$bg-secondary: $bg-secondary;
+$bg-tertiary: $bg-tertiary;
+$bg-quaternary: $bg-quaternary;
+$card-bg-primary: $card-bg-primary;
+$card-bg-secondary: $card-bg-secondary;
+$card-bg-premium: $card-bg-premium;
+$card-border: $border-white-10;
+$card-border-selected: $border-primary-selected;
+$text-primary: $text-primary;
+$text-secondary: $text-secondary;
+$text-muted: $text-muted;
+$text-accent: $text-accent;
+$premium-gold: $premium-gold;
+$premium-gold-light: $premium-gold-30;
+$particle-color-1: $particle-1;
+$particle-color-2: $particle-2;
+$particle-color-3: $particle-3;
+$particle-color-4: $particle-4;
