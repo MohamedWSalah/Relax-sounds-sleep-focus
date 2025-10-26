@@ -6,7 +6,9 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonIcon, IonToggle } from '@ionic/angular/standalone';
+import { ModalController } from '@ionic/angular';
 import { ThemeService } from '../../services/theme.service';
+import { SleepStatisticsModalComponent } from '../../components/sleep-statistics-modal/sleep-statistics-modal.component';
 
 @Component({
   selector: 'app-settings',
@@ -17,6 +19,7 @@ import { ThemeService } from '../../services/theme.service';
 })
 export class SettingsPage {
   private themeService = inject(ThemeService);
+  private modalController = inject(ModalController);
 
   // Computed signal for theme state
   isDarkMode = computed(() => this.themeService.currentTheme() === 'dark');
@@ -27,5 +30,17 @@ export class SettingsPage {
   toggleTheme(event: CustomEvent): void {
     const isChecked = event.detail.checked;
     this.themeService.setTheme(isChecked ? 'dark' : 'light');
+  }
+
+  /**
+   * Open sleep statistics modal
+   */
+  async openSleepStatistics(): Promise<void> {
+    const modal = await this.modalController.create({
+      component: SleepStatisticsModalComponent,
+      cssClass: 'sleep-stats-modal',
+    });
+
+    await modal.present();
   }
 }

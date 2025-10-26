@@ -27,4 +27,21 @@
       color="primary"
     ></ion-toggle>
   </div>
+
+  <!-- Sleep Tracking Section -->
+  <div class="section-header">
+    <ion-icon name="bed-outline" class="section-icon"></ion-icon>
+    <h3>Sleep Tracking</h3>
+  </div>
+
+  <div class="setting-card" (click)="openSleepStatistics()">
+    <div class="setting-info">
+      <div class="setting-label">
+        <ion-icon name="bar-chart-outline" class="setting-icon"></ion-icon>
+        <span class="setting-name">Sleep Statistics</span>
+      </div>
+      <p class="setting-description">View your sleep duration history</p>
+    </div>
+    <ion-icon name="chevron-forward-outline" class="arrow-icon"></ion-icon>
+  </div>
 </div>

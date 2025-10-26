@@ -1,0 +1,48 @@
+<div class="stats-modal-content">
+  <!-- Header -->
+  <div class="stats-header">
+    <h2>Listening Statistics</h2>
+    <p class="stats-subtitle">Last 7 days</p>
+  </div>
+
+  <!-- Chart Container -->
+  <div class="chart-container">
+    <canvas #chartCanvas></canvas>
+  </div>
+
+  <!-- Summary -->
+  <div class="stats-summary">
+    <div class="summary-card">
+      <div class="summary-icon">
+        <ion-icon name="headset-outline"></ion-icon>
+      </div>
+      <div class="summary-content">
+        <span class="summary-label">Total Listening Time This Week</span>
+        <span class="summary-value">
+          @if (animatedWeekHours() > 0) {
+          {{ animatedWeekHours() }}h } {{ animatedWeekMinutes() }}m
+        </span>
+      </div>
+    </div>
+
+    <div class="summary-card all-time-card">
+      <div class="summary-icon">
+        <ion-icon name="trophy-outline"></ion-icon>
+      </div>
+      <div class="summary-content">
+        <span class="summary-label">Total Listening (All Time)</span>
+        <span class="summary-value">
+          @if (animatedAllTimeHours() > 0) {
+          {{ animatedAllTimeHours() }}h } {{ animatedAllTimeMinutes() }}m
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Close Button -->
+  <div class="stats-footer">
+    <ion-button expand="block" (click)="close()" class="close-button">
+      Close
+    </ion-button>
+  </div>
+</div>
