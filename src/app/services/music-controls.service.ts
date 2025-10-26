@@ -38,7 +38,7 @@ export class MusicControlsService {
 
     return {
       track: trackName,
-      artist: 'Sleep Calm Sounds',
+      artist: 'Relax Calm Sounds',
       ticker:
         playingSounds.length > 1
           ? `${playingSounds.length} sounds playing`

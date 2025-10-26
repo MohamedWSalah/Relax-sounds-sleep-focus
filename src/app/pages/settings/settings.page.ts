@@ -33,12 +33,12 @@ export class SettingsPage {
   }
 
   /**
-   * Open sleep statistics modal
+   * Open listening statistics modal
    */
-  async openSleepStatistics(): Promise<void> {
+  async openListeningStatistics(): Promise<void> {
     const modal = await this.modalController.create({
       component: SleepStatisticsModalComponent,
-      cssClass: 'sleep-stats-modal',
+      cssClass: 'listening-stats-modal',
     });
 
     await modal.present();

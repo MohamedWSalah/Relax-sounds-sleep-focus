@@ -31,11 +31,11 @@ export class SleepStatisticsModalComponent
   chartCanvas!: ElementRef<HTMLCanvasElement>;
 
   private modalController = inject(ModalController);
-  private sleepStats = inject(SleepStatisticsService);
+  private listeningStats = inject(SleepStatisticsService);
 
-  last7Days = this.sleepStats.last7Days;
-  totalWeekSleep = this.sleepStats.totalWeekSleep;
-  totalAllTime = this.sleepStats.totalAllTime;
+  last7Days = this.listeningStats.last7Days;
+  totalWeek = this.listeningStats.totalWeekSleep;
+  totalAllTime = this.listeningStats.totalAllTime;
 
   // Animated values for counting effect
   animatedWeekHours = signal(0);
@@ -70,8 +70,8 @@ export class SleepStatisticsModalComponent
   }
 
   private animateCounters(): void {
-    const targetWeekHours = this.totalWeekSleep().hours;
-    const targetWeekMinutes = this.totalWeekSleep().minutes;
+    const targetWeekHours = this.totalWeek().hours;
+    const targetWeekMinutes = this.totalWeek().minutes;
     const targetAllTimeHours = this.totalAllTime().hours;
     const targetAllTimeMinutes = this.totalAllTime().minutes;
 
@@ -114,7 +114,7 @@ export class SleepStatisticsModalComponent
     if (!ctx) return;
 
     const data = this.last7Days();
-    const labels = data.map((d) => this.sleepStats.getDayLabel(d.date));
+    const labels = data.map((d) => this.listeningStats.getDayLabel(d.date));
     const durations = data.map((d) => d.seconds / 3600); // Convert seconds to hours
 
     // Get theme colors

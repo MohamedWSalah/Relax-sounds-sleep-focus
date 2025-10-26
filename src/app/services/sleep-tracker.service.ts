@@ -14,7 +14,7 @@ export interface ListeningStorageData {
   providedIn: 'root',
 })
 export class SleepTrackerService {
-  private readonly STORAGE_KEY = 'sleep_listening_data';
+  private readonly STORAGE_KEY = 'listening_data';
   private soundsService = inject(SoundsService);
 
   // Track the current session time (seconds)
