@@ -26,7 +26,12 @@
 
     <!-- Mixes Tab -->
     <div [style.display]="activeTab() === 'mixes' ? 'block' : 'none'">
-      <app-mixes></app-mixes>
+      <app-mixes
+        (mixLoaded)="onMixLoaded($event)"
+        (mixPaused)="onMixPaused()"
+        (startCreating)="onStartCreating()"
+      >
+      </app-mixes>
     </div>
 
     <!-- Settings Tab -->
@@ -36,6 +41,11 @@
   </div>
 
   <!-- Navigation Footer -->
-  <moon-footer [activeTab]="activeTab()" (tabChanged)="onTabChanged($event)">
+  <moon-footer
+    [activeTab]="activeTab()"
+    [isPlaying]="isPlaying()"
+    (tabChanged)="onTabChanged($event)"
+    (playPauseClicked)="onPlayPauseClicked()"
+  >
   </moon-footer>
 </ion-content>

@@ -41,6 +41,8 @@ export class SoundsService {
     });
   }
 
+  #isPlaying = signal<boolean>(false);
+
   #sounds = signal<Sound[]>([
     {
       id: 'rain',
@@ -249,6 +251,14 @@ export class SoundsService {
 
   sounds = computed(() => this.#sounds());
   selectedCategory = computed(() => this.#selectedCategory());
+  isPlaying = computed(() => this.#isPlaying());
+
+  // Get currently playing sounds for saving mixes
+  playingSounds = computed(() =>
+    this.#sounds()
+      .filter((sound) => sound.selected)
+      .map((sound) => ({ id: sound.id, volume: sound.volume }))
+  );
 
   // Dynamic categories that include Favorites if there are any
   categories = computed(() => {
@@ -380,6 +390,9 @@ export class SoundsService {
 
     // Resume all other selected sounds that might be paused
     this.#resumeAllSelectedSounds();
+
+    // Update playing state
+    this.#isPlaying.set(true);
   }
 
   stopSound(sound: Sound): void {
@@ -444,10 +457,19 @@ export class SoundsService {
 
     // Force update the signals to ensure consistency
     this.#sounds.set([...sounds]);
+
+    // Update playing state
+    this.#isPlaying.set(false);
   }
 
   resumeAllSounds(): void {
     const sounds = this.#sounds();
+    const hasSelectedSounds = sounds.some((sound) => sound.selected);
+
+    if (!hasSelectedSounds) {
+      return; // No sounds to resume
+    }
+
     sounds.forEach((sound) => {
       if (sound.selected && sound.audio && sound.audio.paused) {
         sound.audio.play().catch((error) => {
@@ -457,6 +479,9 @@ export class SoundsService {
     });
     // Force update the signals to ensure consistency
     this.#sounds.set([...sounds]);
+
+    // Update playing state
+    this.#isPlaying.set(true);
   }
 
   stopAllSounds(): void {
@@ -481,6 +506,9 @@ export class SoundsService {
     // Notify music controls service about the change
     const playingSounds = this.#sounds().filter((sound) => sound.selected);
     this.#musicControlsService.updatePlayingState(playingSounds);
+
+    // Update playing state
+    this.#isPlaying.set(false);
   }
 
   setVolume(
@@ -521,6 +549,26 @@ export class SoundsService {
         sound.audio.play().catch((error) => {
           console.warn(`Failed to resume sound: ${sound.name}`, error);
         });
+      }
+    });
+  }
+
+  // Load a mix - stop current sounds and play mix sounds
+  loadMix(mixSounds: { id: string; volume: number }[]): void {
+    // First, stop all currently playing sounds
+    this.stopAllSounds();
+
+    // Then, play each sound from the mix
+    const currentSounds = this.#sounds();
+    mixSounds.forEach(({ id, volume }) => {
+      const sound = currentSounds.find((s) => s.id === id);
+      if (sound) {
+        // Set the volume first (convert from 0-1 to 0-100 for setVolume)
+        this.setVolume(sound, volume * 100);
+        // Then toggle the sound on
+        if (!sound.selected) {
+          this.toggleSound(sound);
+        }
       }
     });
   }

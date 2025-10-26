@@ -29,6 +29,18 @@ import { IonIcon } from '@ionic/angular/standalone';
       <span class="nav-label">Timer</span>
     </button>
 
+    <!-- Central Play/Pause Button -->
+    <button
+      class="main-play-button"
+      [class.playing]="isPlaying()"
+      (click)="onPlayPauseClick()"
+    >
+      <ion-icon
+        [name]="isPlaying() ? 'pause' : 'play'"
+        class="main-play-icon"
+      ></ion-icon>
+    </button>
+
     <button
       class="nav-item"
       [class.active]="activeTab() === 'mixes'"
@@ -52,9 +64,15 @@ import { IonIcon } from '@ionic/angular/standalone';
 })
 export class Footer {
   activeTab = input<'sounds' | 'timer' | 'mixes' | 'settings'>('sounds');
+  isPlaying = input<boolean>(false);
   tabChanged = output<'sounds' | 'timer' | 'mixes' | 'settings'>();
+  playPauseClicked = output<void>();
 
   onTabClick(tab: 'sounds' | 'timer' | 'mixes' | 'settings') {
     this.tabChanged.emit(tab);
+  }
+
+  onPlayPauseClick() {
+    this.playPauseClicked.emit();
   }
 }

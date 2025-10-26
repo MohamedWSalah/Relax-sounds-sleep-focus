@@ -2,18 +2,7 @@
 @use "../../../theme/dark-theme.scss" as *;
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
-// Dynamic text colors that change with theme
-:host {
-  --page-text-primary: #{$text-white};
-  --page-text-secondary: #{$text-secondary};
-  --page-text-muted: #{$text-muted};
-}
-
-:host-context(body.light) {
-  --page-text-primary: #1b1f24;
-  --page-text-secondary: #2d3748;
-  --page-text-muted: #64748b;
-}
+// Text colors now managed globally in theme-variables.scss
 
 .home-content {
   font-family: "Poppins", sans-serif;
@@ -91,36 +80,32 @@
     align-items: center;
     gap: 0.25rem;
     padding: 0.75rem 1rem;
-    background: $glass-white-08;
+    background: var(--sound-card-bg);
     border-radius: 1rem;
     cursor: pointer;
     transition: all 0.3s ease;
-    border: 1px solid $border-white-18;
+    border: 1px solid var(--sound-card-border);
     backdrop-filter: $backdrop-glass;
     -webkit-backdrop-filter: $backdrop-glass;
     box-shadow: 0 4px 16px $shadow-black-10, inset 0 1px 0 $shadow-white-20;
     min-width: 80px;
     flex-shrink: 0;
 
-    // Light mode glass effect (css.glass style)
+    // Light mode glass effect
     :host-context(body.light) & {
-      background: rgba(111, 255, 233, 0.19);
-      border-radius: 16px;
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
       backdrop-filter: blur(3px);
       -webkit-backdrop-filter: blur(3px);
     }
 
     &:hover {
-      background: $primary-12;
-      border-color: $primary-25;
+      background: var(--sound-card-hover-bg);
+      border-color: var(--sound-card-hover-border);
       transform: translateY(-2px);
       box-shadow: 0 8px 24px $shadow-primary-15, inset 0 1px 0 $primary-25;
 
       // Light mode hover state
       :host-context(body.light) & {
-        background: rgba(111, 255, 233, 0.3);
-        border-color: rgba(61, 139, 138, 0.3);
         box-shadow: 0 4px 30px rgba(0, 0, 0, 0.12);
         backdrop-filter: blur(4px);
         -webkit-backdrop-filter: blur(4px);
@@ -128,15 +113,13 @@
     }
 
     &.active {
-      background: $primary-15;
-      border-color: $primary-40;
+      background: var(--sound-card-active-bg);
+      border-color: var(--sound-card-active-border);
       box-shadow: 0 8px 24px $shadow-primary-20, inset 0 1px 0 $primary-30,
         inset 0 -1px 0 $primary-10;
 
       // Light mode active state
       :host-context(body.light) & {
-        background: rgba(61, 139, 138, 0.25);
-        border-color: rgba(61, 139, 138, 0.4);
         box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
         backdrop-filter: blur(5px);
         -webkit-backdrop-filter: blur(5px);
@@ -191,13 +174,13 @@
 
 .sound-card {
   // Glass morphism background
-  background: $glass-white-06;
+  background: var(--sound-card-bg);
   border-radius: 1rem;
   padding: 0.4rem;
   text-align: center;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid $border-white-18;
+  border: 1px solid var(--sound-card-border);
   box-shadow: 0 8px 32px $shadow-black-12, inset 0 1px 0 $shadow-white-20,
     inset 0 -1px 0 $shadow-white-10;
   position: relative;
@@ -212,10 +195,8 @@
   user-select: none;
   aspect-ratio: 1;
 
-  // Light mode glass effect (css.glass style)
+  // Light mode glass effect
   :host-context(body.light) & {
-    background: rgba(111, 255, 233, 0.19);
-    border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(3px);
     -webkit-backdrop-filter: blur(3px);
@@ -252,7 +233,7 @@
       border-radius: 1rem;
     }
 
-    // Light mode premium state with glass effect
+    // Light mode premium state
     :host-context(body.light) & {
       background: rgba(245, 184, 0, 0.15);
       border-color: rgba(245, 184, 0, 0.4);
@@ -264,8 +245,8 @@
 
   // Selected state
   &.selected {
-    background: $primary-12;
-    border-color: $primary-40;
+    background: var(--sound-card-active-bg);
+    border-color: var(--sound-card-active-border);
     box-shadow: 0 12px 40px $shadow-primary-15, inset 0 1px 0 $primary-30,
       inset 0 -1px 0 $primary-10, 0 0 20px $shadow-primary-20;
 
@@ -285,10 +266,8 @@
       border-radius: 1rem;
     }
 
-    // Light mode selected state with glass effect
+    // Light mode selected state
     :host-context(body.light) & {
-      background: rgba(61, 139, 138, 0.25);
-      border-color: rgba(61, 139, 138, 0.4);
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
       backdrop-filter: blur(5px);
       -webkit-backdrop-filter: blur(5px);
@@ -520,5 +499,71 @@
   100% {
     transform: translateY(0);
     opacity: 1;
+  }
+}
+
+// Save Mix Floating Action Button
+.save-mix-fab {
+  position: fixed;
+  bottom: calc(100px + env(safe-area-inset-bottom));
+  right: 1.5rem;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 1.5rem;
+  background: var(--fab-bg);
+  border: none;
+  border-radius: 2rem;
+  box-shadow: var(--fab-shadow);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fabSlideIn 0.4s ease-out;
+
+  .fab-icon {
+    font-size: 1.5rem;
+    color: var(--fab-text-color);
+  }
+
+  .fab-text {
+    color: var(--fab-text-color);
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+
+  &:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: var(--fab-hover-shadow);
+  }
+
+  &:active {
+    transform: translateY(-1px) scale(1.02);
+  }
+
+  // Landscape mode adjustments
+  @media (orientation: landscape) {
+    bottom: calc(90px + env(safe-area-inset-bottom));
+    right: 1rem;
+    padding: 0.875rem 1.25rem;
+
+    .fab-icon {
+      font-size: 1.25rem;
+    }
+
+    .fab-text {
+      font-size: 0.9rem;
+    }
+  }
+}
+
+@keyframes fabSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }

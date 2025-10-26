@@ -1,14 +1,12 @@
 @use "../../../theme/dark-theme.scss" as *;
 @use "../../../theme/light-theme.scss" as light;
 
-// Using theme variables that automatically adapt to light/dark mode (same as mixes card)
+// Using theme variables that automatically adapt to light/dark mode
 
 :host {
   display: block;
   min-height: 100vh;
 }
-
-// Glass effect background for light mode
 
 .settings-container {
   padding: 1.5rem 1rem;
@@ -21,57 +19,45 @@
   border-radius: 1.5rem;
   min-height: 50vh;
   border: 1px solid $border-white-12;
-  background: $glass-white-06;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
+  box-shadow: 0 8px 32px $shadow-black-12, inset 0 1px 0 $shadow-white-15;
+  backdrop-filter: $backdrop-glass;
+  -webkit-backdrop-filter: $backdrop-glass;
+
+  // Light mode glass effect
+  :host-context(body.light) & {
+    background: rgba(235, 240, 245, 0.7);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+  }
 }
 
 .settings-header {
   text-align: center;
   margin-bottom: 2rem;
   padding-bottom: 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-
-  :host-context(body.light) & {
-    border-bottom-color: rgba(0, 0, 0, 0.1);
-  }
+  border-bottom: 1px solid var(--settings-border);
 
   .header-icon {
     font-size: 3rem;
-    color: $primary-60;
-    filter: drop-shadow(0 0 12px $primary-30);
+    color: var(--settings-icon-color);
+    filter: var(--drop-shadow-primary-30);
     margin-bottom: 0.5rem;
-
-    :host-context(body.light) & {
-      color: #3d8b8a;
-      filter: drop-shadow(0 0 8px rgba(61, 139, 138, 0.4));
-    }
   }
 
   h2 {
-    color: $text-white;
+    color: var(--color-text-white);
     font-size: 1.75rem;
     font-weight: 600;
     margin: 0 0 0.5rem 0;
-    text-shadow: $text-shadow-primary-20;
-
-    :host-context(body.light) & {
-      color: #000000;
-      text-shadow: none;
-    }
+    text-shadow: var(--text-shadow-primary-20);
   }
 
   .subtitle {
-    color: $text-muted;
+    color: var(--settings-description-text);
     font-size: 0.9rem;
     margin: 0;
     font-weight: 400;
-
-    :host-context(body.light) & {
-      color: #000000;
-      opacity: 0.7;
-    }
   }
 }
 
@@ -81,30 +67,18 @@
   gap: 0.75rem;
   margin-bottom: 1.5rem;
   padding-bottom: 0.75rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-
-  :host-context(body.light) & {
-    border-bottom-color: rgba(0, 0, 0, 0.1);
-  }
+  border-bottom: 1px solid var(--settings-border-dark);
 
   .section-icon {
     font-size: 1.5rem;
-    color: $primary;
-
-    :host-context(body.light) & {
-      color: #3d8b8a;
-    }
+    color: var(--settings-section-icon);
   }
 
   h3 {
-    color: $text-white;
+    color: var(--settings-item-text);
     font-size: 1.1rem;
     font-weight: 600;
     margin: 0;
-
-    :host-context(body.light) & {
-      color: #000000;
-    }
   }
 }
 
@@ -128,35 +102,21 @@
 
     .setting-icon {
       font-size: 1.5rem;
-      color: $text-muted;
-
-      :host-context(body.light) & {
-        color: #000000;
-        opacity: 0.6;
-      }
+      color: var(--settings-description-text);
     }
 
     .setting-name {
-      color: $text-white;
+      color: var(--settings-item-text);
       font-size: 1.1rem;
       font-weight: 600;
-
-      :host-context(body.light) & {
-        color: #000000;
-      }
     }
   }
 
   .setting-description {
-    color: $text-muted;
+    color: var(--settings-description-text);
     font-size: 0.9rem;
     margin: 0 0 0 2.25rem;
     line-height: 1.4;
-
-    :host-context(body.light) & {
-      color: #000000;
-      opacity: 0.7;
-    }
   }
 }
 

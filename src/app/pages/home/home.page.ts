@@ -1,4 +1,10 @@
-import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  signal,
+  inject,
+  computed,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonContent } from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
@@ -8,6 +14,8 @@ import { SoundsPage } from '../sounds-page/sounds.page';
 import { SleepTimerPage } from '../sleep-timer/sleep-timer.page';
 import { SettingsPage } from '../settings/settings.page';
 import { MixesComponent } from '../mixes/mixes.component';
+import { SoundsService } from 'src/app/services/sounds.service';
+import { Mix } from 'src/app/services/mixes.service';
 
 @Component({
   selector: 'app-home',
@@ -27,9 +35,39 @@ import { MixesComponent } from '../mixes/mixes.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomePage {
+  private soundsService = inject(SoundsService);
   activeTab = signal<'sounds' | 'timer' | 'mixes' | 'settings'>('sounds');
+
+  // Get playing state from sounds service
+  isPlaying = this.soundsService.isPlaying;
 
   onTabChanged(tab: 'sounds' | 'timer' | 'mixes' | 'settings') {
     this.activeTab.set(tab);
+  }
+
+  onMixLoaded(mix: Mix) {
+    // Load the mix in the sounds service
+    this.soundsService.loadMix(mix.sounds);
+    // Don't switch tabs - let user stay on mixes page
+  }
+
+  onMixPaused() {
+    // Stop all sounds when mix is paused
+    this.soundsService.stopAllSounds();
+  }
+
+  onStartCreating() {
+    // Switch to sounds tab to start creating a mix
+    this.activeTab.set('sounds');
+  }
+
+  onPlayPauseClicked() {
+    if (this.isPlaying()) {
+      // If sounds are playing, pause them
+      this.soundsService.pauseAllSounds();
+    } else {
+      // If sounds are paused or no sounds playing, resume them
+      this.soundsService.resumeAllSounds();
+    }
   }
 }

@@ -3,20 +3,15 @@
 @use "../../../theme/light-theme.scss" as light;
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
-// Dynamic text colors that change with theme
+// Text colors and theme-specific values now managed globally in theme-variables.scss
+// Button colors still defined in dark/light theme files
 :host {
-  --page-text-primary: #{$text-white};
-  --page-text-secondary: #{$text-secondary};
-  --page-text-tertiary: #{$text-tertiary};
   --button-pause-text: #{$button-pause-text};
   --button-pause-border: #{$button-pause-border};
   --status-paused-text: #{$status-paused-text};
 }
 
 :host-context(body.light) {
-  --page-text-primary: #{light.$text-primary};
-  --page-text-secondary: #{light.$text-secondary};
-  --page-text-tertiary: #{light.$text-tertiary};
   --button-pause-text: #{light.$button-pause-text};
   --button-pause-border: #{light.$button-pause-border};
   --status-paused-text: #{light.$status-paused-text};
@@ -83,14 +78,12 @@
 
   backdrop-filter: blur(1px);
   -webkit-backdrop-filter: blur(1px);
-  background: $primary-08;
+  background: var(--input-card-bg);
   border-radius: 16px;
   box-shadow: 0 4px 30px $shadow-black-10;
 
-  // Light mode glass effect (css.glass style)
+  // Light mode glass effect
   :host-context(body.light) & {
-    background: rgba(111, 255, 233, 0.19);
-    border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(3px);
     -webkit-backdrop-filter: blur(3px);
@@ -144,23 +137,13 @@
           border-radius: 0.75rem;
           backdrop-filter: $backdrop-blur-medium;
           transition: all 0.3s ease;
-
-          // Light mode styling
-          :host-context(body.light) & {
-            --background: rgba(255, 255, 255, 0.5);
-            --color: #1b1f24;
-            --placeholder-color: #94a3b8;
-          }
+          --background: var(--timer-input-bg);
+          --color: var(--timer-input-color);
+          --placeholder-color: var(--timer-input-placeholder);
 
           &:focus {
-            border-color: $primary-60;
-            box-shadow: 0 0 15px $shadow-primary-20;
-
-            // Light mode focus
-            :host-context(body.light) & {
-              border-color: rgba(61, 139, 138, 0.6);
-              box-shadow: 0 0 15px rgba(61, 139, 138, 0.2);
-            }
+            border-color: var(--timer-input-focus-border);
+            box-shadow: var(--timer-input-focus-shadow);
           }
         }
       }
@@ -202,25 +185,11 @@
   height: 100%;
   transform: rotate(-90deg);
   border-radius: 50%;
-  box-shadow: 0 0 5px $primary-80, 0 0 15px $primary-60, 0 0 30px $primary-40,
-    0 0 60px $shadow-primary-20;
-
-  // Light mode - more glowy effect
-  :host-context(body.light) & {
-    box-shadow: 0 0 8px rgba(61, 139, 138, 0.8),
-      0 0 20px rgba(61, 139, 138, 0.6), 0 0 40px rgba(61, 139, 138, 0.4),
-      0 0 80px rgba(61, 139, 138, 0.25), 0 0 120px rgba(61, 139, 138, 0.15);
-  }
+  box-shadow: var(--timer-glow);
 
   .progress-circle {
     transition: stroke-dashoffset 0.3s ease;
-    filter: $drop-shadow-primary-80;
-
-    // Light mode - darker progress circle with same color as glow
-    :host-context(body.light) & {
-      stroke: #3d8b8a;
-      filter: drop-shadow(0 0 12px rgba(61, 139, 138, 0.8));
-    }
+    filter: var(--progress-circle-shadow);
   }
 }
 
@@ -237,15 +206,10 @@
     font-size: 2.5rem;
     font-weight: 700;
     font-family: "Courier New", monospace;
-    text-shadow: $text-shadow-primary-60;
+    text-shadow: var(--timer-text-shadow);
     letter-spacing: 2px;
     margin-bottom: 0.5rem;
     line-height: 1;
-
-    // Light mode - darker text shadow
-    :host-context(body.light) & {
-      text-shadow: 0 0 10px rgba(61, 139, 138, 0.3);
-    }
   }
 
   .status-text {
@@ -254,16 +218,11 @@
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 1px;
-    text-shadow: $text-shadow-primary-30;
+    text-shadow: var(--label-text-shadow);
 
     &.paused {
       color: var(--status-paused-text);
       text-shadow: $text-shadow-orange;
-    }
-
-    // Light mode - darker text shadow
-    :host-context(body.light) & {
-      text-shadow: 0 0 6px rgba(61, 139, 138, 0.2);
     }
   }
 }
@@ -285,17 +244,10 @@
     transition: all 0.3s ease;
 
     &.start-button {
-      --color: #{$text-white};
+      --color: var(--start-button-color);
       --backdrop-filter: blur(1px);
-      --background: #{$primary-19};
+      --background: var(--start-button-bg);
       --box-shadow: 0 4px 30px #{$shadow-black-10};
-
-      // Light mode - match footer selected item color
-      :host-context(body.light) & {
-        --color: white;
-        --background: linear-gradient(135deg, #3d8b8a, #5ba5a4);
-        --box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
-      }
     }
 
     &.pause-button {
@@ -349,11 +301,11 @@
   animation: fadeIn 0.5s ease;
 
   .completion-card {
-    background: $glass-white-10;
+    background: var(--success-msg-bg);
     border-radius: 2rem;
     backdrop-filter: $backdrop-glass;
     -webkit-backdrop-filter: $backdrop-glass;
-    box-shadow: 0 20px 60px $shadow-black-30, inset 0 1px 0 $shadow-white-20;
+    box-shadow: var(--success-msg-shadow);
     margin: 0;
     padding: 2rem;
     text-align: center;
@@ -362,8 +314,6 @@
 
     // Light mode glass effect
     :host-context(body.light) & {
-      background: rgba(111, 255, 233, 0.25);
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
       backdrop-filter: blur(5px);
       -webkit-backdrop-filter: blur(5px);
     }
@@ -380,12 +330,7 @@
         font-size: 1.8rem;
         font-weight: 600;
         margin: 0 0 1rem 0;
-        text-shadow: $text-shadow-primary-40;
-
-        // Light mode
-        :host-context(body.light) & {
-          text-shadow: 0 0 10px rgba(61, 139, 138, 0.3);
-        }
+        text-shadow: var(--timer-text-shadow);
       }
 
       .completion-text {

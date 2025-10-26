@@ -70,3 +70,11 @@
   </div>
   }
 </div>
+
+<!-- Save Mix Floating Button -->
+@if (hasPlayingSounds()) {
+<button class="save-mix-fab" (click)="openSaveMixModal()">
+  <ion-icon name="bookmark-outline" class="fab-icon"></ion-icon>
+  <span class="fab-text">Save Mix</span>
+</button>
+}

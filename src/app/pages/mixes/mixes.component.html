@@ -5,6 +5,62 @@
     <p class="mixes-subtitle">Your saved sound combinations</p>
   </div>
 
+  <!-- Mixes List -->
+  @if (mixes().length > 0) {
+  <div class="mixes-list">
+    @for (mix of mixes(); track mix.name) {
+    <div
+      class="mix-card"
+      [class.expanded]="isExpanded(mix.name)"
+      [class.playing]="isPlaying(mix.name)"
+    >
+      <div class="mix-info">
+        <div class="mix-header-row">
+          <h3 class="mix-name">{{ mix.name }}</h3>
+          <div class="action-buttons">
+            <button class="play-button" (click)="togglePlayPause(mix, $event)">
+              <ion-icon
+                [name]="isPlaying(mix.name) ? 'pause-circle' : 'play-circle'"
+              ></ion-icon>
+            </button>
+            <button class="delete-button" (click)="confirmDelete(mix)">
+              <ion-icon name="trash-outline"></ion-icon>
+            </button>
+          </div>
+        </div>
+        <div class="mix-sounds">
+          @for (sound of getVisibleSounds(mix); track sound.id) {
+          <span class="sound-tag">
+            <ion-icon name="musical-note-outline"></ion-icon>
+            {{ getSoundName(sound.id) }}
+          </span>
+          } @if (!isExpanded(mix.name) && getRemainingCount(mix) > 0) {
+          <button
+            class="expand-button"
+            (click)="toggleExpand(mix.name, $event)"
+          >
+            <ion-icon name="add-circle-outline"></ion-icon>
+            <span>+{{ getRemainingCount(mix) }} more</span>
+          </button>
+          } @if (isExpanded(mix.name) && mix.sounds.length > MAX_VISIBLE_SOUNDS)
+          {
+          <button
+            class="collapse-button"
+            (click)="toggleExpand(mix.name, $event)"
+          >
+            <ion-icon name="remove-circle-outline"></ion-icon>
+            <span>Show less</span>
+          </button>
+          }
+        </div>
+        <p class="mix-meta">
+          {{ mix.sounds.length }} sound{{ mix.sounds.length !== 1 ? "s" : "" }}
+        </p>
+      </div>
+    </div>
+    }
+  </div>
+  } @else {
   <!-- Empty State -->
   <div class="empty-state">
     <div class="empty-state-content">
@@ -15,10 +71,11 @@
         Combine multiple sounds to create your perfect ambiance
       </p>
 
-      <ion-button fill="solid" class="create-button">
-        <ion-icon name="play" slot="start"></ion-icon>
-        Start Creating
+      <ion-button class="create-button" (click)="onStartCreating()">
+        <ion-icon name="add-outline" slot="start"></ion-icon>
+        START CREATING
       </ion-button>
     </div>
   </div>
+  }
 </div>

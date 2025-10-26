@@ -1,4 +1,9 @@
-import { Component, ChangeDetectionStrategy, inject, computed } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  inject,
+  computed,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonIcon, IonToggle } from '@ionic/angular/standalone';
 import { ThemeService } from '../../services/theme.service';

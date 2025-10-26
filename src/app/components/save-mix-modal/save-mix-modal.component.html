@@ -1,0 +1,42 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <h2>Save Your Mix</h2>
+    <ion-icon
+      name="close-outline"
+      class="close-icon"
+      (click)="dismiss()"
+    ></ion-icon>
+  </div>
+
+  <div class="modal-body">
+    <p class="modal-description">Give your mix a name</p>
+
+    <div class="input-wrapper">
+      <ion-input
+        [(ngModel)]="mixName"
+        placeholder="e.g., Rain & Forest Calm"
+        [clearInput]="true"
+        (keyup.enter)="save()"
+      ></ion-input>
+    </div>
+
+    <div class="info-message">
+      <ion-icon name="bulb-outline" class="info-icon"></ion-icon>
+      <p>Saving with the same name will update your existing mix.</p>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <ion-button class="cancel-button" fill="clear" (click)="dismiss()">
+      Cancel
+    </ion-button>
+    <ion-button
+      class="save-button"
+      [disabled]="!mixName.trim()"
+      (click)="save()"
+    >
+      <ion-icon name="checkmark-outline" slot="start"></ion-icon>
+      Save Mix
+    </ion-button>
+  </div>
+</div>

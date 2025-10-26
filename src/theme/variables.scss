@@ -1,4 +1,137 @@
-// Sleep Calm Sounds - Theme Variables
-// This file imports the dark theme variables
+// Sleep Calm Sounds - Ionic Color Variables
+// This file defines Ionic's color system using our custom theme
 
-@use "./dark-theme.scss" as *;
+@use "./dark-theme.scss" as dark;
+@use "./light-theme.scss" as light;
+
+// Ionic uses CSS custom properties for theming
+// We need to define these for both light and dark modes
+
+:root {
+  // Primary color (Teal)
+  --ion-color-primary: #{dark.$primary};
+  --ion-color-primary-rgb: 91, 192, 190;
+  --ion-color-primary-contrast: #{dark.$bg-primary};
+  --ion-color-primary-contrast-rgb: 26, 32, 44;
+  --ion-color-primary-shade: #50a9a7;
+  --ion-color-primary-tint: #{dark.$primary-light};
+
+  // Secondary color (Aqua)
+  --ion-color-secondary: #{dark.$secondary};
+  --ion-color-secondary-rgb: 136, 212, 210;
+  --ion-color-secondary-contrast: #{dark.$bg-primary};
+  --ion-color-secondary-contrast-rgb: 26, 32, 44;
+  --ion-color-secondary-shade: #78bbb9;
+  --ion-color-secondary-tint: #91d9d7;
+
+  // Tertiary color (Purple)
+  --ion-color-tertiary: #{dark.$accent-purple};
+  --ion-color-tertiary-rgb: 169, 159, 242;
+  --ion-color-tertiary-contrast: #{dark.$bg-primary};
+  --ion-color-tertiary-contrast-rgb: 26, 32, 44;
+  --ion-color-tertiary-shade: #958dd5;
+  --ion-color-tertiary-tint: #b0a7f4;
+
+  // Success color (Green)
+  --ion-color-success: #2dd36f;
+  --ion-color-success-rgb: 45, 211, 111;
+  --ion-color-success-contrast: #000000;
+  --ion-color-success-contrast-rgb: 0, 0, 0;
+  --ion-color-success-shade: #28ba62;
+  --ion-color-success-tint: #42d77d;
+
+  // Warning color (Orange)
+  --ion-color-warning: #{dark.$accent-orange};
+  --ion-color-warning-rgb: 255, 196, 9;
+  --ion-color-warning-contrast: #000000;
+  --ion-color-warning-contrast-rgb: 0, 0, 0;
+  --ion-color-warning-shade: #e0ac08;
+  --ion-color-warning-tint: #ffca22;
+
+  // Danger color (Red/Pink)
+  --ion-color-danger: #{dark.$accent-pink};
+  --ion-color-danger-rgb: 255, 107, 144;
+  --ion-color-danger-contrast: #000000;
+  --ion-color-danger-contrast-rgb: 0, 0, 0;
+  --ion-color-danger-shade: #e05e7f;
+  --ion-color-danger-tint: #ff7e9f;
+
+  // Dark/Light colors
+  --ion-color-dark: #{dark.$bg-primary};
+  --ion-color-dark-rgb: 26, 32, 44;
+  --ion-color-dark-contrast: #{dark.$text-white};
+  --ion-color-dark-contrast-rgb: 255, 255, 255;
+  --ion-color-dark-shade: #171c27;
+  --ion-color-dark-tint: #2d3547;
+
+  --ion-color-medium: #{dark.$text-muted};
+  --ion-color-medium-rgb: 148, 163, 184;
+  --ion-color-medium-contrast: #000000;
+  --ion-color-medium-contrast-rgb: 0, 0, 0;
+  --ion-color-medium-shade: #828fa0;
+  --ion-color-medium-tint: #9ca9bc;
+
+  --ion-color-light: #{dark.$text-light};
+  --ion-color-light-rgb: 203, 213, 225;
+  --ion-color-light-contrast: #000000;
+  --ion-color-light-contrast-rgb: 0, 0, 0;
+  --ion-color-light-shade: #b3bcc6;
+  --ion-color-light-tint: #d1d8de;
+}
+
+// Light mode overrides
+body.light {
+  // Primary color (Darker Teal for light mode)
+  --ion-color-primary: #{light.$primary};
+  --ion-color-primary-rgb: 108, 179, 179;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #5f9e9e;
+  --ion-color-primary-tint: #7cc0c0;
+
+  // Secondary color
+  --ion-color-secondary: #{light.$secondary};
+  --ion-color-secondary-rgb: 126, 205, 224;
+  --ion-color-secondary-contrast: #000000;
+  --ion-color-secondary-contrast-rgb: 0, 0, 0;
+  --ion-color-secondary-shade: #6fb5c5;
+  --ion-color-secondary-tint: #8cd3e6;
+
+  // Dark/Light colors (inverted for light mode)
+  --ion-color-dark: #{light.$text-primary};
+  --ion-color-dark-rgb: 27, 31, 36;
+  --ion-color-dark-contrast: #ffffff;
+  --ion-color-dark-contrast-rgb: 255, 255, 255;
+  --ion-color-dark-shade: #181b20;
+  --ion-color-dark-tint: #2d3238;
+
+  --ion-color-medium: #{light.$text-muted};
+  --ion-color-medium-rgb: 100, 116, 139;
+  --ion-color-medium-contrast: #ffffff;
+  --ion-color-medium-contrast-rgb: 255, 255, 255;
+  --ion-color-medium-shade: #58667a;
+  --ion-color-medium-tint: #6e7e95;
+
+  --ion-color-light: #{light.$bg-secondary};
+  --ion-color-light-rgb: 181, 196, 209;
+  --ion-color-light-contrast: #000000;
+  --ion-color-light-contrast-rgb: 0, 0, 0;
+  --ion-color-light-shade: #a0acb8;
+  --ion-color-light-tint: #bfcad6;
+}
+
+// Override Ionic's prefers-color-scheme media query
+// This ensures our custom theme always takes precedence
+@media (prefers-color-scheme: dark) {
+  body:not(.light) {
+    --ion-color-primary: #{dark.$primary};
+    --ion-color-primary-rgb: 91, 192, 190;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  body:not(.dark) {
+    --ion-color-primary: #{light.$primary};
+    --ion-color-primary-rgb: 108, 179, 179;
+  }
+}

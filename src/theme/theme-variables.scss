@@ -1,1 +1,278 @@
+@use "./dark-theme.scss" as dark;
+@use "./light-theme.scss" as light;
 
+// Dark theme (default)
+body,
+body.dark {
+  // Primary colors
+  --color-primary: #{dark.$primary};
+  --color-primary-light: #{dark.$primary-light};
+  --color-primary-60: #{dark.$primary-60};
+  --color-primary-40: #{dark.$primary-40};
+  --color-primary-35: rgba(111, 255, 233, 0.35);
+  --color-primary-30: #{dark.$primary-30};
+  --color-primary-25: rgba(111, 255, 233, 0.25);
+  --color-primary-20: #{dark.$primary-20};
+  --color-primary-12: #{dark.$primary-12};
+  --color-primary-08: #{dark.$primary-08};
+  --color-secondary: #{dark.$secondary};
+
+  // Text colors
+  --color-text-primary: #{dark.$text-white};
+  --color-text-white: #{dark.$text-white};
+  --color-text-secondary: #{dark.$text-secondary};
+  --color-text-tertiary: #{dark.$text-tertiary};
+  --color-text-muted: #{dark.$text-muted};
+  --color-text-light: #{dark.$text-light};
+
+  // Background colors
+  --color-bg-primary: #{dark.$bg-primary};
+  --color-bg-secondary: #{dark.$bg-secondary};
+
+  // Borders
+  --color-border-primary: #{dark.$border-white-12};
+  --color-border-secondary: #{dark.$border-white-18};
+  --color-border-white-10: rgba(255, 255, 255, 0.1);
+  --color-border-white-08: rgba(255, 255, 255, 0.08);
+
+  // Glass effects
+  --glass-background: #{dark.$glass-white-06};
+  --backdrop-filter: #{dark.$backdrop-glass};
+
+  // Shadows
+  --shadow-primary-15: #{dark.$shadow-primary-15};
+  --shadow-primary-20: rgba(111, 255, 233, 0.2);
+  --shadow-primary-30: #{dark.$shadow-primary-30};
+  --shadow-primary-35: rgba(111, 255, 233, 0.35);
+  --shadow-primary-40: #{dark.$shadow-primary-40};
+
+  // Drop shadows
+  --drop-shadow-primary-30: #{dark.$drop-shadow-primary-30};
+  --drop-shadow-primary-40: #{dark.$drop-shadow-primary-40};
+
+  // Text shadows
+  --text-shadow-primary-20: #{dark.$text-shadow-primary-20};
+  --text-shadow-primary-30: #{dark.$text-shadow-primary-30};
+
+  // Footer specific
+  --footer-text-primary: #{dark.$text-white};
+  --footer-text-muted: #{dark.$text-muted};
+  --footer-text-tertiary: #{dark.$text-tertiary};
+  --footer-primary-color: #{dark.$primary};
+  --footer-active-bg: #{dark.$primary-12};
+
+  // Mix card hover
+  --mix-card-hover-shadow: 0 12px 40px #{dark.$shadow-primary-15};
+  --mix-card-hover-border: #{dark.$primary-20};
+  --delete-button-hover-bg: rgba(255, 0, 0, 0.1);
+  --delete-button-hover-color: #ff4444;
+
+  // Create button
+  --create-button-color: #{dark.$text-white};
+  --create-button-bg: #{dark.$primary-19};
+
+  // Page specific
+  --page-text-primary: #{dark.$text-white};
+  --page-text-secondary: #{dark.$text-secondary};
+
+  // Sound cards
+  --sound-card-bg: #{dark.$glass-white-06};
+  --sound-card-border: #{dark.$border-white-12};
+  --sound-card-hover-bg: #{dark.$primary-08};
+  --sound-card-hover-border: #{dark.$primary-20};
+  --sound-card-active-bg: #{dark.$primary-12};
+  --sound-card-active-border: #{dark.$primary-30};
+
+  // Save Mix FAB
+  --fab-bg: #{dark.$primary};
+  --fab-text-color: #{dark.$bg-primary};
+  --fab-shadow: 0 8px 24px #{dark.$shadow-primary-30},
+    0 0 0 1px #{dark.$primary-20};
+  --fab-hover-shadow: 0 12px 32px #{dark.$shadow-primary-40},
+    0 0 0 2px #{dark.$primary-30};
+
+  // Sleep Timer
+  --input-card-bg: #{dark.$glass-white-06};
+  --timer-glow: 0 0 20px #{dark.$primary-50}, 0 0 40px #{dark.$primary-40},
+    0 0 80px #{dark.$primary-30}, 0 0 120px #{dark.$primary-20};
+  --progress-circle-color: #{dark.$primary};
+  --progress-circle-shadow: drop-shadow(0 0 15px #{dark.$primary-40});
+  --timer-text-shadow: #{dark.$text-shadow-primary-30};
+  --label-text-shadow: #{dark.$text-shadow-primary-20};
+  --timer-input-bg: rgba(255, 255, 255, 0.1);
+  --timer-input-color: #{dark.$text-white};
+  --timer-input-placeholder: #{dark.$text-muted};
+  --timer-input-focus-border: #{dark.$primary-60};
+  --timer-input-focus-shadow: 0 0 15px #{dark.$shadow-primary-20};
+  --start-button-color: white;
+  --start-button-bg: linear-gradient(
+    135deg,
+    #{dark.$primary},
+    #{dark.$primary-light}
+  );
+  --success-msg-bg: rgba(111, 255, 233, 0.15);
+  --success-msg-shadow: 0 20px 60px #{dark.$shadow-primary-20};
+
+  // Settings page
+  --settings-border: rgba(255, 255, 255, 0.1);
+  --settings-border-dark: rgba(255, 255, 255, 0.08);
+  --settings-icon-color: #{dark.$primary-60};
+  --settings-section-icon: #{dark.$primary};
+  --settings-item-text: #{dark.$text-white};
+  --settings-description-text: #{dark.$text-muted};
+  --settings-icon-hover: #{dark.$text-white};
+
+  // Modal styling
+  --modal-bg: rgba(26, 32, 44, 0.98);
+  --modal-border: #{dark.$border-white-12};
+  --modal-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 #{dark.$shadow-white-15};
+  --modal-section-border: rgba(255, 255, 255, 0.1);
+  --modal-close-icon: #{dark.$text-muted};
+  --modal-close-icon-hover: #{dark.$text-white};
+  --modal-cancel-button: #{dark.$text-muted};
+  --modal-save-button-bg: #{dark.$primary};
+  --modal-save-button-color: #{dark.$bg-primary};
+  --modal-save-button-hover-bg: #{dark.$primary};
+  --modal-save-button-hover-shadow: 0 8px 24px #{dark.$shadow-primary-30};
+  --modal-info-bg: #{dark.$primary-08};
+  --modal-info-border: #{dark.$primary-20};
+  --modal-info-icon: #{dark.$primary};
+  --modal-info-text: #{dark.$text-secondary};
+}
+
+// Light theme
+body.light {
+  // Primary colors
+  --color-primary: #{light.$primary};
+  --color-primary-light: #{light.$primary-light};
+  --color-primary-60: #3d8b8a;
+  --color-primary-40: rgba(61, 139, 138, 0.4);
+  --color-primary-35: rgba(61, 139, 138, 0.35);
+  --color-primary-30: rgba(61, 139, 138, 0.3);
+  --color-primary-25: rgba(61, 139, 138, 0.25);
+  --color-primary-20: rgba(61, 139, 138, 0.2);
+  --color-primary-12: rgba(61, 139, 138, 0.12);
+  --color-primary-08: rgba(61, 139, 138, 0.08);
+  --color-secondary: #{light.$secondary};
+
+  // Text colors
+  --color-text-primary: #{light.$text-primary};
+  --color-text-white: #{light.$text-white};
+  --color-text-secondary: #{light.$text-secondary};
+  --color-text-tertiary: #{light.$text-tertiary};
+  --color-text-muted: #{light.$text-muted};
+  --color-text-light: #{light.$text-light};
+
+  // Background colors
+  --color-bg-primary: #{light.$bg-primary};
+  --color-bg-secondary: #{light.$bg-secondary};
+
+  // Borders
+  --color-border-primary: #{light.$border-white-12};
+  --color-border-secondary: #{light.$border-white-18};
+  --color-border-white-10: rgba(0, 0, 0, 0.1);
+  --color-border-white-08: rgba(0, 0, 0, 0.08);
+
+  // Glass effects
+  --glass-background: #{light.$glass-white-06};
+  --backdrop-filter: #{light.$backdrop-glass};
+
+  // Shadows
+  --shadow-primary-15: rgba(61, 139, 138, 0.15);
+  --shadow-primary-20: rgba(61, 139, 138, 0.2);
+  --shadow-primary-30: rgba(61, 139, 138, 0.3);
+  --shadow-primary-35: rgba(61, 139, 138, 0.35);
+  --shadow-primary-40: rgba(61, 139, 138, 0.4);
+
+  // Drop shadows
+  --drop-shadow-primary-30: drop-shadow(0 0 6px rgba(61, 139, 138, 0.3));
+  --drop-shadow-primary-40: drop-shadow(0 0 8px rgba(61, 139, 138, 0.4));
+
+  // Text shadows
+  --text-shadow-primary-20: none;
+  --text-shadow-primary-30: none;
+
+  // Footer specific
+  --footer-text-primary: #000000;
+  --footer-text-muted: #000000;
+  --footer-text-tertiary: #000000;
+  --footer-primary-color: #ffffff;
+  --footer-active-bg: rgba(61, 139, 138, 0.08);
+
+  // Mix card hover
+  --mix-card-hover-shadow: 0 12px 40px rgba(61, 139, 138, 0.15);
+  --mix-card-hover-border: rgba(61, 139, 138, 0.3);
+  --delete-button-hover-bg: rgba(220, 53, 69, 0.1);
+  --delete-button-hover-color: #dc3545;
+
+  // Create button
+  --create-button-color: white;
+  --create-button-bg: linear-gradient(135deg, #3d8b8a, #5ba5a4);
+
+  // Page specific
+  --page-text-primary: #1b1f24;
+  --page-text-secondary: #2d3748;
+
+  // Sound cards (light mode with glass effect)
+  --sound-card-bg: rgba(111, 255, 233, 0.19);
+  --sound-card-border: rgba(0, 0, 0, 0.1);
+  --sound-card-hover-bg: rgba(111, 255, 233, 0.3);
+  --sound-card-hover-border: rgba(61, 139, 138, 0.3);
+  --sound-card-active-bg: rgba(61, 139, 138, 0.25);
+  --sound-card-active-border: rgba(61, 139, 138, 0.4);
+
+  // Save Mix FAB
+  --fab-bg: #3d8b8a;
+  --fab-text-color: white;
+  --fab-shadow: 0 8px 24px rgba(61, 139, 138, 0.3),
+    0 0 0 1px rgba(61, 139, 138, 0.2);
+  --fab-hover-shadow: 0 12px 32px rgba(61, 139, 138, 0.4),
+    0 0 0 2px rgba(61, 139, 138, 0.3);
+
+  // Sleep Timer
+  --input-card-bg: rgba(111, 255, 233, 0.19);
+  --timer-glow: 0 0 8px rgba(61, 139, 138, 0.8),
+    0 0 20px rgba(61, 139, 138, 0.6), 0 0 40px rgba(61, 139, 138, 0.4),
+    0 0 80px rgba(61, 139, 138, 0.25), 0 0 120px rgba(61, 139, 138, 0.15);
+  --progress-circle-color: #3d8b8a;
+  --progress-circle-shadow: drop-shadow(0 0 12px rgba(61, 139, 138, 0.8));
+  --timer-text-shadow: 0 0 10px rgba(61, 139, 138, 0.3);
+  --label-text-shadow: 0 0 6px rgba(61, 139, 138, 0.2);
+  --timer-input-bg: rgba(255, 255, 255, 0.5);
+  --timer-input-color: #1b1f24;
+  --timer-input-placeholder: #94a3b8;
+  --timer-input-focus-border: rgba(61, 139, 138, 0.6);
+  --timer-input-focus-shadow: 0 0 15px rgba(61, 139, 138, 0.2);
+  --start-button-color: white;
+  --start-button-bg: linear-gradient(135deg, #3d8b8a, #5ba5a4);
+  --success-msg-bg: rgba(111, 255, 233, 0.25);
+  --success-msg-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+
+  // Settings page
+  --settings-border: rgba(0, 0, 0, 0.1);
+  --settings-border-dark: rgba(0, 0, 0, 0.1);
+  --settings-icon-color: #3d8b8a;
+  --settings-section-icon: #3d8b8a;
+  --settings-item-text: #000000;
+  --settings-description-text: #000000;
+  --settings-icon-hover: #000000;
+
+  // Modal styling
+  --modal-bg: rgba(249, 250, 251, 0.98);
+  --modal-border: rgba(0, 0, 0, 0.15);
+  --modal-shadow: 0 20px 60px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  --modal-section-border: rgba(0, 0, 0, 0.1);
+  --modal-close-icon: #64748b;
+  --modal-close-icon-hover: #000000;
+  --modal-cancel-button: #64748b;
+  --modal-save-button-bg: #3d8b8a;
+  --modal-save-button-color: white;
+  --modal-save-button-hover-bg: #2d7b7a;
+  --modal-save-button-hover-shadow: 0 8px 24px rgba(61, 139, 138, 0.3);
+  --modal-info-bg: rgba(61, 139, 138, 0.08);
+  --modal-info-border: rgba(61, 139, 138, 0.2);
+  --modal-info-icon: #3d8b8a;
+  --modal-info-text: #1b1f24;
+}
