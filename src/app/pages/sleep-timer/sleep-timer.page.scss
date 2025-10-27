@@ -63,11 +63,219 @@
   }
 }
 
-// Timer Input Section
-.timer-input-section {
-  padding: 1rem 1rem 2rem;
+// Mode Selector Section
+.mode-selector-section {
+  padding: 0 1rem 1rem;
   position: relative;
   z-index: 2;
+}
+
+.mode-card {
+  border-radius: 1.5rem;
+  margin: 0;
+  padding: 1.5rem;
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(1px);
+  background: var(--input-card-bg);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px $shadow-black-10;
+
+  :host-context(body.light) & {
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+  }
+
+  .section-title {
+    color: var(--page-text-primary);
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0 0 1rem 0;
+    text-align: center;
+    text-shadow: $text-shadow-primary-30;
+  }
+}
+
+.mode-segment {
+  --background: #{$glass-white-06};
+  margin-bottom: 1.5rem;
+  border-radius: 0.75rem;
+  padding: 0.25rem;
+  backdrop-filter: $backdrop-blur-medium;
+
+  ion-segment-button {
+    --background: transparent;
+    --background-checked: #{$gradient-button};
+    --color: var(--page-text-tertiary);
+    --color-checked: #{$bg-dark};
+    --indicator-height: 0;
+    min-height: 60px;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+    margin: 0.125rem;
+    font-size: 0.75rem;
+
+    ion-icon {
+      font-size: 1.5rem;
+      margin-bottom: 0.25rem;
+    }
+
+    ion-label {
+      font-weight: 500;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    &.segment-button-checked {
+      box-shadow: 0 4px 16px $shadow-primary-30;
+      font-weight: 600;
+
+      ion-icon,
+      ion-label {
+        color: $bg-dark;
+      }
+    }
+  }
+}
+
+.mode-description {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--timer-input-bg);
+  border-radius: 0.75rem;
+  backdrop-filter: $backdrop-blur-medium;
+
+  .mode-icon {
+    font-size: 2rem;
+    color: var(--page-text-primary);
+    flex-shrink: 0;
+  }
+
+  .mode-title {
+    color: var(--page-text-primary);
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem 0;
+  }
+
+  .mode-text {
+    color: var(--page-text-tertiary);
+    font-size: 0.85rem;
+    margin: 0;
+    line-height: 1.4;
+  }
+}
+
+// Mode Configuration (Inline in card)
+.mode-configuration {
+  margin-top: 0;
+
+  .config-divider {
+    height: 1px;
+    background: rgba(111, 255, 233, 0.15);
+    margin: 1.5rem 0 1rem 0;
+  }
+
+  .config-section {
+    .time-inputs {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 0.5rem;
+
+      .input-group {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        flex: 1;
+        max-width: 80px;
+
+        ion-label {
+          color: var(--page-text-tertiary);
+          font-size: 0.9rem;
+          font-weight: 500;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+
+        .time-input {
+          --background: #{$glass-white-10};
+          --color: #{$text-white};
+          --placeholder-color: #{$text-lighter};
+          --border-radius: 0.75rem;
+          --padding-start: 0.75rem;
+          --padding-end: 0.75rem;
+          --padding-top: 0.75rem;
+          --padding-bottom: 0.75rem;
+          text-align: center;
+          font-size: 1.2rem;
+          font-weight: 600;
+          border-radius: 0.75rem;
+          backdrop-filter: $backdrop-blur-medium;
+          transition: all 0.3s ease;
+          --background: var(--timer-input-bg);
+          --color: var(--timer-input-color);
+          --placeholder-color: var(--timer-input-placeholder);
+
+          &:focus {
+            border-color: var(--timer-input-focus-border);
+            box-shadow: var(--timer-input-focus-shadow);
+          }
+        }
+      }
+    }
+
+    .range-container {
+      margin-bottom: 0.5rem;
+
+      .range-label {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: var(--page-text-secondary);
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin-bottom: 0.75rem;
+        padding: 0 0.5rem;
+
+        .range-value {
+          color: var(--page-text-primary);
+          font-weight: 600;
+          font-size: 1rem;
+        }
+      }
+
+      .custom-range {
+        --bar-background: #{$glass-white-10};
+        --bar-background-active: #{$gradient-button};
+        --bar-height: 6px;
+        --bar-border-radius: 3px;
+        --knob-background: #{$primary};
+        --knob-size: 24px;
+        --knob-box-shadow: 0 3px 10px #{$shadow-primary-30};
+        --pin-background: #{$primary};
+        --pin-color: #{$bg-dark};
+        padding: 1rem 0.5rem 0.5rem 0.5rem;
+
+        ion-icon {
+          color: var(--page-text-tertiary);
+          font-size: 1.2rem;
+        }
+      }
+    }
+
+    .error-message {
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-align: center;
+      margin-top: 0.5rem;
+      display: block;
+    }
+  }
 }
 
 .input-card {
@@ -96,8 +304,16 @@
       color: var(--page-text-primary);
       font-size: 1.2rem;
       font-weight: 500;
-      margin: 0 0 1.5rem 0;
+      margin: 0 0 0.5rem 0;
       text-shadow: $text-shadow-primary-30;
+    }
+
+    .input-subtitle {
+      color: var(--page-text-tertiary);
+      font-size: 0.85rem;
+      margin: 0 0 1.5rem 0;
+      line-height: 1.4;
+      text-align: center;
     }
 
     .time-inputs {
@@ -155,16 +371,104 @@
       text-align: center;
       margin-top: 0.5rem;
     }
+
+    // Range slider styling
+    .range-container {
+      margin-bottom: 1rem;
+
+      .range-label {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: var(--page-text-secondary);
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin-bottom: 0.75rem;
+        padding: 0 0.5rem;
+
+        .range-value {
+          color: var(--page-text-primary);
+          font-weight: 600;
+          font-size: 1rem;
+        }
+      }
+
+      .custom-range {
+        --bar-background: #{$glass-white-10};
+        --bar-background-active: #{$gradient-button};
+        --bar-height: 6px;
+        --bar-border-radius: 3px;
+        --knob-background: #{$primary};
+        --knob-size: 24px;
+        --knob-box-shadow: 0 3px 10px #{$shadow-primary-30};
+        --pin-background: #{$primary};
+        --pin-color: #{$bg-dark};
+        padding: 1rem 0.5rem;
+
+        ion-icon {
+          color: var(--page-text-tertiary);
+          font-size: 1.2rem;
+        }
+      }
+    }
   }
 }
 
-// Timer Display Section
+// Manual Timer Display Section
 .timer-display-section {
   padding: 2rem 1rem;
   display: flex;
   justify-content: center;
   position: relative;
   z-index: 2;
+}
+
+// Smart Timer Status Section (When Active)
+.smart-timer-status-section {
+  padding: 1rem 1rem 2rem;
+  position: relative;
+  z-index: 2;
+
+  .status-card {
+    text-align: center;
+    padding: 2rem;
+    border-radius: 1.5rem;
+    backdrop-filter: $backdrop-blur-medium;
+    background: var(--input-card-bg);
+    box-shadow: 0 4px 30px $shadow-primary-20, 0 0 20px $shadow-primary-15;
+    border: 1px solid rgba(111, 255, 233, 0.2);
+    transition: all 0.3s ease;
+
+    &.monitoring {
+      animation: fadeIn 0.5s ease;
+    }
+
+    .status-icon {
+      font-size: 4rem;
+      color: var(--page-text-primary);
+      margin-bottom: 1rem;
+      filter: var(--progress-circle-shadow);
+
+      &.pulse {
+        animation: pulse 2s ease-in-out infinite;
+      }
+    }
+
+    .status-title {
+      color: var(--page-text-primary);
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin: 0 0 0.75rem 0;
+      text-shadow: var(--timer-text-shadow);
+    }
+
+    .status-description {
+      color: var(--page-text-tertiary);
+      font-size: 1rem;
+      line-height: 1.5;
+      margin: 0;
+    }
+  }
 }
 
 .countdown-container {
@@ -229,7 +533,8 @@
 
 // Control Buttons
 .control-buttons {
-  padding: 0 1rem 2rem;
+  padding: 0 1rem;
+  padding-bottom: calc(2rem + env(safe-area-inset-bottom));
   position: relative;
   z-index: 2;
 
@@ -279,6 +584,17 @@
 
       &:hover {
         --background: #{$primary-20};
+        transform: translateY(-2px);
+      }
+    }
+
+    &.stop-button {
+      --background: rgba(255, 59, 48, 0.1);
+      --color: #ff3b30;
+      --border-color: rgba(255, 59, 48, 0.3);
+
+      &:hover {
+        --background: rgba(255, 59, 48, 0.2);
         transform: translateY(-2px);
       }
     }
@@ -400,6 +716,18 @@
   }
   60% {
     transform: translateY(-5px);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
   }
 }
 

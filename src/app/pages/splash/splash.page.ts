@@ -25,6 +25,6 @@ export class SplashPage implements OnInit {
   }
 
   private navigateToHome() {
-    this.router.navigate(['/home']);
+    this.router.navigate(['/home'], { replaceUrl: true });
   }
 }

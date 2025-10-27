@@ -1,7 +1,9 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
 import { SoundsService } from './sounds.service';
-import { Observable, from, of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { SmartTimerMonitorService } from './smart-timer-monitor.service';
+import { ToastControllerService } from './toast.service';
+import { Observable, of } from 'rxjs';
+import { catchError, tap, switchMap } from 'rxjs/operators';
 
 export interface TimerState {
   isRunning: boolean;
@@ -17,6 +19,8 @@ export interface TimerState {
 })
 export class TimerService {
   private soundsService = inject(SoundsService);
+  private smartTimerMonitor = inject(SmartTimerMonitorService);
+  private toastService = inject(ToastControllerService);
 
   #timerState = signal<TimerState>({
     isRunning: false,
@@ -110,7 +114,10 @@ export class TimerService {
     });
 
     this.startCountdown();
-    this.saveTimerState();
+    this.saveTimerState().subscribe();
+
+    // Start smart timer monitoring
+    this.startSmartTimerMonitoring().subscribe();
   }
 
   pauseTimer(): void {
@@ -129,6 +136,9 @@ export class TimerService {
 
     this.stopCountdown();
     this.saveTimerState();
+
+    // Stop smart timer monitoring when paused
+    this.smartTimerMonitor.stopMonitoring();
   }
 
   resetTimer(): void {
@@ -145,6 +155,9 @@ export class TimerService {
 
     this.stopCountdown();
     this.saveTimerState();
+
+    // Stop smart timer monitoring
+    this.smartTimerMonitor.stopMonitoring();
   }
 
   private startCountdown(): void {
@@ -192,6 +205,9 @@ export class TimerService {
     // Stop all sounds
     this.soundsService.stopAllSounds();
 
+    // Stop smart timer monitoring
+    this.smartTimerMonitor.stopMonitoring();
+
     // Reset timer state
     this.#timerState.set({
       isRunning: false,
@@ -204,9 +220,42 @@ export class TimerService {
 
     this.saveTimerState().subscribe();
 
-    // Show completion message (this could be handled by the component)
-    // For now, we'll just log it
-    console.log('Timer completed! Sweet dreams 🌙');
+    // Show completion toast
+    this.toastService.presentToast('Timer completed! Sweet dreams 🌙', 3000);
+  }
+
+  /**
+   * Start smart timer monitoring based on current configuration
+   */
+  private startSmartTimerMonitoring(): Observable<void> {
+    const mode = this.smartTimerMonitor.currentMode();
+
+    // For manual mode, monitoring is not needed (handled by timer countdown)
+    if (mode === 'manual') {
+      return of(undefined);
+    }
+
+    // Start monitoring with callback to stop playback
+    return this.smartTimerMonitor.startMonitoring((reason: string) => {
+      // Stop all sounds
+      this.soundsService.stopAllSounds();
+
+      // Reset timer state
+      this.#timerState.set({
+        isRunning: false,
+        isPaused: false,
+        totalSeconds: 0,
+        remainingSeconds: 0,
+        startTime: null,
+        pausedAt: null,
+      });
+
+      this.stopCountdown();
+      this.saveTimerState().subscribe();
+
+      // Show toast with reason
+      this.toastService.presentToast(reason, 4000);
+    });
   }
 
   private saveTimerState(): Observable<void> {
@@ -269,5 +318,6 @@ export class TimerService {
 
   ngOnDestroy(): void {
     this.stopCountdown();
+    this.smartTimerMonitor.stopMonitoring();
   }
 }

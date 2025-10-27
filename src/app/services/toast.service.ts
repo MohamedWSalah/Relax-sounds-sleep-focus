@@ -36,4 +36,29 @@ export class ToastControllerService {
       })
     );
   }
+
+  /**
+   * Present a simple toast message
+   * @param message The message to display
+   * @param duration Duration in milliseconds (default: 2000)
+   * @param position Position of the toast (default: 'bottom')
+   */
+  presentToast(
+    message: string,
+    duration: number = 2000,
+    position: 'top' | 'middle' | 'bottom' = 'bottom'
+  ): void {
+    this.create({
+      message,
+      duration,
+      position,
+      cssClass: 'custom-toast',
+      buttons: [
+        {
+          text: 'OK',
+          role: 'cancel',
+        },
+      ],
+    }).subscribe();
+  }
 }
