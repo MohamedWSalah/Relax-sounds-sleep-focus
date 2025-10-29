@@ -4,6 +4,8 @@ import { ModalController } from '@ionic/angular';
 import { App } from '@capacitor/app';
 import { PluginListenerHandle } from '@capacitor/core';
 import { ThemeService } from './services/theme.service';
+import { FirebaseService } from './services/firebase.service';
+import { RemoteConfigService } from './services/remote-config.service';
 import {
   AppUpdate,
   AppUpdateAvailability,
@@ -16,8 +18,9 @@ import {
   standalone: false,
 })
 export class AppComponent implements OnInit, OnDestroy {
-  // Initialize theme service (will auto-load saved theme)
   private themeService = inject(ThemeService);
+  private firebaseService = inject(FirebaseService);
+  private remoteConfigService = inject(RemoteConfigService);
   private router = inject(Router);
   private modalController = inject(ModalController);
   private backButtonListener?: PluginListenerHandle;
@@ -25,8 +28,14 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor() {}
 
   ngOnInit(): void {
+    // this.initializeServices();
     this.checkForUpdate();
     this.setupBackButtonHandler();
+  }
+
+  private initializeServices(): void {
+    this.firebaseService.initializeApp();
+    this.remoteConfigService.initializeAndFetch().subscribe();
   }
 
   ngOnDestroy(): void {
