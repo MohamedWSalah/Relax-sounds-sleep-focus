@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { IonIcon, IonToggle } from '@ionic/angular/standalone';
 import { ModalController } from '@ionic/angular';
 import { ThemeService } from '../../services/theme.service';
+import { InAppPurchaseService } from '../../services/in-app-purchase.service';
 import { SleepStatisticsModalComponent } from '../../components/sleep-statistics-modal/sleep-statistics-modal.component';
 
 @Component({
@@ -20,9 +21,13 @@ import { SleepStatisticsModalComponent } from '../../components/sleep-statistics
 export class SettingsPage {
   private themeService = inject(ThemeService);
   private modalController = inject(ModalController);
+  private inAppPurchaseService = inject(InAppPurchaseService);
 
   // Computed signal for theme state
   isDarkMode = computed(() => this.themeService.currentTheme() === 'dark');
+
+  // Premium unlock status
+  isPremiumUnlocked = this.inAppPurchaseService.isPremiumUnlocked;
 
   /**
    * Toggle theme between light and dark
@@ -42,5 +47,21 @@ export class SettingsPage {
     });
 
     await modal.present();
+  }
+
+  /**
+   * Purchase premium access
+   * Initiates the Google Play Store purchase flow
+   */
+  purchasePremium(): void {
+    this.inAppPurchaseService.purchasePremium().subscribe();
+  }
+
+  /**
+   * Restore previous purchases
+   * Useful after reinstalling the app or switching devices
+   */
+  restorePurchases(): void {
+    this.inAppPurchaseService.restorePurchases().subscribe();
   }
 }

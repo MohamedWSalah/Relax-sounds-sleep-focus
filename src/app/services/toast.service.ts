@@ -1,7 +1,5 @@
 import { Injectable, inject } from '@angular/core';
 import { ToastController, ToastOptions } from '@ionic/angular';
-import { Observable, from, of } from 'rxjs';
-import { switchMap, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -9,32 +7,19 @@ import { switchMap, catchError } from 'rxjs/operators';
 export class ToastControllerService {
   #toastController = inject(ToastController);
 
-  dismiss(): Observable<void> {
-    return from(this.#toastController.dismiss()).pipe(
-      switchMap(() => of(undefined as void)),
-      catchError((error) => {
-        console.warn('Failed to dismiss toast:', error);
-        return of(undefined as void);
-      })
-    );
-  }
-
-  create(options: ToastOptions): Observable<HTMLIonToastElement> {
-    return from(this.#toastController.create(options)).pipe(
-      switchMap((toast) =>
-        from(toast.present()).pipe(
-          switchMap(() => of(toast)),
-          catchError((error) => {
-            console.warn('Failed to present toast:', error);
-            return of(toast);
-          })
-        )
-      ),
-      catchError((error) => {
-        console.warn('Failed to create toast:', error);
-        throw error;
-      })
-    );
+  create(options: ToastOptions): void {
+    this.#toastController.getTop().then((toast) => {
+      if (toast) {
+        toast.dismiss();
+        this.#toastController.create(options).then((toast) => {
+          toast.present();
+        });
+      } else {
+        this.#toastController.create(options).then((toast) => {
+          toast.present();
+        });
+      }
+    });
   }
 
   /**
@@ -59,6 +44,6 @@ export class ToastControllerService {
           role: 'cancel',
         },
       ],
-    }).subscribe();
+    });
   }
 }

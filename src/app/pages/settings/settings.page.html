@@ -28,6 +28,52 @@
     ></ion-toggle>
   </div>
 
+  <!-- Premium Section -->
+  <div class="section-header">
+    <ion-icon name="diamond-outline" class="section-icon"></ion-icon>
+    <h3>Premium</h3>
+  </div>
+
+  @if (isPremiumUnlocked()) {
+  <!-- Premium Unlocked -->
+  <div class="premium-unlocked-card">
+    <div class="setting-info">
+      <div class="setting-label">
+        <ion-icon
+          name="checkmark-circle"
+          class="setting-icon premium-icon"
+        ></ion-icon>
+        <span class="setting-name">Premium Unlocked</span>
+      </div>
+      <p class="setting-description">You have access to all premium sounds</p>
+    </div>
+  </div>
+  } @else {
+  <!-- Premium Locked - Show Purchase Button -->
+  <div class="setting-card premium-card" (click)="purchasePremium()">
+    <div class="setting-info">
+      <div class="setting-label">
+        <ion-icon name="diamond" class="setting-icon premium-icon"></ion-icon>
+        <span class="setting-name">Go Premium</span>
+      </div>
+      <p class="setting-description">Unlock all premium sounds and features</p>
+    </div>
+    <ion-icon name="chevron-forward-outline" class="arrow-icon"></ion-icon>
+  </div>
+  }
+
+  <!-- Restore Purchases (always show for support) -->
+  <div class="setting-card" (click)="restorePurchases()">
+    <div class="setting-info">
+      <div class="setting-label">
+        <ion-icon name="refresh-outline" class="setting-icon"></ion-icon>
+        <span class="setting-name">Restore Purchases</span>
+      </div>
+      <p class="setting-description">Restore your premium access</p>
+    </div>
+    <ion-icon name="chevron-forward-outline" class="arrow-icon"></ion-icon>
+  </div>
+
   <!-- Listening Statistics Section -->
   <div class="section-header">
     <ion-icon name="headset-outline" class="section-icon"></ion-icon>

@@ -1,6 +1,7 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
 import { MusicControlsService } from './music-controls.service';
 import { FavoritesService } from './favorites.service';
+import { InAppPurchaseService } from './in-app-purchase.service';
 import { Observable, from, of } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 
@@ -31,6 +32,7 @@ export interface Category {
 export class SoundsService {
   #musicControlsService = inject(MusicControlsService);
   #favoritesService = inject(FavoritesService);
+  #inAppPurchaseService = inject(InAppPurchaseService);
 
   constructor() {
     // Set up event handlers to avoid circular dependency
@@ -307,6 +309,42 @@ export class SoundsService {
     return this.#favoritesService.getFavorites();
   }
 
+  // ==================== Premium Access Methods ====================
+
+  /**
+   * Get premium unlock status as a reactive signal
+   * Use this in templates to show/hide premium UI elements
+   */
+  get isPremiumUnlocked() {
+    return this.#inAppPurchaseService.isPremiumUnlocked;
+  }
+
+  /**
+   * Check if a sound is accessible to the user
+   * - Free sounds are always accessible
+   * - Premium sounds require premium unlock
+   * @param sound - The sound to check
+   * @returns true if the sound can be played, false otherwise
+   */
+  isSoundAccessible(sound: Sound): boolean {
+    if (!sound.premium) {
+      return true; // Free sounds are always accessible
+    }
+    return this.#inAppPurchaseService.isPremiumUnlockedSync();
+  }
+
+  /**
+   * Check if a sound is locked (premium and not unlocked)
+   * @param sound - The sound to check
+   * @returns true if the sound is locked, false otherwise
+   */
+  isSoundLocked(sound: Sound): boolean {
+    return (
+      (sound.premium ?? false) &&
+      !this.#inAppPurchaseService.isPremiumUnlockedSync()
+    );
+  }
+
   private updateSoundProperty(
     soundId: string,
     property: keyof Sound,
@@ -328,6 +366,16 @@ export class SoundsService {
   }
 
   toggleSound(selectedSound: Sound): void {
+    // Check if sound is accessible (premium check)
+    if (!this.isSoundAccessible(selectedSound)) {
+      console.log(
+        'Sound is locked. Premium access required:',
+        selectedSound.name
+      );
+      // Don't toggle - the UI should handle showing the premium modal
+      return;
+    }
+
     const newSelectedState = !selectedSound.selected;
 
     this.#sounds.update((s) =>

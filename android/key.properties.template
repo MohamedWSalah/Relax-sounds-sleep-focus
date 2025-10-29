@@ -1,0 +1,8 @@
+# Rename this file to key.properties and fill in your actual values
+# IMPORTANT: Never commit key.properties to version control!
+
+RELEASE_STORE_FILE=my-release-key.keystore
+RELEASE_STORE_PASSWORD=your_keystore_password_here
+RELEASE_KEY_ALIAS=my-key-alias
+RELEASE_KEY_PASSWORD=your_key_password_here
+

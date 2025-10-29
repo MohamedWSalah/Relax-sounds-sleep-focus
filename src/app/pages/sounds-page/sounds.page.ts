@@ -8,13 +8,15 @@ import {
 import { CommonModule } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { switchMap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 import { IonRange, IonIcon } from '@ionic/angular/standalone';
 import { ModalController } from '@ionic/angular';
 import { Sound, SoundsService } from 'src/app/services/sounds.service';
 import { ToastControllerService } from 'src/app/services/toast.service';
 import { MixesService } from 'src/app/services/mixes.service';
+import { InAppPurchaseService } from 'src/app/services/in-app-purchase.service';
 import { SaveMixModalComponent } from 'src/app/components/save-mix-modal/save-mix-modal.component';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-sounds',
@@ -29,6 +31,7 @@ export class SoundsPage {
   #destroyRef = inject(DestroyRef);
   #modalController = inject(ModalController);
   #mixesService = inject(MixesService);
+  #inAppPurchaseService = inject(InAppPurchaseService);
 
   selectedCategory = this.#soundsService.selectedCategory;
   categories = this.#soundsService.categories;
@@ -44,7 +47,39 @@ export class SoundsPage {
   }
 
   toggleSound(selectedSound: Sound): void {
+    // Check if sound is locked
+    if (this.isSoundLocked(selectedSound)) {
+      this.#showPremiumPrompt();
+      return;
+    }
+
     this.#soundsService.toggleSound(selectedSound);
+  }
+
+  /**
+   * Show premium unlock prompt
+   */
+  #showPremiumPrompt(): void {
+    this.#toastController.create({
+      message: '🔒 Unlock premium to access all sounds',
+      duration: 2000,
+      position: 'bottom',
+      cssClass: 'premium-toast',
+      buttons: [
+        {
+          text: '🔓 Go Premium',
+          role: 'cancel',
+          handler: () => {
+            // Trigger the premium purchase flow
+            this.#inAppPurchaseService.purchasePremium().subscribe();
+          },
+        },
+        {
+          text: '❌',
+          role: 'cancel',
+        },
+      ],
+    });
   }
 
   setVolume(
@@ -62,15 +97,27 @@ export class SoundsPage {
     return this.#soundsService.isFavorite(soundId);
   }
 
+  /**
+   * Check if a sound is locked (requires premium access)
+   */
+  isSoundLocked(sound: Sound): boolean {
+    return this.#soundsService.isSoundLocked(sound);
+  }
+
+  /**
+   * Get premium unlock status for template
+   */
+  get isPremiumUnlocked() {
+    return this.#soundsService.isPremiumUnlocked;
+  }
+
   toggleFavorite(sound: Sound, event: Event): void {
     event.stopPropagation();
 
-    // Dismiss any existing toast first, then show new toast
-    this.#toastController
-      .dismiss()
+    this.#soundsService
+      .toggleFavorite(sound.id)
       .pipe(
-        switchMap(() => this.#soundsService.toggleFavorite(sound.id)),
-        switchMap((isNowFavorite) =>
+        tap((isNowFavorite) =>
           this.#toastController.create({
             message: isNowFavorite
               ? `Added to Favorites 🌙`
@@ -79,24 +126,11 @@ export class SoundsPage {
             position: 'top',
             translucent: true,
             animated: true,
-            buttons: [
-              {
-                text: 'x',
-                role: 'cancel',
-                handler: () => {
-                  console.log('Dismiss clicked');
-                },
-              },
-            ],
           })
         ),
         takeUntilDestroyed(this.#destroyRef)
       )
-      .subscribe({
-        error: (error) => {
-          console.warn('Failed to toggle favorite or show toast:', error);
-        },
-      });
+      .subscribe();
   }
 
   // Open Save Mix Modal
@@ -121,29 +155,22 @@ export class SoundsPage {
       const result = this.#mixesService.saveMix(data.name, playingSounds);
 
       if (result.success) {
-        this.#toastController
-          .create({
-            message: result.isUpdate
-              ? `✅ Mix "${data.name}" updated!`
-              : `✅ Mix "${data.name}" saved!`,
-            duration: 2000,
-            position: 'top',
-            color: 'primary',
-            translucent: true,
-            animated: true,
-            buttons: [
-              {
-                text: 'x',
-                role: 'cancel',
-              },
-            ],
-          })
-          .pipe(takeUntilDestroyed(this.#destroyRef))
-          .subscribe({
-            error: (error) => {
-              console.warn('Failed to show toast:', error);
+        this.#toastController.create({
+          message: result.isUpdate
+            ? `✅ Mix "${data.name}" updated!`
+            : `✅ Mix "${data.name}" saved!`,
+          duration: 2000,
+          position: 'top',
+          color: 'primary',
+          translucent: true,
+          animated: true,
+          buttons: [
+            {
+              text: 'x',
+              role: 'cancel',
             },
-          });
+          ],
+        });
       }
     }
   }

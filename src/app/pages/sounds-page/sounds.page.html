@@ -21,13 +21,18 @@
       class="sound-card"
       [class]="{
             'selected': sound.selected,
-            'premium': sound.premium
+            'premium': sound.premium,
+            'locked': isSoundLocked(sound)
           }"
-      (click)="!sound.premium && toggleSound(sound)"
+      (click)="toggleSound(sound)"
     >
-      @if (sound.premium) {
-      <div class="premium-badge">
-        <ion-icon name="lock-closed-outline"></ion-icon>
+      @if (isSoundLocked(sound)) {
+      <div class="premium-badge locked">
+        <ion-icon name="lock-closed"></ion-icon>
+      </div>
+      } @else if (sound.premium && isPremiumUnlocked()) {
+      <div class="premium-badge unlocked">
+        <ion-icon name="diamond"></ion-icon>
       </div>
       }
 

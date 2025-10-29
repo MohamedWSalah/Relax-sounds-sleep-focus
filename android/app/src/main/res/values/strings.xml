@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Sleep Calm Sounds</string>
-    <string name="title_activity_main">Sleep Calm Sounds</string>
+    <string name="app_name">Relax Sounds: Sleep Focus</string>
+    <string name="title_activity_main">Relax Sounds: Sleep Focus</string>
     <string name="package_name">com.moon.sleepcalmsounds</string>
     <string name="custom_url_scheme">com.moon.sleepcalmsounds</string>
 </resources>

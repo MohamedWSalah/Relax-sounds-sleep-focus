@@ -1,15 +1,22 @@
 {
   "name": "relax-calm-sounds",
   "version": "0.0.1",
-  "author": "Relax Calm Sounds",
+  "author": "Relax Sounds: Sleep Focus",
   "homepage": "",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:prod": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "cap:sync": "npx cap sync android",
+    "android:build": "cd android && gradlew bundleRelease",
+    "android:build:windows": "cd android && gradlew.bat bundleRelease",
+    "release:prepare": "npm run build:prod && npm run cap:sync",
+    "release:build": "npm run release:prepare && npm run android:build",
+    "release:build:windows": "npm run release:prepare && npm run android:build:windows"
   },
   "private": true,
   "dependencies": {
@@ -33,6 +40,7 @@
     "@tailwindcss/postcss": "^4.1.15",
     "capacitor-music-controls-plugin": "^6.1.0",
     "chart.js": "^4.5.1",
+    "cordova-plugin-purchase": "^13.12.1",
     "firebase": "^12.4.0",
     "ionicons": "^7.0.0",
     "postcss": "^8.5.6",

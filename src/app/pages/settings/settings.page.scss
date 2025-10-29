@@ -154,6 +154,55 @@
   }
 }
 
+// Premium styles
+.premium-card {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 215, 0, 0.15),
+    rgba(255, 165, 0, 0.1)
+  );
+  border: 1px solid rgba(255, 215, 0, 0.3);
+
+  &:hover {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 215, 0, 0.25),
+      rgba(255, 165, 0, 0.15)
+    );
+    border-color: rgba(255, 215, 0, 0.5);
+    box-shadow: 0 4px 20px rgba(255, 215, 0, 0.3);
+  }
+
+  .premium-icon {
+    color: #ffd700;
+    filter: drop-shadow(0 2px 4px rgba(255, 215, 0, 0.3));
+  }
+}
+
+.premium-unlocked-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem;
+  background: linear-gradient(
+    135deg,
+    rgba(76, 175, 80, 0.15),
+    rgba(46, 125, 50, 0.1)
+  );
+  border: 1px solid rgba(76, 175, 80, 0.3);
+  border-radius: 1rem;
+  margin-bottom: 1.5rem;
+
+  .premium-icon {
+    color: #4caf50;
+    filter: drop-shadow(0 2px 4px rgba(76, 175, 80, 0.3));
+  }
+
+  .setting-name {
+    color: var(--settings-item-text);
+  }
+}
+
 // Animations
 @keyframes slideInUp {
   from {

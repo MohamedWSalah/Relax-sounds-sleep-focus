@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.moon.relaxcalmsounds',
-  appName: 'Relax Calm Sounds',
+  appId: 'com.moon.sleepcalmsounds',
+  appName: 'Relax Sounds: Sleep Focus',
   webDir: 'www',
   server: {
     androidScheme: 'https',
