@@ -437,29 +437,37 @@ export class SoundsService {
 
   pauseAllSounds(): void {
     const sounds = this.#sounds();
+    let completedFades = 0;
+    const soundsToPause = sounds.filter(
+      (sound) => sound.selected && sound.audio && !sound.audio.paused
+    );
 
-    sounds.forEach((sound) => {
-      if (sound.selected && sound.audio) {
-        if (!sound.audio.paused) {
+    if (soundsToPause.length === 0) {
+      this.#isPlaying.set(false);
+      return;
+    }
+
+    soundsToPause.forEach((sound) => {
+      if (sound.audio) {
+        // Fade out before pausing
+        this.fadeAudio(sound.audio, 0, 300, () => {
           try {
-            sound.audio.pause();
+            sound.audio?.pause();
           } catch (error) {
             console.error(`Failed to pause ${sound.name}:`, error);
           }
-        }
-        // Clear any pending fade intervals
-        if (sound.audio.dataset['fadeInterval']) {
-          clearInterval(parseInt(sound.audio.dataset['fadeInterval']));
-          delete sound.audio.dataset['fadeInterval'];
-        }
+
+          completedFades++;
+          if (completedFades === soundsToPause.length) {
+            // All fades complete, update playing state
+            this.#isPlaying.set(false);
+          }
+        });
       }
     });
 
     // Force update the signals to ensure consistency
     this.#sounds.set([...sounds]);
-
-    // Update playing state
-    this.#isPlaying.set(false);
   }
 
   resumeAllSounds(): void {
@@ -475,8 +483,13 @@ export class SoundsService {
         sound.audio.play().catch((error) => {
           console.warn(`Failed to resume sound: ${sound.name}`, error);
         });
+
+        // Fade in from current volume to target volume
+        const targetVolume = sound.muted ? 0 : sound.volume;
+        this.fadeAudio(sound.audio, targetVolume, 300);
       }
     });
+
     // Force update the signals to ensure consistency
     this.#sounds.set([...sounds]);
 
@@ -485,30 +498,49 @@ export class SoundsService {
   }
 
   stopAllSounds(): void {
-    this.#sounds().forEach((sound) => {
+    const sounds = this.#sounds();
+    let completedFades = 0;
+    const soundsToStop = sounds.filter(
+      (sound) => sound.audio && !sound.audio.paused
+    );
+
+    if (soundsToStop.length === 0) {
+      // No sounds playing, just reset state
+      const updatedSounds = sounds.map((s) => ({ ...s, selected: false }));
+      this.#sounds.set(updatedSounds);
+      this.#musicControlsService.updatePlayingState([]);
+      this.#isPlaying.set(false);
+      return;
+    }
+
+    soundsToStop.forEach((sound) => {
       if (sound.audio) {
-        sound.audio.pause();
-        sound.audio.currentTime = 0;
-        sound.audio.volume = 0;
-        // Clear any pending fade intervals
-        if (sound.audio.dataset['fadeInterval']) {
-          clearInterval(parseInt(sound.audio.dataset['fadeInterval']));
-          delete sound.audio.dataset['fadeInterval'];
-        }
+        // Fade out before stopping
+        this.fadeAudio(sound.audio, 0, 400, () => {
+          if (sound.audio) {
+            sound.audio.pause();
+            sound.audio.currentTime = 0;
+          }
+
+          completedFades++;
+          if (completedFades === soundsToStop.length) {
+            // All fades complete, reset state
+            const currentSounds = this.#sounds();
+            const updatedSounds = currentSounds.map((s) => ({
+              ...s,
+              selected: false,
+            }));
+            this.#sounds.set(updatedSounds);
+
+            // Notify music controls service about the change
+            this.#musicControlsService.updatePlayingState([]);
+
+            // Update playing state
+            this.#isPlaying.set(false);
+          }
+        });
       }
     });
-
-    // Reset all sounds to unselected state
-    const currentSounds = this.#sounds();
-    const updatedSounds = currentSounds.map((s) => ({ ...s, selected: false }));
-    this.#sounds.set(updatedSounds);
-
-    // Notify music controls service about the change
-    const playingSounds = this.#sounds().filter((sound) => sound.selected);
-    this.#musicControlsService.updatePlayingState(playingSounds);
-
-    // Update playing state
-    this.#isPlaying.set(false);
   }
 
   setVolume(
