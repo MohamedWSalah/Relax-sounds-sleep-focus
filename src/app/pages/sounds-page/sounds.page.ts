@@ -71,7 +71,7 @@ export class SoundsPage {
           role: 'cancel',
           handler: () => {
             // Trigger the premium purchase flow
-            this.#inAppPurchaseService.purchasePremium().subscribe();
+            this.#inAppPurchaseService.purchasePremium();
           },
         },
         {

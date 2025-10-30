@@ -1,18 +1,16 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Preferences } from '@capacitor/preferences';
 import { Capacitor } from '@capacitor/core';
+import { Platform } from '@ionic/angular';
 import { ToastControllerService } from './toast.service';
-import { Observable, from, of, timer } from 'rxjs';
-import { map, catchError, tap, switchMap, take } from 'rxjs/operators';
 
-// Type definitions for cordova-plugin-purchase
-declare const store: any;
+import 'cordova-plugin-purchase';
 
 /**
  * In-App Purchase Service
  *
  * Handles premium unlock functionality using Google Play Store billing.
- * Uses RxJS Observables for reactive, functional programming patterns.
+ * Uses Promises for clean async/await patterns.
  *
  * Features:
  * - One-time premium purchase via Google Play
@@ -28,16 +26,23 @@ declare const store: any;
 })
 export class InAppPurchaseService {
   readonly #toastService = inject(ToastControllerService);
+  readonly #platform = inject(Platform);
 
   // Configuration constants
-  readonly #PRODUCT_ID = 'premium_access' as const;
-  readonly #STORAGE_KEY = 'premium_unlocked' as const;
-  readonly #RESTORE_CHECK_DELAY = 2000 as const;
+  readonly #PRODUCT_ID = 'premium_access';
+  readonly #STORAGE_KEY = 'premium_unlocked';
+  readonly #RESTORE_CHECK_DELAY = 2000;
 
   // Premium unlock state (reactive signal)
   readonly #isPremiumUnlocked = signal<boolean>(false);
+  readonly #productsLoaded = signal<boolean>(false);
+  #store?: CdvPurchase.Store;
 
   #isInitialized = false;
+
+  constructor() {
+    // Platform initialization happens in initialize() method
+  }
 
   // ==================== Public API ====================
 
@@ -63,85 +68,111 @@ export class InAppPurchaseService {
    * Initialize the in-app purchase system
    * Should be called once on app startup
    *
-   * Returns an Observable that:
+   * Returns a Promise that:
    * - Loads saved premium status from local storage
    * - Initializes the Play Store plugin (native only)
    * - Checks for existing purchases
    */
-  initialize(): Observable<boolean> {
+  async initialize() {
     if (this.#isInitialized) {
-      return of(true);
+      return true;
     }
 
-    return this.#loadPremiumStatus().pipe(
-      tap((isPremium) => {
-        if (this.#isNativePlatform() && this.#isStoreAvailable()) {
-          this.#initializeStore();
-        }
-        this.#isInitialized = true;
-      }),
-      map(() => true),
-      catchError((error) => {
-        console.error('Failed to initialize In-App Purchase:', error);
-        return of(false);
-      })
-    );
+    try {
+      // Load saved premium status
+      await this.#loadPremiumStatus();
+
+      // Wait for platform to be ready
+      await this.#platform.ready();
+
+      // Check if we're on native and CdvPurchase is available
+      if (this.#isNativePlatform() && typeof CdvPurchase !== 'undefined') {
+        // Assign the store
+        this.#store = CdvPurchase.store;
+        console.log('CdvPurchase store is available');
+
+        // Initialize the store
+        this.#initializeStore();
+      }
+
+      this.#isInitialized = true;
+      console.log('Initialized in-app purchase service');
+      return true;
+    } catch (error) {
+      console.error('Failed to initialize In-App Purchase:', error);
+      return false;
+    }
   }
 
   /**
    * Initialize the cordova-plugin-purchase store
    * Registers the premium product and sets up event handlers
-   * This is synchronous as it only sets up event listeners
    */
   #initializeStore(): void {
-    store.verbosity = store.INFO;
+    if (!this.#store) {
+      console.error('Store not available');
+      return;
+    }
 
     // Register the premium product as a non-consumable (one-time purchase)
-    store.register({
-      id: this.#PRODUCT_ID,
-      type: store.NON_CONSUMABLE,
-    });
+    this.#store.register([
+      {
+        id: this.#PRODUCT_ID,
+        type: CdvPurchase.ProductType.NON_CONSUMABLE,
+        platform: CdvPurchase.Platform.GOOGLE_PLAY,
+      },
+    ]);
 
     // Set up event handlers
     this.#setupStoreEventHandlers();
 
-    // Check for existing purchases
-    store.refresh();
+    // Initialize the store
+    this.#store.initialize([CdvPurchase.Platform.GOOGLE_PLAY]);
   }
 
   /**
    * Set up all store event handlers for purchase lifecycle
    */
   #setupStoreEventHandlers(): void {
-    // Purchase approved - finish the transaction
-    store.when(this.#PRODUCT_ID).approved((product: any) => {
-      product.finish();
-    });
+    if (!this.#store) {
+      return;
+    }
 
-    // Purchase verified - unlock premium
-    store.when(this.#PRODUCT_ID).verified(() => {
-      this.#unlockPremium().subscribe();
-    });
+    // Setup event handlers using the when() API
+    this.#store
+      .when()
+      .productUpdated(() => {
+        console.log(
+          'Products loaded from the store:',
+          JSON.stringify(this.#store?.products)
+        );
 
-    // Product already owned - unlock premium
-    store.when(this.#PRODUCT_ID).owned(() => {
-      this.#unlockPremium().subscribe();
-    });
+        // Mark products as loaded
+        this.#productsLoaded.set(true);
 
-    // Purchase cancelled by user
-    store.when(this.#PRODUCT_ID).cancelled(() => {
-      this.#toastService.presentToast('Purchase cancelled', 2000, 'bottom');
-    });
-
-    // Purchase error
-    store.error((error: any) => {
-      console.error('Store error:', error);
-      this.#toastService.presentToast(
-        'Purchase failed. Please try again.',
-        2000,
-        'bottom'
-      );
-    });
+        // Check if user already owns the premium product
+        if (this.#store?.owned(this.#PRODUCT_ID)) {
+          this.#unlockPremium();
+        }
+      })
+      .approved((transaction) => {
+        console.log('Purchase approved:', transaction);
+        transaction.verify();
+      })
+      .verified((receipt) => {
+        console.log('Purchase verified:', receipt);
+        receipt.finish();
+        this.#unlockPremium();
+      })
+      .finished((transaction) => {
+        console.log('Purchase finished:', transaction);
+      })
+      .receiptUpdated((receipt) => {
+        // Check if user owns the premium product
+        if (this.#store?.owned(this.#PRODUCT_ID)) {
+          this.#unlockPremium();
+        }
+      });
   }
 
   // ==================== Purchase Operations ====================
@@ -149,14 +180,14 @@ export class InAppPurchaseService {
   /**
    * Initiate premium purchase through Google Play Store
    *
-   * Returns an Observable that:
+   * Returns a Promise that:
    * - Checks if already unlocked
    * - Validates native platform availability
    * - Initiates the purchase flow
    *
    * The actual unlock happens in the store event handlers
    */
-  purchasePremium(): Observable<void> {
+  async purchasePremium(): Promise<void> {
     // Already unlocked
     if (this.#isPremiumUnlocked()) {
       this.#toastService.presentToast(
@@ -164,9 +195,8 @@ export class InAppPurchaseService {
         2000,
         'bottom'
       );
-      return of(undefined);
+      return;
     }
-    console.log(this.#isStoreAvailable());
 
     // Not on native platform
     if (!this.#isNativePlatform() || !this.#isStoreAvailable()) {
@@ -175,22 +205,57 @@ export class InAppPurchaseService {
         3000,
         'bottom'
       );
-      return of(undefined);
+      return;
     }
 
-    // Initiate purchase flow (async, handled by store events)
-    return of(undefined).pipe(
-      tap(() => store.order(this.#PRODUCT_ID)),
-      catchError((error) => {
-        console.error('Failed to initiate purchase:', error);
-        this.#toastService.presentToast(
-          'Failed to start purchase. Please try again.',
-          2000,
-          'bottom'
+    try {
+      if (!this.#store) {
+        throw new Error('Store not initialized');
+      }
+
+      const product = this.#store.get(this.#PRODUCT_ID);
+      console.log('Available products:', this.#store.products);
+
+      if (!product) {
+        console.error(
+          'Product not found. Available products:',
+          this.#store.products
         );
-        return of(undefined);
-      })
-    );
+        throw new Error('Product not found in store. Please contact support.');
+      }
+
+      const offer = product.getOffer();
+      if (!offer) {
+        console.error('No offer available for product:', product);
+        throw new Error('No offer available for product');
+      }
+
+      // Initiate purchase flow (async, handled by store events)
+      const error = await offer.order();
+
+      if (error) {
+        if (error.code === CdvPurchase.ErrorCode.PAYMENT_CANCELLED) {
+          console.log('Payment cancelled by user');
+          this.#toastService.presentToast('Purchase cancelled', 2000, 'bottom');
+        } else {
+          console.error('Failed to purchase:', error);
+          this.#toastService.presentToast(
+            'Purchase failed. Please try again.',
+            2000,
+            'bottom'
+          );
+        }
+      }
+    } catch (error) {
+      console.error('Failed to initiate purchase:', error);
+      const errorMessage =
+        error instanceof Error ? error.message : 'Unknown error';
+      this.#toastService.presentToast(
+        `Failed to start purchase: ${errorMessage}`,
+        3000,
+        'bottom'
+      );
+    }
   }
 
   /**
@@ -200,13 +265,8 @@ export class InAppPurchaseService {
    * - User reinstalls the app
    * - User switches devices
    * - User clears app data
-   *
-   * Returns an Observable that:
-   * - Validates native platform
-   * - Refreshes store to check owned products
-   * - Shows result after delay
    */
-  restorePurchases(): Observable<void> {
+  async restorePurchases(): Promise<void> {
     // Not on native platform
     if (!this.#isNativePlatform() || !this.#isStoreAvailable()) {
       this.#toastService.presentToast(
@@ -214,33 +274,34 @@ export class InAppPurchaseService {
         3000,
         'bottom'
       );
-      return of(undefined);
+      return;
     }
 
-    // Show loading state
-    this.#toastService.presentToast('Restoring purchases...', 2000, 'bottom');
+    try {
+      // Show loading state
+      this.#toastService.presentToast('Restoring purchases...', 2000, 'bottom');
 
-    // Refresh store (triggers .owned() handler if purchases exist)
-    return of(undefined).pipe(
-      tap(() => store.refresh()),
-      switchMap(() => timer(this.#RESTORE_CHECK_DELAY).pipe(take(1))),
-      tap(() => {
-        const message = this.#isPremiumUnlocked()
-          ? 'Premium access restored!'
-          : 'No previous purchases found';
-        this.#toastService.presentToast(message, 2000, 'bottom');
-      }),
-      map(() => undefined),
-      catchError((error) => {
-        console.error('Failed to restore purchases:', error);
-        this.#toastService.presentToast(
-          'Failed to restore purchases. Please try again.',
-          2000,
-          'bottom'
-        );
-        return of(undefined);
-      })
-    );
+      if (this.#store) {
+        this.#store.restorePurchases();
+      }
+
+      // Wait a bit for the store to process
+      await new Promise((resolve) =>
+        setTimeout(resolve, this.#RESTORE_CHECK_DELAY)
+      );
+
+      const message = this.#isPremiumUnlocked()
+        ? 'Premium access restored!'
+        : 'No previous purchases found';
+      this.#toastService.presentToast(message, 2000, 'bottom');
+    } catch (error) {
+      console.error('Failed to restore purchases:', error);
+      this.#toastService.presentToast(
+        'Failed to restore purchases. Please try again.',
+        2000,
+        'bottom'
+      );
+    }
   }
 
   // ==================== Premium Status Management ====================
@@ -249,45 +310,40 @@ export class InAppPurchaseService {
    * Unlock premium access
    * Updates signal and persists to local storage
    */
-  #unlockPremium(): Observable<void> {
-    return this.#savePremiumStatus(true).pipe(
-      tap(() => this.#isPremiumUnlocked.set(true)),
-      map(() => undefined)
-    );
+  async #unlockPremium(): Promise<void> {
+    await this.#savePremiumStatus(true);
+    this.#isPremiumUnlocked.set(true);
   }
 
   /**
    * Save premium status to Capacitor Preferences
    * Persists across app restarts
    */
-  #savePremiumStatus(status: boolean): Observable<void> {
-    return from(
-      Preferences.set({
+  async #savePremiumStatus(status: boolean): Promise<void> {
+    try {
+      await Preferences.set({
         key: this.#STORAGE_KEY,
         value: status.toString(),
-      })
-    ).pipe(
-      map(() => undefined),
-      catchError((error) => {
-        console.error('Failed to save premium status:', error);
-        return of(undefined);
-      })
-    );
+      });
+    } catch (error) {
+      console.error('Failed to save premium status:', error);
+    }
   }
 
   /**
    * Load premium status from Capacitor Preferences
    * Updates the signal with the stored value
    */
-  #loadPremiumStatus(): Observable<boolean> {
-    return from(Preferences.get({ key: this.#STORAGE_KEY })).pipe(
-      map((result) => result.value === 'true'),
-      tap((isPremium) => this.#isPremiumUnlocked.set(isPremium)),
-      catchError((error) => {
-        console.error('Failed to load premium status:', error);
-        return of(false);
-      })
-    );
+  async #loadPremiumStatus(): Promise<boolean> {
+    try {
+      const result = await Preferences.get({ key: this.#STORAGE_KEY });
+      const isPremium = result.value === 'true';
+      this.#isPremiumUnlocked.set(isPremium);
+      return isPremium;
+    } catch (error) {
+      console.error('Failed to load premium status:', error);
+      return false;
+    }
   }
 
   // ==================== Platform Detection ====================
@@ -303,7 +359,7 @@ export class InAppPurchaseService {
    * Check if the cordova-plugin-purchase store is available
    */
   #isStoreAvailable(): boolean {
-    return typeof store !== 'undefined';
+    return this.#store !== undefined;
   }
 
   // ==================== Development Helpers ====================
@@ -313,7 +369,7 @@ export class InAppPurchaseService {
    * Manually unlock premium without purchase
    * Blocked on native platforms to prevent production abuse
    */
-  unlockPremiumForTesting(): Observable<void> {
+  async unlockPremiumForTesting(): Promise<void> {
     if (this.#isNativePlatform()) {
       console.error('⛔ Testing methods are disabled on mobile devices');
       this.#toastService.presentToast(
@@ -321,21 +377,18 @@ export class InAppPurchaseService {
         2000,
         'bottom'
       );
-      return of(undefined);
+      return;
     }
 
     console.warn(
       '⚠️ TESTING: Unlocking premium without purchase (Browser only)'
     );
 
-    return this.#unlockPremium().pipe(
-      tap(() => {
-        this.#toastService.presentToast(
-          'Premium unlocked (TEST MODE - Browser only)',
-          2000,
-          'bottom'
-        );
-      })
+    await this.#unlockPremium();
+    this.#toastService.presentToast(
+      'Premium unlocked (TEST MODE - Browser only)',
+      2000,
+      'bottom'
     );
   }
 
@@ -344,7 +397,7 @@ export class InAppPurchaseService {
    * Reset premium status
    * Blocked on native platforms to prevent production abuse
    */
-  resetPremiumForTesting(): Observable<void> {
+  async resetPremiumForTesting(): Promise<void> {
     if (this.#isNativePlatform()) {
       console.error('⛔ Testing methods are disabled on mobile devices');
       this.#toastService.presentToast(
@@ -352,20 +405,17 @@ export class InAppPurchaseService {
         2000,
         'bottom'
       );
-      return of(undefined);
+      return;
     }
 
     console.warn('⚠️ TESTING: Resetting premium status (Browser only)');
 
-    return this.#savePremiumStatus(false).pipe(
-      tap(() => {
-        this.#isPremiumUnlocked.set(false);
-        this.#toastService.presentToast(
-          'Premium reset (TEST MODE - Browser only)',
-          2000,
-          'bottom'
-        );
-      })
+    await this.#savePremiumStatus(false);
+    this.#isPremiumUnlocked.set(false);
+    this.#toastService.presentToast(
+      'Premium reset (TEST MODE - Browser only)',
+      2000,
+      'bottom'
     );
   }
 }

@@ -54,7 +54,7 @@ export class SettingsPage {
    * Initiates the Google Play Store purchase flow
    */
   purchasePremium(): void {
-    this.inAppPurchaseService.purchasePremium().subscribe();
+    this.inAppPurchaseService.purchasePremium();
   }
 
   /**
@@ -62,6 +62,6 @@ export class SettingsPage {
    * Useful after reinstalling the app or switching devices
    */
   restorePurchases(): void {
-    this.inAppPurchaseService.restorePurchases().subscribe();
+    this.inAppPurchaseService.restorePurchases();
   }
 }

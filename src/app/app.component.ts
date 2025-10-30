@@ -42,7 +42,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     // Initialize In-App Purchase service
     // Loads saved premium status and sets up the store plugin
-    this.inAppPurchaseService.initialize().subscribe();
+    this.inAppPurchaseService.initialize();
   }
 
   ngOnDestroy(): void {
