@@ -18,6 +18,7 @@ import { ToastControllerService } from 'src/app/services/toast.service';
 import { MixesService } from 'src/app/services/mixes.service';
 import { InAppPurchaseService } from 'src/app/services/in-app-purchase.service';
 import { SaveMixModalComponent } from 'src/app/components/save-mix-modal/save-mix-modal.component';
+import { PremiumUpsellModalComponent } from 'src/app/components/premium-upsell-modal/premium-upsell-modal.component';
 import { of } from 'rxjs';
 
 @Component({
@@ -269,7 +270,7 @@ export class SoundsPage implements OnInit {
   toggleSound(selectedSound: Sound): void {
     // Check if sound is locked
     if (this.isSoundLocked(selectedSound)) {
-      this.#showPremiumPrompt();
+      this.#showPremiumUpsellModal(selectedSound);
       return;
     }
 
@@ -277,9 +278,44 @@ export class SoundsPage implements OnInit {
   }
 
   /**
-   * Show premium unlock prompt
+   * Show premium upsell modal
    */
-  #showPremiumPrompt(): void {
+  async #showPremiumUpsellModal(sound: Sound): Promise<void> {
+    try {
+      const modal = await this.#modalController.create({
+        component: PremiumUpsellModalComponent,
+        componentProps: {
+          sound: sound,
+        },
+        cssClass: 'premium-upsell-modal',
+        backdropDismiss: true,
+        showBackdrop: true,
+        breakpoints: [0, 0.93, 0.95],
+        initialBreakpoint: 0.95,
+      });
+
+      await modal.present();
+
+      const { data, role } = await modal.onWillDismiss();
+
+      // If purchase was successful, activate the sound
+      if (role === 'purchased' && data?.success && data?.sound) {
+        // Small delay to ensure premium status is fully updated
+        setTimeout(() => {
+          this.#soundsService.toggleSound(data.sound);
+        }, 100);
+      }
+    } catch (error) {
+      console.error('Failed to open premium upsell modal:', error);
+      // Fallback to toast if modal fails
+      this.#showPremiumToast();
+    }
+  }
+
+  /**
+   * Fallback premium prompt (toast) - only used if modal fails
+   */
+  #showPremiumToast(): void {
     this.#toastController.create({
       message: '🔒 Unlock premium to access all sounds',
       duration: 2000,

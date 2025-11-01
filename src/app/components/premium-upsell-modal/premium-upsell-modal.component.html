@@ -1,0 +1,48 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <h2>Premium Sound</h2>
+    <ion-icon
+      name="close-outline"
+      class="close-icon"
+      (click)="dismiss()"
+    ></ion-icon>
+  </div>
+
+  <div class="modal-body">
+    <!-- Sound Icon -->
+    <div class="sound-icon-large">
+      <span>{{ sound.icon }}</span>
+    </div>
+
+    <!-- Sound Name -->
+    <h3 class="sound-name">{{ sound.name }}</h3>
+
+    <!-- Play Preview Button -->
+    <button
+      class="preview-button"
+      [class.playing]="isPreviewPlaying()"
+      (click)="playPreview()"
+    >
+      <ion-icon
+        [name]="isPreviewPlaying() ? 'pause' : 'play'"
+        class="preview-icon"
+      ></ion-icon>
+      <span>{{ isPreviewPlaying() ? 'Playing Preview...' : 'Play Preview' }}</span>
+    </button>
+
+    <!-- Upsell Text -->
+    <p class="upsell-text">
+      Unlock all premium sounds with Premium Access
+    </p>
+
+    <!-- Unlock Premium Button -->
+    <ion-button
+      class="unlock-button"
+      expand="block"
+      (click)="unlockPremium()"
+    >
+      <ion-icon name="diamond" slot="start"></ion-icon>
+      Unlock Premium
+    </ion-button>
+  </div>
+</div>

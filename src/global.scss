@@ -160,6 +160,20 @@ ion-toast .toast-wrapper {
   }
 }
 
+/* Premium Upsell Modal Styling */
+.premium-upsell-modal {
+  --backdrop-opacity: 0.7;
+  --width: 90%;
+
+  --height: auto;
+  --border-radius: 1.5rem;
+  --background: transparent;
+
+  align-items: center;
+  justify-content: center;
+  background: transparent !important;
+}
+
 /* Premium Toast Styling */
 ion-toast.premium-toast {
   --background: linear-gradient(
