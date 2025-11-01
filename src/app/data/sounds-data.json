@@ -1,0 +1,247 @@
+{
+  "sounds": [
+    {
+      "id": "rain-light",
+      "name": "Light Rain",
+      "icon": "🌧️",
+      "file": "rain-light.mp3",
+      "description": "Gentle rain noise",
+      "category": "rain",
+      "premium": false
+    },
+    {
+      "id": "rain-window",
+      "name": "Rain on Window",
+      "icon": "🌧️",
+      "file": "rain-on-window.mp3",
+      "description": "Soft rain hitting glass",
+      "category": "rain",
+      "premium": false
+    },
+    {
+      "id": "rain-tent",
+      "name": "Rain on Tent",
+      "icon": "🌧️",
+      "file": "rain-on-tent.mp3",
+      "description": "Canvas shelter rainfall",
+      "category": "rain",
+      "premium": true
+    },
+    {
+      "id": "rain-thunderstorm",
+      "name": "Thunderstorm Rain",
+      "icon": "🌧️",
+      "file": "rain-thunderstorm.mp3",
+      "description": "Heavy rain + thunder",
+      "category": "rain",
+      "premium": true
+    },
+
+    {
+      "id": "wind-breeze",
+      "name": "Soft Breeze",
+      "icon": "🌬️",
+      "file": "wind-soft-breeze.mp3",
+      "description": "Gentle wind flow",
+      "category": "wind",
+      "premium": false
+    },
+    {
+      "id": "wind-forest",
+      "name": "Wind Through Trees",
+      "icon": "🌬️",
+      "file": "wind-forest.mp3",
+      "description": "Leaves swaying in wind",
+      "category": "wind",
+      "premium": false
+    },
+    {
+      "id": "wind-gusts",
+      "name": "Wind Gusts",
+      "icon": "🌬️",
+      "file": "wind-gusts.mp3",
+      "description": "Heavy windy gusts",
+      "category": "wind",
+      "premium": true
+    },
+    {
+      "id": "wind-night",
+      "name": "Night Desert Wind",
+      "icon": "🌬️",
+      "file": "wind-night-desert.mp3",
+      "description": "Cold desert wind",
+      "category": "wind",
+      "premium": true
+    },
+
+    {
+      "id": "forest-birds",
+      "name": "Forest Birds",
+      "icon": "🌲",
+      "file": "forest-birds.mp3",
+      "description": "Morning forest birds",
+      "category": "forest",
+      "premium": false
+    },
+    {
+      "id": "forest-crickets",
+      "name": "Night Crickets",
+      "icon": "🌲",
+      "file": "forest-crickets.mp3",
+      "description": "Crickets in forest",
+      "category": "forest",
+      "premium": false
+    },
+    {
+      "id": "forest-stream",
+      "name": "Forest Stream",
+      "icon": "🌲",
+      "file": "forest-stream.mp3",
+      "description": "Water stream in jungle",
+      "category": "forest",
+      "premium": true
+    },
+    {
+      "id": "forest-deep",
+      "name": "Deep Forest Ambience",
+      "icon": "🌲",
+      "file": "forest-deep.mp3",
+      "description": "Thick forest ambience",
+      "category": "forest",
+      "premium": true
+    },
+
+    {
+      "id": "ocean-waves-soft",
+      "name": "Soft Ocean Waves",
+      "icon": "🌊",
+      "file": "ocean-waves-soft.mp3",
+      "description": "Gentle seaside waves",
+      "category": "ocean",
+      "premium": false
+    },
+    {
+      "id": "ocean-waves-strong",
+      "name": "Strong Ocean Waves",
+      "icon": "🌊",
+      "file": "ocean-waves-strong.mp3",
+      "description": "Powerful crashing waves",
+      "category": "ocean",
+      "premium": false
+    },
+    {
+      "id": "ocean-deep",
+      "name": "Deep Sea Hums",
+      "icon": "🌊",
+      "file": "ocean-deep-hum.mp3",
+      "description": "Low underwater ambience",
+      "category": "ocean",
+      "premium": true
+    },
+    {
+      "id": "ocean-seagulls",
+      "name": "Seagulls",
+      "icon": "🌊",
+      "file": "ocean-seagulls.mp3",
+      "description": "Seaside birds",
+      "category": "ocean",
+      "premium": true
+    },
+
+    {
+      "id": "city-night",
+      "name": "City Night",
+      "icon": "🚗",
+      "file": "city-night.mp3",
+      "description": "Muffled night traffic",
+      "category": "city",
+      "premium": false
+    },
+    {
+      "id": "city-traffic",
+      "name": "City Traffic",
+      "icon": "🚗",
+      "file": "city-traffic.mp3",
+      "description": "Urban street noise",
+      "category": "city",
+      "premium": true
+    },
+    {
+      "id": "city-metro",
+      "name": "City Subway",
+      "icon": "🚗",
+      "file": "city-underground.mp3",
+      "description": "Train subway ambience",
+      "category": "city",
+      "premium": true
+    },
+
+    {
+      "id": "cafe-light",
+      "name": "Light Coffee Shop",
+      "icon": "☕",
+      "file": "coffee-light-cafe.mp3",
+      "description": "Quiet cafe ambience",
+      "category": "coffee",
+      "premium": false
+    },
+    {
+      "id": "cafe-indoor-talk",
+      "name": "Crowded Coffee Shop",
+      "icon": "☕",
+      "file": "coffee-indoor-talk.mp3",
+      "description": "Indoor people talking",
+      "category": "coffee",
+      "premium": true
+    },
+    {
+      "id": "cafe-outdoor",
+      "name": "Outdoor Terrace Cafe",
+      "icon": "☕",
+      "file": "coffee-outdoor-terrace.mp3",
+      "description": "Cafe patio ambience",
+      "category": "coffee",
+      "premium": true
+    },
+
+    {
+      "id": "asmr-whisper-soft",
+      "name": "Soft Whispering",
+      "icon": "✨",
+      "file": "asmr-soft-whisper.mp3",
+      "description": "Quiet whisper ASMR",
+      "category": "asmr",
+      "premium": false
+    },
+    {
+      "id": "asmr-mouth-sounds",
+      "name": "Mouth Sounds",
+      "icon": "✨",
+      "file": "asmr-mouth-sounds.mp3",
+      "description": "ASMR mouth sounds",
+      "category": "asmr",
+      "premium": true
+    },
+    {
+      "id": "asmr-tapping",
+      "name": "Gentle Tapping",
+      "icon": "✨",
+      "file": "asmr-tapping.mp3",
+      "description": "Soft tapping on objects",
+      "category": "asmr",
+      "premium": true
+    }
+  ],
+
+  "categories": [
+    { "id": "rain", "name": "Rain", "icon": "🌧️" },
+    { "id": "wind", "name": "Wind", "icon": "🌬️" },
+    { "id": "forest", "name": "Forest", "icon": "🌲" },
+    { "id": "ocean", "name": "Ocean", "icon": "🌊" },
+    { "id": "city", "name": "City", "icon": "🚗" },
+    { "id": "coffee", "name": "Coffee Shop", "icon": "☕" },
+    { "id": "asmr", "name": "ASMR", "icon": "✨" }
+  ],
+
+  "defaultCategory": "rain"
+}

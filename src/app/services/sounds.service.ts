@@ -4,6 +4,11 @@ import { FavoritesService } from './favorites.service';
 import { InAppPurchaseService } from './in-app-purchase.service';
 import { Observable, from, of } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
+import {
+  SOUNDS_DATA,
+  BASE_CATEGORIES,
+  DEFAULT_CATEGORY,
+} from '../data/sounds-data';
 
 export interface Sound {
   id: string;
@@ -45,211 +50,19 @@ export class SoundsService {
 
   #isPlaying = signal<boolean>(false);
 
-  #sounds = signal<Sound[]>([
-    {
-      id: 'rain',
-      name: 'Rain',
-      icon: '🌧️',
-      file: 'rain.mp3',
+  // Initialize sounds from data file with default runtime properties
+  #sounds = signal<Sound[]>(
+    SOUNDS_DATA.map((soundData) => ({
+      ...soundData,
       selected: false,
       volume: 1,
       muted: false,
-      description: 'Gentle rainfall',
-      category: 'nature',
-      premium: false,
-    },
-    {
-      id: 'ocean',
-      name: 'Ocean',
-      icon: '🌊',
-      file: 'ocean.mp3',
-      selected: false,
-      volume: 1,
-      muted: false,
-      description: 'Ocean waves',
-      category: 'nature',
-      premium: false,
-    },
-    {
-      id: 'wind',
-      name: 'Wind',
-      icon: '🌬️',
-      file: 'wind.mp3',
-      selected: false,
-      volume: 1,
-      muted: false,
-      description: 'Soft breeze',
-      category: 'nature',
-      premium: false,
-    },
-    {
-      id: 'campfire',
-      name: 'Campfire',
-      icon: '🔥',
-      file: 'campfire.mp3',
-      selected: false,
-      volume: 1,
-      muted: false,
-      description: 'Crackling fire',
-      category: 'nature',
-      premium: true,
-    },
-    {
-      id: 'birds',
-      name: 'Birds',
-      icon: '🐦',
-      file: 'birds.mp3',
-      selected: false,
-      volume: 1,
-      muted: false,
-      description: 'Morning birds',
-      category: 'nature',
-      premium: false,
-    },
-    {
-      id: 'thunder',
-      name: 'Thunder',
-      icon: '🌩️',
-      file: 'thunder.mp3',
-      selected: false,
-      volume: 1,
-      muted: false,
-      description: 'Distant thunder',
-      category: 'nature',
-      premium: true,
-    },
-    {
-      id: 'forest',
-      name: 'Forest',
-      icon: '🌲',
-      file: 'forest-ambience.mp3',
-      selected: false,
-      volume: 1,
-      muted: false,
-      description: 'Deep forest sounds',
-      category: 'nature',
-      premium: false,
-    },
-    {
-      id: 'stream',
-      name: 'Stream',
-      icon: '🏞️',
-      file: 'mountain-stream.mp3',
-      selected: false,
-      volume: 1,
-      muted: false,
-      description: 'Mountain stream',
-      category: 'nature',
-      premium: false,
-    },
-    {
-      id: 'crickets',
-      name: 'Crickets',
-      icon: '🦗',
-      file: 'night-crickets.mp3',
-      selected: false,
-      volume: 1,
-      muted: false,
-      description: 'Night crickets',
-      category: 'nature',
-      premium: false,
-    },
-    {
-      id: 'leaves',
-      name: 'Leaves',
-      icon: '🍂',
-      file: 'rustling-leaves.mp3',
-      selected: false,
-      volume: 1,
-      muted: false,
-      description: 'Rustling leaves',
-      category: 'nature',
-      premium: false,
-    },
-    {
-      id: 'waterfall',
-      name: 'Waterfall',
-      icon: '💧',
-      file: 'waterfall-sound.mp3',
-      selected: false,
-      volume: 1,
-      muted: false,
-      description: 'Cascading waterfall',
-      category: 'nature',
-      premium: true,
-    },
+    }))
+  );
 
-    {
-      id: 'city-traffic',
-      name: 'City Traffic',
-      icon: '🚗',
-      file: 'city-traffic.mp3',
-      selected: false,
-      volume: 1,
-      muted: false,
-      description: 'Urban sounds',
-      category: 'city',
-      premium: true,
-    },
-    {
-      id: 'coffee-shop',
-      name: 'Coffee Shop',
-      icon: '☕',
-      file: 'coffee-shop.mp3',
-      selected: false,
-      volume: 1,
-      muted: false,
-      description: 'Café ambiance',
-      category: 'city',
-      premium: true,
-    },
-    {
-      id: 'singing-bowl',
-      name: 'Singing Bowl',
-      icon: '🔔',
-      file: 'singing-bowl.mp3',
-      selected: false,
-      volume: 1,
-      muted: false,
-      description: 'Tibetan bowl',
-      category: 'meditation',
-      premium: true,
-    },
-    {
-      id: 'piano',
-      name: 'Piano',
-      icon: '🎹',
-      file: 'piano.mp3',
-      selected: false,
-      volume: 1,
-      muted: false,
-      description: 'Soft piano',
-      category: 'instruments',
-      premium: true,
-    },
-    {
-      id: 'whisper',
-      name: 'Whisper',
-      icon: '👂',
-      file: 'whisper.mp3',
-      selected: false,
-      volume: 1,
-      muted: false,
-      description: 'Gentle whispers',
-      category: 'asmr',
-      premium: true,
-    },
-  ]);
+  #selectedCategory = signal<string>(DEFAULT_CATEGORY);
 
-  #selectedCategory = signal<string>('nature');
-
-  #baseCategories = signal<Category[]>([
-    { id: 'nature', name: 'Nature', icon: '🌿' },
-    { id: 'city', name: 'City', icon: '🏙️' },
-    { id: 'meditation', name: 'Meditation', icon: '🧘' },
-    { id: 'instruments', name: 'Instruments', icon: '🎵' },
-    { id: 'asmr', name: 'ASMR', icon: '✨' },
-  ]);
+  #baseCategories = signal<Category[]>(BASE_CATEGORIES);
 
   sounds = computed(() => this.#sounds());
   selectedCategory = computed(() => this.#selectedCategory());
