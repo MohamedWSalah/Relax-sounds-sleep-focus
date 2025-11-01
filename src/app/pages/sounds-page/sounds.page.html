@@ -12,8 +12,48 @@
   }
 </div>
 
-<!-- Sound Grid -->
-<div class="sound-grid">
+<!-- Gesture Hint Arrows -->
+@if (showGestureHints()) {
+<div class="gesture-hints">
+  <div class="hint-arrow hint-left">
+    <ion-icon name="chevron-back"></ion-icon>
+  </div>
+  <div class="hint-arrow hint-right">
+    <ion-icon name="chevron-forward"></ion-icon>
+  </div>
+</div>
+}
+
+<!-- Active Swipe Feedback -->
+@if (swipeStarted()) {
+<div class="swipe-feedback">
+  @if (isSwipingLeft()) {
+  <div
+    class="swipe-arrow swipe-left"
+    [style.opacity]="swipeProgress()"
+    [style.transform]="'translateX(-' + (swipeProgress() * 30) + 'px) scale(' + (0.8 + swipeProgress() * 0.4) + ')'"
+  >
+    <ion-icon name="chevron-forward"></ion-icon>
+  </div>
+  } @if (isSwipingRight()) {
+  <div
+    class="swipe-arrow swipe-right"
+    [style.opacity]="swipeProgress()"
+    [style.transform]="'translateX(' + (swipeProgress() * 30) + 'px) scale(' + (0.8 + swipeProgress() * 0.4) + ')'"
+  >
+    <ion-icon name="chevron-back"></ion-icon>
+  </div>
+  }
+</div>
+}
+
+<!-- Sound Grid with Gesture Support -->
+<div
+  class="sound-grid"
+  (touchstart)="onTouchStart($event)"
+  (touchmove)="onTouchMove($event)"
+  (touchend)="onTouchEnd($event)"
+>
   @for (sound of filteredSounds(); track sound.id) {
   <div class="sound-item">
     <!-- Compact Sound Card -->

@@ -469,6 +469,12 @@ export class SoundsService {
         sound.audio!.currentTime = 0;
       });
     }
+
+    // Check if there are any other sounds still playing
+    const hasAnySelectedSounds = this.#sounds().some((s) => s.selected);
+    if (!hasAnySelectedSounds) {
+      this.#isPlaying.set(false);
+    }
   }
 
   fadeAudio(
@@ -648,6 +654,10 @@ export class SoundsService {
         sound.audio.play().catch((error) => {
           console.warn(`Failed to resume sound: ${sound.name}`, error);
         });
+
+        // Fade in from current volume (0 after pause) to target volume
+        const targetVolume = sound.muted ? 0 : sound.volume;
+        this.fadeAudio(sound.audio, targetVolume, 300);
       }
     });
   }

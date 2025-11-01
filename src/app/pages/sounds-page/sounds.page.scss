@@ -567,3 +567,145 @@
     transform: translateY(0) scale(1);
   }
 }
+
+// Gesture Hints
+.gesture-hints {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+}
+
+.hint-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background: var(--sound-card-active-bg);
+  border: 2px solid var(--sound-card-active-border);
+  border-radius: 50%;
+  box-shadow: 0 8px 24px $shadow-primary-20, 0 0 30px $shadow-primary-30;
+  backdrop-filter: $backdrop-blur-medium;
+  -webkit-backdrop-filter: $backdrop-blur-medium;
+  animation: arrowFlash 2s ease-in-out 2; // 2 complete flash cycles
+
+  ion-icon {
+    font-size: 2rem;
+    color: $primary;
+    filter: $drop-shadow-primary-60;
+  }
+
+  // Light mode style
+  :host-context(body.light) & {
+    background: rgba(var(--ion-color-primary-rgb), 0.15);
+    border-color: var(--ion-color-primary);
+    box-shadow: 0 4px 20px rgba(var(--ion-color-primary-rgb), 0.3);
+
+    ion-icon {
+      color: var(--ion-color-primary);
+    }
+  }
+}
+
+.hint-left {
+  animation-delay: 0s;
+}
+
+.hint-right {
+  animation-delay: 0.1s; // Slight delay for a staggered effect
+}
+
+@keyframes arrowFlash {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  15%,
+  35% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+
+// Active Swipe Feedback
+.swipe-feedback {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.swipe-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background: var(--sound-card-active-bg);
+  border: 2px solid var(--sound-card-active-border);
+  border-radius: 50%;
+  box-shadow: 0 8px 24px $shadow-primary-20, 0 0 30px $shadow-primary-30,
+    inset 0 1px 0 $primary-20;
+  backdrop-filter: $backdrop-blur-strong;
+  -webkit-backdrop-filter: $backdrop-blur-strong;
+  transition: all 0.1s ease-out;
+
+  ion-icon {
+    font-size: 1.8rem;
+    color: $primary;
+    filter: $drop-shadow-primary-60;
+    animation: arrowPulse 0.6s ease-in-out infinite;
+  }
+
+  // Light mode style
+  :host-context(body.light) & {
+    background: rgba(var(--ion-color-primary-rgb), 0.2);
+    border-color: var(--ion-color-primary);
+    box-shadow: 0 8px 30px rgba(var(--ion-color-primary-rgb), 0.4),
+      0 0 40px rgba(var(--ion-color-primary-rgb), 0.3);
+
+    ion-icon {
+      color: var(--ion-color-primary);
+    }
+  }
+}
+
+.swipe-left {
+  position: absolute;
+  right: 1px;
+  transform: scale(0.1);
+}
+
+.swipe-right {
+  position: absolute;
+  left: 1px;
+}
+
+@keyframes arrowPulse {
+  0%,
+  100% {
+    transform: scale(0.4);
+  }
+  50% {
+    transform: scale(0.8);
+  }
+}
