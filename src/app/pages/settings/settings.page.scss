@@ -35,10 +35,18 @@
 
 .settings-header {
   text-align: center;
-  padding: 1.5rem 1rem 1rem;
+  padding: 0.5rem 1rem 1rem;
   margin-bottom: 1.5rem;
   position: relative;
   z-index: 2;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
 
   .header-icon {
     font-size: 2.5rem;

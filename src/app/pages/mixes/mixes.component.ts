@@ -7,6 +7,7 @@ import {
   EventEmitter,
   signal,
   effect,
+  input,
 } from '@angular/core';
 import { IonIcon, IonButton } from '@ionic/angular/standalone';
 import { AlertController, ToastController } from '@ionic/angular';
@@ -24,6 +25,8 @@ export class MixesComponent {
   @Output() mixLoaded = new EventEmitter<Mix>();
   @Output() mixPaused = new EventEmitter<void>();
   @Output() startCreating = new EventEmitter<void>();
+
+  isHeaderScrolled = input<boolean>(false);
 
   private mixesService = inject(MixesService);
   private soundsService = inject(SoundsService);

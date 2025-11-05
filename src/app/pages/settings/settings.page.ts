@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   inject,
   computed,
+  input,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonIcon, IonToggle } from '@ionic/angular/standalone';
@@ -22,6 +23,8 @@ export class SettingsPage {
   private themeService = inject(ThemeService);
   private modalController = inject(ModalController);
   private inAppPurchaseService = inject(InAppPurchaseService);
+
+  isHeaderScrolled = input<boolean>(false);
 
   // Computed signal for theme state
   isDarkMode = computed(() => this.themeService.currentTheme() === 'dark');

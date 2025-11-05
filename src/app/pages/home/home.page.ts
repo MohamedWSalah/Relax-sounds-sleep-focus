@@ -4,6 +4,8 @@ import {
   signal,
   inject,
   computed,
+  ViewChild,
+  AfterViewInit,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonContent } from '@ionic/angular/standalone';
@@ -34,15 +36,37 @@ import { Mix } from 'src/app/services/mixes.service';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HomePage {
+export class HomePage implements AfterViewInit {
   private soundsService = inject(SoundsService);
+  @ViewChild(IonContent) content?: IonContent;
+  
   activeTab = signal<'sounds' | 'timer' | 'mixes' | 'settings'>('sounds');
+  isScrolled = signal(false);
 
   // Get playing state from sounds service
   isPlaying = this.soundsService.isPlaying;
 
+  ngAfterViewInit() {
+    // Listen to scroll events
+    this.content?.getScrollElement().then((element) => {
+      element.addEventListener('scroll', () => {
+        const scrollTop = element.scrollTop;
+        this.isScrolled.set(scrollTop > 50);
+      });
+    });
+  }
+
+  onScroll(event: any) {
+    const scrollTop = event.detail.scrollTop;
+    this.isScrolled.set(scrollTop > 50);
+  }
+
   onTabChanged(tab: 'sounds' | 'timer' | 'mixes' | 'settings') {
     this.activeTab.set(tab);
+    // Reset scroll state and position when switching tabs
+    this.isScrolled.set(false);
+    // Scroll to top
+    this.content?.scrollToTop(0);
   }
 
   onMixLoaded(mix: Mix) {

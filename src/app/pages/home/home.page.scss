@@ -25,18 +25,21 @@
   padding: 1.5rem 1rem 1rem;
   position: relative;
   z-index: 2;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   .header-content {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .moon-icon {
     font-size: 2rem;
     animation: moonFloat 3s ease-in-out infinite;
     filter: drop-shadow(0 0 10px rgba(111, 255, 233, 0.5));
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .app-title {
@@ -46,6 +49,7 @@
     margin: 0;
     text-shadow: 0 0 20px rgba(111, 255, 233, 0.4);
     letter-spacing: 0.5px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .header-subtitle {
@@ -54,6 +58,36 @@
     font-weight: 300;
     letter-spacing: 0.3px;
     text-shadow: 0 0 10px rgba(111, 255, 233, 0.2);
+  }
+
+  // Sticky state for mixes and settings pages
+  &.sticky {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 0.75rem 1rem 0.5rem;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid rgba(111, 255, 233, 0.2);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+
+    .header-content {
+      flex-direction: row;
+      gap: 0.75rem;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .moon-icon {
+      font-size: 1.25rem;
+      animation: none;
+    }
+
+    .app-title {
+      font-size: 1.25rem;
+      margin: 0;
+    }
   }
 }
 

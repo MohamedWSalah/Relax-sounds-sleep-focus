@@ -1,13 +1,26 @@
-<ion-content [fullscreen]="true" class="home-content">
+<ion-content
+  [fullscreen]="true"
+  class="home-content"
+  [class.scrolled]="isScrolled()"
+  (ionScroll)="onScroll($event)"
+>
   <!-- Animated Background -->
   <moon-particles></moon-particles>
 
   <!-- Header -->
-  <div class="header">
+  <div class="header" [class.sticky]="isScrolled() && (activeTab() === 'mixes' || activeTab() === 'settings')">
     <div class="header-content">
       <div class="moon-icon">🌙</div>
       @if(activeTab() === 'sounds') {
       <h1 class="app-title">Relax Sounds</h1>
+      } @if(activeTab() === 'mixes') {
+      @if(isScrolled()) {
+      <h1 class="app-title">Mixes</h1>
+      }
+      } @if(activeTab() === 'settings') {
+      @if(isScrolled()) {
+      <h1 class="app-title">Settings</h1>
+      }
       }
     </div>
   </div>
@@ -27,6 +40,7 @@
     <!-- Mixes Tab -->
     <div [style.display]="activeTab() === 'mixes' ? 'block' : 'none'">
       <app-mixes
+        [isHeaderScrolled]="isScrolled()"
         (mixLoaded)="onMixLoaded($event)"
         (mixPaused)="onMixPaused()"
         (startCreating)="onStartCreating()"
@@ -36,7 +50,7 @@
 
     <!-- Settings Tab -->
     <div [style.display]="activeTab() === 'settings' ? 'block' : 'none'">
-      <app-settings></app-settings>
+      <app-settings [isHeaderScrolled]="isScrolled()"></app-settings>
     </div>
   </div>
 
