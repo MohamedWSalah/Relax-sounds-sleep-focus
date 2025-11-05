@@ -97,7 +97,7 @@ export class MixesComponent {
 
   async togglePlayPause(mix: Mix, event: Event) {
     event.stopPropagation(); // Prevent any parent click handlers
-
+    this.toastController.dismiss();
     if (this.isPlaying(mix.name)) {
       // Pause the currently playing mix
       this.playingMix.set(null);
