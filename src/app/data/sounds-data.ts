@@ -13,6 +13,7 @@ export interface SoundData {
   description?: string;
   premium?: boolean;
   category: string;
+  subcategory?: string;
 }
 
 /**

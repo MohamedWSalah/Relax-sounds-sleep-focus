@@ -23,12 +23,19 @@ export interface Sound {
   description?: string;
   premium?: boolean;
   category: string;
+  subcategory?: string;
+}
+
+export interface Subcategory {
+  id: string;
+  name: string;
 }
 
 export interface Category {
   id: string;
   name: string;
   icon: string;
+  subcategories?: Subcategory[];
 }
 
 @Injectable({
@@ -61,11 +68,13 @@ export class SoundsService {
   );
 
   #selectedCategory = signal<string>(DEFAULT_CATEGORY);
+  #selectedSubcategory = signal<string | null>(null);
 
   #baseCategories = signal<Category[]>(BASE_CATEGORIES);
 
   sounds = computed(() => this.#sounds());
   selectedCategory = computed(() => this.#selectedCategory());
+  selectedSubcategory = computed(() => this.#selectedSubcategory());
   isPlaying = computed(() => this.#isPlaying());
 
   // Get currently playing sounds for saving mixes
@@ -107,6 +116,7 @@ export class SoundsService {
 
   filteredSounds = computed(() => {
     const selectedCategory = this.#selectedCategory();
+    const selectedSubcategory = this.#selectedSubcategory();
 
     if (selectedCategory === 'active') {
       // Return only active (playing) sounds
@@ -118,14 +128,29 @@ export class SoundsService {
       return this.#favoritesService.getFavoriteSounds(this.#sounds());
     }
 
-    // Return sounds filtered by category
-    return this.#sounds().filter(
+    // Filter by category first
+    let filtered = this.#sounds().filter(
       (sound) => sound.category === selectedCategory
     );
+
+    // Then filter by subcategory if one is selected
+    if (selectedSubcategory) {
+      filtered = filtered.filter(
+        (sound) => sound.subcategory === selectedSubcategory
+      );
+    }
+
+    return filtered;
   });
 
   selectCategory(categoryId: string): void {
     this.#selectedCategory.set(categoryId);
+    // Reset subcategory when changing category
+    this.#selectedSubcategory.set(null);
+  }
+
+  selectSubcategory(subcategoryId: string | null): void {
+    this.#selectedSubcategory.set(subcategoryId);
   }
 
   // Favorites methods

@@ -13,7 +13,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { switchMap, tap } from 'rxjs/operators';
 import { IonRange, IonIcon } from '@ionic/angular/standalone';
 import { ModalController } from '@ionic/angular';
-import { Sound, SoundsService } from 'src/app/services/sounds.service';
+import {
+  Sound,
+  SoundsService,
+  Category,
+  Subcategory,
+} from 'src/app/services/sounds.service';
 import { ToastControllerService } from 'src/app/services/toast.service';
 import { MixesService } from 'src/app/services/mixes.service';
 import { InAppPurchaseService } from 'src/app/services/in-app-purchase.service';
@@ -37,8 +42,22 @@ export class SoundsPage implements OnInit {
   #inAppPurchaseService = inject(InAppPurchaseService);
 
   selectedCategory = this.#soundsService.selectedCategory;
+  selectedSubcategory = this.#soundsService.selectedSubcategory;
   categories = this.#soundsService.categories;
   filteredSounds = this.#soundsService.filteredSounds;
+
+  // Get subcategories for the currently selected category
+  currentSubcategories = computed(() => {
+    const categoryId = this.selectedCategory();
+    const categories = this.categories();
+
+    if (categoryId === 'active' || categoryId === 'favorites') {
+      return null;
+    }
+
+    const category = categories.find((cat) => cat.id === categoryId);
+    return category?.subcategories || null;
+  });
 
   // Check if there are any playing sounds
   hasPlayingSounds = computed(
@@ -103,11 +122,19 @@ export class SoundsPage implements OnInit {
       element.classList.contains('sound-bar') ||
       element.classList.contains('sound-bar-container');
 
-    // Check if touch is on category tabs
+    // Check if touch is on category or subcategory tabs
     const isCategoryTab =
+      element.closest('.category-container') !== null ||
+      element.closest('.category-bar') !== null ||
+      element.closest('.category-btn') !== null ||
+      element.closest('.subcategory-bar') !== null ||
+      element.closest('.subcategory-btn') !== null ||
+      element.closest('.subcategory-container') !== null ||
       element.closest('.category-tabs') !== null ||
       element.closest('.tab') !== null ||
-      element.classList.contains('tab');
+      element.classList.contains('tab') ||
+      element.classList.contains('category-btn') ||
+      element.classList.contains('subcategory-btn');
 
     // Check if touch is on favorite heart
     const isFavoriteButton =
@@ -265,6 +292,10 @@ export class SoundsPage implements OnInit {
 
   selectCategory(categoryId: string): void {
     this.#soundsService.selectCategory(categoryId);
+  }
+
+  selectSubcategory(subcategoryId: string | null): void {
+    this.#soundsService.selectSubcategory(subcategoryId);
   }
 
   toggleSound(selectedSound: Sound): void {

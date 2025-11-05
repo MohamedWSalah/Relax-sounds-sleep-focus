@@ -1,16 +1,42 @@
-<!-- Category Tabs -->
-<div class="category-tabs">
-  @for (category of categories(); track category.id) {
-  <div
-    class="tab"
-    [class.active]="selectedCategory() === category.id"
-    (click)="selectCategory(category.id)"
-  >
-    <span class="tab-icon">{{ category.icon }}</span>
-    <span class="tab-name">{{ category.name }}</span>
+<!-- Categories -->
+<div class="categories-container">
+  <div class="categories-row">
+    @for (category of categories(); track category.id) {
+    <button
+      class="category-btn"
+      [class.active]="selectedCategory() === category.id"
+      (click)="selectCategory(category.id)"
+    >
+      {{ category.icon }}
+      <span>{{ category.name }}</span>
+    </button>
+    }
   </div>
-  }
 </div>
+
+<!-- Subcategories -->
+@if (currentSubcategories()) {
+<div class="subcategories-container">
+  <div class="subcategories-row">
+    <button
+      class="subcategory-btn"
+      [class.active]="selectedSubcategory() === null"
+      (click)="selectSubcategory(null)"
+    >
+      All
+    </button>
+    @for (subcategory of currentSubcategories(); track subcategory.id) {
+    <button
+      class="subcategory-btn"
+      [class.active]="selectedSubcategory() === subcategory.id"
+      (click)="selectSubcategory(subcategory.id)"
+    >
+      {{ subcategory.name }}
+    </button>
+    }
+  </div>
+</div>
+}
 
 <!-- Gesture Hint Arrows -->
 @if (showGestureHints()) {
