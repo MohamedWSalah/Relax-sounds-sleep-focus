@@ -2,6 +2,6 @@
 <resources>
     <string name="app_name">Relax Sounds: Sleep Focus</string>
     <string name="title_activity_main">Relax Sounds: Sleep Focus</string>
-    <string name="package_name">com.moon.sleepcalmsounds</string>
-    <string name="custom_url_scheme">com.moon.sleepcalmsounds</string>
+    <string name="package_name">com.moon.relaxsounds</string>
+    <string name="custom_url_scheme">com.moon.relaxsounds</string>
 </resources>

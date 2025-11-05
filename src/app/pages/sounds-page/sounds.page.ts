@@ -64,6 +64,21 @@ export class SoundsPage implements OnInit {
     () => this.#soundsService.playingSounds().length > 0
   );
 
+  // Check if we should show empty state for Active category
+  showActiveEmptyState = computed(() => {
+    return (
+      this.selectedCategory() === 'active' && this.filteredSounds().length === 0
+    );
+  });
+
+  // Check if we should show empty state for Favorites category
+  showFavoritesEmptyState = computed(() => {
+    return (
+      this.selectedCategory() === 'favorites' &&
+      this.filteredSounds().length === 0
+    );
+  });
+
   // Gesture handling
   private touchStartX = 0;
   private touchStartY = 0;
@@ -408,11 +423,12 @@ export class SoundsPage implements OnInit {
           this.#toastController.create({
             message: isNowFavorite
               ? `Added to Favorites 🌙`
-              : `Removed from Favorites 💨`,
+              : `Removed from Favorites`,
             duration: 1500,
             position: 'top',
             translucent: true,
             animated: true,
+            color: 'primary',
           })
         ),
         takeUntilDestroyed(this.#destroyRef)

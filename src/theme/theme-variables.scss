@@ -36,8 +36,8 @@ body.dark {
   --color-border-white-08: rgba(255, 255, 255, 0.08);
 
   // Glass effects
-  --glass-background: #{dark.$glass-white-06};
-  --backdrop-filter: #{dark.$backdrop-glass};
+  --glass-background: blur(2.8px);
+  --backdrop-filter: blur(2.8px);
 
   // Shadows
   --shadow-primary-15: #{dark.$shadow-primary-15};

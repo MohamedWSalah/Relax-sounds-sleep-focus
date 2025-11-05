@@ -3,6 +3,7 @@
 ## Prerequisites (One-Time Setup)
 
 ### 1. Create Your Keystore (First time only!)
+
 ```bash
 cd android/app
 keytool -genkey -v -keystore my-release-key.keystore -alias my-key-alias -keyalg RSA -keysize 2048 -validity 10000
@@ -11,12 +12,14 @@ keytool -genkey -v -keystore my-release-key.keystore -alias my-key-alias -keyalg
 **⚠️ CRITICAL: Back up your keystore and remember passwords!**
 
 ### 2. Create key.properties File
+
 ```bash
 cd android
 cp key.properties.template key.properties
 ```
 
 Then edit `android/key.properties` with your actual values:
+
 ```properties
 RELEASE_STORE_FILE=my-release-key.keystore
 RELEASE_STORE_PASSWORD=your_actual_password
@@ -27,16 +30,19 @@ RELEASE_KEY_PASSWORD=your_actual_password
 ## Building Your App Bundle (Every Release)
 
 ### Option 1: Windows (One Command)
+
 ```bash
 npm run release:build:windows
 ```
 
 ### Option 2: Mac/Linux (One Command)
+
 ```bash
 npm run release:build
 ```
 
 ### Option 3: Step by Step
+
 ```bash
 # Step 1: Build production web app
 npm run build:prod
@@ -58,11 +64,13 @@ Location: `android/app/build/outputs/bundle/release/app-release.aab`
 ## 📝 Google Play Console Checklist
 
 ### Before First Upload:
-- [ ] App ID matches: `com.moon.sleepcalmsounds`
+
+- [ ] App ID matches: `com.moon.relaxsounds`
 - [ ] Keystore created and backed up
 - [ ] `key.properties` configured
 
 ### For Every Release:
+
 - [ ] Update version in `android/app/build.gradle`:
   ```gradle
   versionCode 1  // Increment: 1, 2, 3, 4...
@@ -74,43 +82,53 @@ Location: `android/app/build/outputs/bundle/release/app-release.aab`
 ### First Submission Only:
 
 #### 1. **Upload AAB**
-   - Production → Create Release → Upload app-release.aab
+
+- Production → Create Release → Upload app-release.aab
 
 #### 2. **App Description**
-   - Store presence → Main store listing
-   - Copy from: `GOOGLE_PLAY_SUBMISSION_GUIDE.md`
+
+- Store presence → Main store listing
+- Copy from: `GOOGLE_PLAY_SUBMISSION_GUIDE.md`
 
 #### 3. **Graphics Assets**
-   - App Icon: 512x512 (use `resources/icon.png`)
-   - Feature Graphic: 1024x500 (create or use design tool)
-   - Screenshots: At least 2 (capture from phone)
+
+- App Icon: 512x512 (use `resources/icon.png`)
+- Feature Graphic: 1024x500 (create or use design tool)
+- Screenshots: At least 2 (capture from phone)
 
 #### 4. **Select Countries**
-   - Production → Countries/regions
-   - Select: Worldwide or specific countries
+
+- Production → Countries/regions
+- Select: Worldwide or specific countries
 
 #### 5. **Data Safety**
-   - App content → Data safety
-   - Answer: Minimal data collection (see privacy policy)
+
+- App content → Data safety
+- Answer: Minimal data collection (see privacy policy)
 
 #### 6. **Privacy Policy**
-   - Copy from `PRIVACY_POLICY.md`
-   - Host on: GitHub Pages, website, or use Google Sites
-   - Add URL to Play Console
+
+- Copy from `PRIVACY_POLICY.md`
+- Host on: GitHub Pages, website, or use Google Sites
+- Add URL to Play Console
 
 #### 7. **Content Rating**
-   - App content → Content rating
-   - Complete questionnaire (likely E for Everyone)
+
+- App content → Content rating
+- Complete questionnaire (likely E for Everyone)
 
 #### 8. **App Category**
-   - Select: Health & Fitness
+
+- Select: Health & Fitness
 
 #### 9. **Target Audience**
-   - Select age groups (18+)
+
+- Select age groups (18+)
 
 ## 🔄 Update Process (After First Release)
 
 1. **Increment Version**
+
    ```gradle
    // In android/app/build.gradle
    versionCode 2  // Was 1
@@ -118,6 +136,7 @@ Location: `android/app/build/outputs/bundle/release/app-release.aab`
    ```
 
 2. **Build New AAB**
+
    ```bash
    npm run release:build:windows
    ```
@@ -160,17 +179,21 @@ android/app/build/outputs/bundle/release/app-release.aab  → Your AAB file
 ## ❗ Common Issues
 
 ### Build fails: "Task :app:bundleReleaseResources FAILED"
+
 - Clean build: `cd android && ./gradlew clean`
 - Try again
 
 ### "Keystore not found"
+
 - Check `key.properties` paths are correct
 - Ensure keystore is in `android/app/` directory
 
 ### "Version code must be unique"
+
 - Increment versionCode in `build.gradle`
 
 ### "APK/AAB already exists"
+
 - You're uploading the same version again
 - Increment versionCode and rebuild
 
@@ -203,4 +226,3 @@ Privacy policy: `PRIVACY_POLICY.md`
 ---
 
 **Good luck! 🎉**
-

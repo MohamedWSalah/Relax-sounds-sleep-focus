@@ -80,7 +80,19 @@
   (touchmove)="onTouchMove($event)"
   (touchend)="onTouchEnd($event)"
 >
-  @for (sound of filteredSounds(); track sound.id) {
+  @if (showActiveEmptyState()) {
+  <!-- Empty State for Active Category -->
+  <div class="empty-state">
+    <div class="empty-state-icon">🎵</div>
+    <div class="empty-state-text">Any playing sounds will be visible here</div>
+  </div>
+  } @else if (showFavoritesEmptyState()) {
+  <!-- Empty State for Favorites Category -->
+  <div class="empty-state">
+    <div class="empty-state-icon">❤️</div>
+    <div class="empty-state-text">Any favorite sounds will be visible here</div>
+  </div>
+  } @else { @for (sound of filteredSounds(); track sound.id) {
   <div class="sound-item">
     <!-- Compact Sound Card -->
     <div
@@ -139,7 +151,7 @@
       }
     </div>
   </div>
-  }
+  } }
 </div>
 
 <!-- Save Mix Floating Button -->

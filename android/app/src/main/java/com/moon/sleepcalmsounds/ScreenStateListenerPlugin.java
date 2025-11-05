@@ -1,4 +1,4 @@
-package com.moon.sleepcalmsounds;
+package com.moon.relaxsounds;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

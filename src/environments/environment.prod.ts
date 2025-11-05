@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  appId: 'com.moon.sleepcalmsounds',
+  appId: 'com.moon.relaxsounds',
   appName: 'Relax Sounds: Sleep Focus',
   version: '1.0.0',
   firebase: {

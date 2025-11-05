@@ -92,23 +92,17 @@ export class SoundsService {
   // Dynamic categories that include Active and Favorites when applicable
   categories = computed(() => {
     const baseCategories = this.#baseCategories();
-    const favorites = this.#favoritesService.favorites();
-    const activeSoundsCount = this.activeSoundsCount();
     const dynamicCategories: Category[] = [];
 
-    // Add Active category if there are active sounds
-    if (activeSoundsCount > 0) {
-      dynamicCategories.push({ id: 'active', name: 'Active', icon: '🎵' });
-    }
+    // Always add Active category (always visible)
+    dynamicCategories.push({ id: 'active', name: 'Active', icon: '🎵' });
 
-    // Add Favorites category if there are favorites
-    if (favorites.length > 0) {
-      dynamicCategories.push({
-        id: 'favorites',
-        name: 'Favorites',
-        icon: '❤️',
-      });
-    }
+    // Always add Favorites category (always visible)
+    dynamicCategories.push({
+      id: 'favorites',
+      name: 'Favorites',
+      icon: '❤️',
+    });
 
     // Return dynamic categories followed by base categories
     return [...dynamicCategories, ...baseCategories];

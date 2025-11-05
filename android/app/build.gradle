@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace "com.moon.sleepcalmsounds"
+    namespace "com.moon.relaxsounds"
     compileSdk rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.moon.sleepcalmsounds"
+        applicationId "com.moon.relaxsounds"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 2

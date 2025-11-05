@@ -1,5 +1,6 @@
 @use "../../../theme/dark-theme.scss" as *;
 @use "../../../theme/light-theme.scss" as light;
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
 // Using theme variables that automatically adapt to light/dark mode
 
@@ -7,56 +8,60 @@
   display: block;
 }
 
-.settings-container {
-  padding: 1.5rem 1rem;
-  max-width: 600px;
-  width: 95%;
-  margin: 0 auto;
+.settings-content {
+  font-family: "Poppins", sans-serif;
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+  padding-top: env(safe-area-inset-top);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+  padding-bottom: calc(120px + env(safe-area-inset-bottom));
   position: relative;
   z-index: 2;
-  background: $glass-white-06;
-  border-radius: 1.5rem;
-  min-height: 50vh;
-  border: 1px solid $border-white-12;
-  box-shadow: 0 8px 32px $shadow-black-12, inset 0 1px 0 $shadow-white-15;
-  backdrop-filter: $backdrop-glass;
-  -webkit-backdrop-filter: $backdrop-glass;
+  overflow-x: hidden;
 
-  // Light mode glass effect
-  :host-context(body.light) & {
-    background: rgba(235, 240, 245, 0.7);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(3px);
-    -webkit-backdrop-filter: blur(3px);
+  // Landscape mode adjustments
+  @media (orientation: landscape) {
+    padding-bottom: calc(140px + env(safe-area-inset-bottom));
   }
+}
+
+.settings-sections {
+  padding: 0 1rem;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .settings-header {
   text-align: center;
-  margin-bottom: 2rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid var(--settings-border);
+  padding: 1.5rem 1rem 1rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 2;
 
   .header-icon {
-    font-size: 3rem;
-    color: var(--settings-icon-color);
-    filter: var(--drop-shadow-primary-30);
+    font-size: 2.5rem;
+    color: var(--page-text-primary);
+    filter: $drop-shadow-primary-40;
     margin-bottom: 0.5rem;
   }
 
   h2 {
-    color: var(--color-text-white);
+    color: var(--page-text-primary);
     font-size: 1.75rem;
     font-weight: 600;
     margin: 0 0 0.5rem 0;
-    text-shadow: var(--text-shadow-primary-20);
+    text-shadow: $text-shadow-primary-30;
+    letter-spacing: 0.5px;
   }
 
   .subtitle {
-    color: var(--settings-description-text);
+    color: var(--page-text-secondary);
     font-size: 0.9rem;
     margin: 0;
     font-weight: 400;
+    letter-spacing: 0.3px;
   }
 }
 
@@ -64,20 +69,26 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  margin-bottom: 1.5rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid var(--settings-border-dark);
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  padding: 0 0.5rem;
 
   .section-icon {
     font-size: 1.5rem;
-    color: var(--settings-section-icon);
+    color: var(--color-primary);
+    filter: $drop-shadow-primary-30;
   }
 
   h3 {
-    color: var(--settings-item-text);
+    color: var(--page-text-primary);
     font-size: 1.1rem;
     font-weight: 600;
     margin: 0;
+    text-shadow: $text-shadow-primary-20;
+  }
+
+  &:first-of-type {
+    margin-top: 0;
   }
 }
 
@@ -86,8 +97,33 @@
   align-items: center;
   justify-content: space-between;
   padding: 1.25rem;
-  background: transparent;
+  background: var(--sound-card-bg);
+  border: 1px solid var(--sound-card-border);
+  border-radius: 1rem;
+  margin-bottom: 1rem;
   transition: all 0.3s ease;
+  backdrop-filter: $backdrop-glass;
+  -webkit-backdrop-filter: $backdrop-glass;
+  box-shadow: 0 8px 32px $shadow-black-12, inset 0 1px 0 $shadow-white-20,
+    inset 0 -1px 0 $shadow-white-10;
+
+  // Light mode
+  :host-context(body.light) & {
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+  }
+
+  &.disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    pointer-events: none;
+
+    ion-toggle {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
 }
 
 .setting-card {
@@ -95,27 +131,27 @@
   align-items: center;
   justify-content: space-between;
   padding: 1.25rem;
-  background: transparent;
-  border: 1px solid var(--settings-border);
+  background: var(--sound-card-bg);
+  border: 1px solid var(--sound-card-border);
   border-radius: 1rem;
   cursor: pointer;
-  transition: all 0.3s ease;
-  margin-bottom: 1.5rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: 1rem;
+  backdrop-filter: $backdrop-glass;
+  -webkit-backdrop-filter: $backdrop-glass;
+  box-shadow: 0 8px 32px $shadow-black-12, inset 0 1px 0 $shadow-white-20,
+    inset 0 -1px 0 $shadow-white-10;
 
-  &:hover {
-    background: var(--color-primary-08);
-    border-color: var(--color-primary-30);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 20px var(--shadow-primary-15);
-  }
-
-  &:active {
-    transform: translateY(0);
+  // Light mode
+  :host-context(body.light) & {
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
   }
 
   .arrow-icon {
     font-size: 1.25rem;
-    color: var(--settings-description-text);
+    color: var(--page-text-secondary);
     transition: all 0.3s ease;
   }
 
@@ -136,18 +172,32 @@
 
     .setting-icon {
       font-size: 1.5rem;
-      color: var(--settings-description-text);
+      color: var(--page-text-secondary);
     }
 
     .setting-name {
-      color: var(--settings-item-text);
+      color: var(--page-text-primary);
       font-size: 1.1rem;
       font-weight: 600;
+    }
+
+    .coming-soon-badge {
+      margin-left: 0.5rem;
+      padding: 0.25rem 0.75rem;
+      background: $primary-15;
+      color: var(--color-primary);
+      border-radius: 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border: 1px solid $primary-30;
+      box-shadow: 0 2px 8px $shadow-primary-20;
     }
   }
 
   .setting-description {
-    color: var(--settings-description-text);
+    color: var(--page-text-secondary);
     font-size: 0.9rem;
     margin: 0 0 0 2.25rem;
     line-height: 1.4;
@@ -163,19 +213,14 @@
   );
   border: 1px solid rgba(255, 215, 0, 0.3);
 
-  &:hover {
-    background: linear-gradient(
-      135deg,
-      rgba(255, 215, 0, 0.25),
-      rgba(255, 165, 0, 0.15)
-    );
-    border-color: rgba(255, 215, 0, 0.5);
-    box-shadow: 0 4px 20px rgba(255, 215, 0, 0.3);
+  .premium-icon {
+    color: #ffd700 !important;
+    filter: drop-shadow(0 2px 4px rgba(255, 215, 0, 0.3));
   }
 
-  .premium-icon {
-    color: #ffd700;
-    filter: drop-shadow(0 2px 4px rgba(255, 215, 0, 0.3));
+  .arrow-icon {
+    color: #ffd700 !important;
+    transition: all 0.3s ease;
   }
 }
 
@@ -186,35 +231,44 @@
   padding: 1.25rem;
   background: linear-gradient(
     135deg,
-    rgba(76, 175, 80, 0.15),
-    rgba(46, 125, 50, 0.1)
+    rgba(255, 215, 0, 0.15),
+    rgba(255, 165, 0, 0.1)
   );
-  border: 1px solid rgba(76, 175, 80, 0.3);
+  border: 1px solid rgba(255, 215, 0, 0.3);
   border-radius: 1rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
+  backdrop-filter: $backdrop-glass;
+  -webkit-backdrop-filter: $backdrop-glass;
+  box-shadow: 0 8px 32px $shadow-black-12, inset 0 1px 0 rgba(255, 215, 0, 0.2),
+    inset 0 -1px 0 rgba(255, 165, 0, 0.1);
+
+  // Light mode
+  :host-context(body.light) & {
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+  }
 
   .premium-icon {
-    color: #4caf50;
-    filter: drop-shadow(0 2px 4px rgba(76, 175, 80, 0.3));
+    color: #ffd700 !important;
+    filter: drop-shadow(0 2px 4px rgba(255, 215, 0, 0.3));
   }
 
   .setting-name {
-    color: var(--settings-item-text);
+    color: var(--page-text-primary);
   }
 }
 
 // Animations
-@keyframes slideInUp {
+@keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(20px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
-.settings-container {
-  animation: slideInUp 0.4s ease-out;
+.settings-content {
+  animation: fadeIn 0.4s ease-out;
 }

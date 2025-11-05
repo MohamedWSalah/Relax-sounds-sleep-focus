@@ -89,7 +89,7 @@ await ScreenStateListener.stopListening();
 
 ### Android (Kotlin)
 
-**Location:** `android/app/src/main/java/com/moon/sleepcalmsounds/ScreenStateListenerPlugin.kt`
+**Location:** `android/app/src/main/java/com/moon/relaxsounds/ScreenStateListenerPlugin.kt`
 
 The plugin registers a `BroadcastReceiver` that listens to:
 
