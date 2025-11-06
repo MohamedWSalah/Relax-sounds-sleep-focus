@@ -29,14 +29,14 @@
 
 .settings-sections {
   padding: 0 1rem;
+  padding-top: 10px;
   max-width: 800px;
   margin: 0 auto;
 }
 
 .settings-header {
   text-align: center;
-  padding: 0.5rem 1rem 1rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 10px;
   position: relative;
   z-index: 2;
   transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),

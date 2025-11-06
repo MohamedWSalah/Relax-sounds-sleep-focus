@@ -39,7 +39,7 @@ import { Mix } from 'src/app/services/mixes.service';
 export class HomePage implements AfterViewInit {
   private soundsService = inject(SoundsService);
   @ViewChild(IonContent) content?: IonContent;
-  
+
   activeTab = signal<'sounds' | 'timer' | 'mixes' | 'settings'>('sounds');
   isScrolled = signal(false);
 
@@ -92,6 +92,21 @@ export class HomePage implements AfterViewInit {
     } else {
       // If sounds are paused or no sounds playing, resume them
       this.soundsService.resumeAllSounds();
+    }
+  }
+
+  getHeaderIcon(): string {
+    switch (this.activeTab()) {
+      case 'sounds':
+        return '🌙';
+      case 'timer':
+        return '⏱️';
+      case 'mixes':
+        return '🔖';
+      case 'settings':
+        return '⚙️';
+      default:
+        return '🌙';
     }
   }
 }

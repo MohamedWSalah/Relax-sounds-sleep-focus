@@ -1,6 +1,6 @@
 {
   "name": "relax-calm-sounds",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Relax Sounds: Sleep Focus",
   "homepage": "",
   "scripts": {
@@ -14,9 +14,13 @@
     "cap:sync": "npx cap sync android",
     "android:build": "cd android && gradlew bundleRelease",
     "android:build:windows": "cd android && gradlew.bat bundleRelease",
+    "android:apk": "cd android && gradlew assembleRelease",
+    "android:apk:windows": "cd android && gradlew.bat assembleRelease",
     "release:prepare": "npm run build:prod && npm run cap:sync",
     "release:build": "npm run release:prepare && npm run android:build",
-    "release:build:windows": "npm run release:prepare && npm run android:build:windows"
+    "release:build:windows": "npm run release:prepare && npm run android:build:windows",
+    "release:apk": "npm run release:prepare && npm run android:apk",
+    "release:apk:windows": "npm run release:prepare && npm run android:apk:windows"
   },
   "private": true,
   "dependencies": {

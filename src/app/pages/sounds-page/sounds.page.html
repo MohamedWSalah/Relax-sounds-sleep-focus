@@ -1,11 +1,12 @@
 <!-- Categories -->
 <div class="categories-container">
-  <div class="categories-row">
+  <div class="categories-row" #categoriesRow>
     @for (category of categories(); track category.id) {
     <button
       class="category-btn"
       [class.active]="selectedCategory() === category.id"
       (click)="selectCategory(category.id)"
+      [attr.data-category-id]="category.id"
     >
       {{ category.icon }}
       <span>{{ category.name }}</span>

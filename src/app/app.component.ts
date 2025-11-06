@@ -77,6 +77,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private async checkForUpdate(): Promise<void> {
     try {
       const result = await AppUpdate.getAppUpdateInfo();
+      console.log(result);
 
       if (
         result.updateAvailability === AppUpdateAvailability.UPDATE_AVAILABLE

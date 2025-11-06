@@ -100,7 +100,7 @@ export class SoundsService {
     // Always add Favorites category (always visible)
     dynamicCategories.push({
       id: 'favorites',
-      name: 'Favorites',
+      name: 'Fav',
       icon: '❤️',
     });
 

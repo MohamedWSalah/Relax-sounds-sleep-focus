@@ -6,6 +6,9 @@ import {
   computed,
   signal,
   OnInit,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -33,13 +36,16 @@ import { of } from 'rxjs';
   styleUrl: './sounds.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SoundsPage implements OnInit {
+export class SoundsPage implements OnInit, AfterViewInit {
   #soundsService = inject(SoundsService);
   #toastController = inject(ToastControllerService);
   #destroyRef = inject(DestroyRef);
   #modalController = inject(ModalController);
   #mixesService = inject(MixesService);
   #inAppPurchaseService = inject(InAppPurchaseService);
+
+  @ViewChild('categoriesRow', { read: ElementRef })
+  categoriesRow?: ElementRef<HTMLDivElement>;
 
   selectedCategory = this.#soundsService.selectedCategory;
   selectedSubcategory = this.#soundsService.selectedSubcategory;
@@ -98,6 +104,10 @@ export class SoundsPage implements OnInit {
 
   ngOnInit(): void {
     this.#checkAndShowGestureHints();
+  }
+
+  ngAfterViewInit(): void {
+    // Component is ready, can now scroll categories
   }
 
   /**
@@ -307,6 +317,31 @@ export class SoundsPage implements OnInit {
 
   selectCategory(categoryId: string): void {
     this.#soundsService.selectCategory(categoryId);
+    // Scroll the selected category to center after a brief delay to ensure DOM is updated
+    setTimeout(() => this.#scrollCategoryToCenter(), 0);
+  }
+
+  /**
+   * Scroll the selected category button to the center of the categories row
+   */
+  #scrollCategoryToCenter(): void {
+    if (!this.categoriesRow?.nativeElement) {
+      return;
+    }
+
+    const selectedCategoryId = this.selectedCategory();
+    const categoryButton = this.categoriesRow.nativeElement.querySelector(
+      `[data-category-id="${selectedCategoryId}"]`
+    ) as HTMLElement;
+
+    if (categoryButton) {
+      // Use scrollIntoView with center option for better centering
+      categoryButton.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'center',
+      });
+    }
   }
 
   selectSubcategory(subcategoryId: string | null): void {
