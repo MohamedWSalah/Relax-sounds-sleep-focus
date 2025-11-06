@@ -11,7 +11,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { ModalController } from '@ionic/angular';
 import { IonIcon, IonButton } from '@ionic/angular/standalone';
-import { Sound } from 'src/app/services/sounds.service';
+import type { Sound } from 'src/app/types';
 import { InAppPurchaseService } from 'src/app/services/in-app-purchase.service';
 
 @Component({

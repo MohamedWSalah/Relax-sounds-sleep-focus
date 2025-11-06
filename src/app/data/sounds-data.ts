@@ -1,48 +1,16 @@
-import { Category } from '../services/sounds.service';
-import soundsDataJson from './sounds-data.json';
+import { RAIN_SOUNDS } from './rain-sounds';
+import { WIND_SOUNDS } from './wind-sounds';
+import { NATURE_SOUNDS } from './nature-sounds';
+import type { SoundData } from '../types';
+export { BASE_CATEGORIES, DEFAULT_CATEGORY } from './categories';
+export type { Category } from '../types';
 
 /**
- * Base sound data without runtime properties.
- * The service will initialize these with default values for selected, volume, muted, etc.
- */
-export interface SoundData {
-  id: string;
-  name: string;
-  icon: string;
-  file: string;
-  description?: string;
-  premium?: boolean;
-  category: string;
-  subcategory?: string;
-}
-
-/**
- * Structure of the JSON data file.
- */
-interface SoundsDataJson {
-  sounds: SoundData[];
-  categories: Category[];
-  defaultCategory: string;
-}
-
-/**
- * All available sounds configuration loaded from JSON.
+ * All available sounds configuration combined from separate category files.
  * Runtime properties (selected, volume, muted, audio, loading) are added by the service.
  */
-export const SOUNDS_DATA: SoundData[] = (
-  soundsDataJson as unknown as SoundsDataJson
-).sounds;
-
-/**
- * Base categories for sounds loaded from JSON.
- */
-export const BASE_CATEGORIES: Category[] = (
-  soundsDataJson as unknown as SoundsDataJson
-).categories;
-
-/**
- * Default selected category from JSON.
- */
-export const DEFAULT_CATEGORY: string = (
-  soundsDataJson as unknown as SoundsDataJson
-).defaultCategory;
+export const SOUNDS_DATA: SoundData[] = [
+  ...RAIN_SOUNDS,
+  ...WIND_SOUNDS,
+  ...NATURE_SOUNDS,
+];

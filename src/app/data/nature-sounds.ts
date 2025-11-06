@@ -1,0 +1,57 @@
+import type { SoundData } from '../types';
+
+/**
+ * Nature category sounds (including forest, birds, campfire)
+ */
+export const NATURE_SOUNDS: SoundData[] = [
+  {
+    id: 'nature-campfire',
+    name: 'Campfire',
+    icon: '🔥',
+    file: 'Nature/campfire.mp3',
+    description: 'Crackling campfire sounds',
+    category: 'nature',
+    subcategory: 'campfire',
+    premium: false,
+  },
+  {
+    id: 'nature-mourning-dove',
+    name: 'Mourning Dove',
+    icon: '🐦',
+    file: 'Nature/forest_mourning_dove.mp3',
+    description: 'Mourning dove in the forest',
+    category: 'nature',
+    subcategory: 'birds',
+    premium: false,
+  },
+  {
+    id: 'nature-forest-frogs',
+    name: 'Forest Frogs',
+    icon: '🐸',
+    file: 'Nature/forest_frogs.mp3',
+    description: 'Frogs in the forest',
+    category: 'nature',
+    subcategory: 'forest',
+    premium: false,
+  },
+  {
+    id: 'nature-woodpecker',
+    name: 'Woodpecker',
+    icon: '🐦',
+    file: 'Nature/forest_woodpecker.mp3',
+    description: 'Woodpecker in the forest',
+    category: 'nature',
+    subcategory: 'birds',
+    premium: true,
+  },
+  {
+    id: 'nature-forest-night',
+    name: 'Forest at Night',
+    icon: '🌲',
+    file: 'Nature/forest_at_night.mp3',
+    description: 'Deep forest night ambience',
+    category: 'nature',
+    subcategory: 'forest',
+    premium: true,
+  },
+];

@@ -1,5 +1,5 @@
 import { WebPlugin } from '@capacitor/core';
-import type { ScreenStateListenerPlugin } from './screen-state-listener';
+import type { ScreenStateListenerPlugin } from '../types';
 
 export class ScreenStateListenerWeb
   extends WebPlugin

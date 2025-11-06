@@ -9,34 +9,7 @@ import {
   BASE_CATEGORIES,
   DEFAULT_CATEGORY,
 } from '../data/sounds-data';
-
-export interface Sound {
-  id: string;
-  name: string;
-  icon: string;
-  file: string;
-  selected: boolean;
-  loading?: boolean;
-  volume: number; // 0-1 range
-  muted: boolean;
-  audio?: HTMLAudioElement;
-  description?: string;
-  premium?: boolean;
-  category: string;
-  subcategory?: string;
-}
-
-export interface Subcategory {
-  id: string;
-  name: string;
-}
-
-export interface Category {
-  id: string;
-  name: string;
-  icon: string;
-  subcategories?: Subcategory[];
-}
+import type { Sound, Category } from '../types';
 
 @Injectable({
   providedIn: 'root',

@@ -4,15 +4,7 @@ import { SmartTimerMonitorService } from './smart-timer-monitor.service';
 import { ToastControllerService } from './toast.service';
 import { Observable, of } from 'rxjs';
 import { catchError, tap, switchMap } from 'rxjs/operators';
-
-export interface TimerState {
-  isRunning: boolean;
-  isPaused: boolean;
-  totalSeconds: number;
-  remainingSeconds: number;
-  startTime: number | null;
-  pausedAt: number | null;
-}
+import type { TimerState } from '../types';
 
 @Injectable({
   providedIn: 'root',

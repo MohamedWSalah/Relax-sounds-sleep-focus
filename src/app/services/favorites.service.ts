@@ -1,6 +1,6 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { Preferences } from '@capacitor/preferences';
-import { Sound } from './sounds.service';
+import type { Sound } from '../types';
 import { Observable, from, of } from 'rxjs';
 import { catchError, tap, switchMap } from 'rxjs/operators';
 

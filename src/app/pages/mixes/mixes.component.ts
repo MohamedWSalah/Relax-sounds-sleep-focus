@@ -11,7 +11,8 @@ import {
 } from '@angular/core';
 import { IonIcon, IonButton } from '@ionic/angular/standalone';
 import { AlertController, ToastController } from '@ionic/angular';
-import { MixesService, Mix } from '../../services/mixes.service';
+import { MixesService } from '../../services/mixes.service';
+import type { Mix } from '../../types';
 import { SoundsService } from '../../services/sounds.service';
 
 @Component({

@@ -17,3 +17,4 @@ export interface SmartTimerState {
   isActive: boolean;
   lastActivityTime: number;
 }
+

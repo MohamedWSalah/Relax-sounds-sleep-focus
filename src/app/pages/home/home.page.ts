@@ -17,7 +17,7 @@ import { SleepTimerPage } from '../sleep-timer/sleep-timer.page';
 import { SettingsPage } from '../settings/settings.page';
 import { MixesComponent } from '../mixes/mixes.component';
 import { SoundsService } from 'src/app/services/sounds.service';
-import { Mix } from 'src/app/services/mixes.service';
+import type { Mix } from 'src/app/types';
 
 @Component({
   selector: 'app-home',

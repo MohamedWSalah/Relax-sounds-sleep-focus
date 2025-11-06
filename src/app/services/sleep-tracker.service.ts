@@ -1,14 +1,9 @@
 import { Injectable, signal, computed, inject, effect } from '@angular/core';
 import { SoundsService } from './sounds.service';
-
-export interface DailyListeningData {
-  [date: string]: number; // seconds listened on that date
-}
-
-export interface ListeningStorageData {
-  dailyData: DailyListeningData;
-  allTimeTotal: number; // total seconds listened across all time
-}
+import type {
+  DailyListeningData,
+  ListeningStorageData,
+} from '../types';
 
 @Injectable({
   providedIn: 'root',

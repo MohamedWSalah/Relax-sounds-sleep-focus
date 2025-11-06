@@ -1,7 +1,7 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { CapacitorMusicControls } from 'capacitor-music-controls-plugin';
 import { App } from '@capacitor/app';
-import { Sound } from './sounds.service';
+import type { Sound } from '../types';
 
 @Injectable({
   providedIn: 'root',

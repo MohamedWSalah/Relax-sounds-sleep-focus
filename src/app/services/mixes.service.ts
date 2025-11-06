@@ -1,15 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-
-export interface MixSound {
-  id: string;
-  volume: number;
-}
-
-export interface Mix {
-  name: string;
-  sounds: MixSound[];
-  createdAt: number;
-}
+import type { Mix, MixSound } from '../types';
 
 @Injectable({
   providedIn: 'root',

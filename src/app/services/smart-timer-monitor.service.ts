@@ -1,11 +1,11 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
 import { App, AppState } from '@capacitor/app';
 import { PluginListenerHandle } from '@capacitor/core';
-import {
+import type {
   SmartTimerConfig,
   SmartTimerState,
   TimerMode,
-} from '../types/smart-timer.types';
+} from '../types';
 import { ToastControllerService } from './toast.service';
 import { Observable, of, from } from 'rxjs';
 import { switchMap, catchError } from 'rxjs/operators';

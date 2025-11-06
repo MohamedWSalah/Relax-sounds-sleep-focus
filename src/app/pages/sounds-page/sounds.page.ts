@@ -16,12 +16,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { switchMap, tap } from 'rxjs/operators';
 import { IonRange, IonIcon } from '@ionic/angular/standalone';
 import { ModalController } from '@ionic/angular';
-import {
-  Sound,
-  SoundsService,
-  Category,
-  Subcategory,
-} from 'src/app/services/sounds.service';
+import { SoundsService } from 'src/app/services/sounds.service';
+import type { Sound, Category, Subcategory } from 'src/app/types';
 import { ToastControllerService } from 'src/app/services/toast.service';
 import { MixesService } from 'src/app/services/mixes.service';
 import { InAppPurchaseService } from 'src/app/services/in-app-purchase.service';

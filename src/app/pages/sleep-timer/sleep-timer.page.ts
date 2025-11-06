@@ -32,7 +32,7 @@ import {
 } from '@ionic/angular/standalone';
 import { TimerService } from '../../services/timer.service';
 import { SmartTimerMonitorService } from '../../services/smart-timer-monitor.service';
-import { TimerMode, SmartTimerConfig } from '../../types/smart-timer.types';
+import type { TimerMode, SmartTimerConfig } from '../../types';
 
 @Component({
   selector: 'app-sleep-timer',
