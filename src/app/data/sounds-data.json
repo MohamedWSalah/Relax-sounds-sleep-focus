@@ -42,16 +42,6 @@
     },
 
     {
-      "id": "wind-gusts",
-      "name": "Wind Gusts",
-      "icon": "🌬️",
-      "file": "Wind/wind_gusts.mp3",
-      "description": "Heavy windy gusts",
-      "category": "wind",
-      "subcategory": "strong",
-      "premium": true
-    },
-    {
       "id": "wind-trees",
       "name": "Wind Through Trees",
       "icon": "🌬️",
@@ -67,6 +57,16 @@
       "icon": "🌬️",
       "file": "Wind/wind_winter.mp3",
       "description": "Cold winter wind",
+      "category": "wind",
+      "subcategory": "strong",
+      "premium": true
+    },
+    {
+      "id": "wind-gusts",
+      "name": "Wind Gusts",
+      "icon": "🌬️",
+      "file": "Wind/wind_gusts.mp3",
+      "description": "Heavy windy gusts",
       "category": "wind",
       "subcategory": "strong",
       "premium": true
@@ -92,16 +92,7 @@
       "subcategory": "birds",
       "premium": false
     },
-    {
-      "id": "nature-forest-night",
-      "name": "Forest at Night",
-      "icon": "🌲",
-      "file": "Nature/forest_at_night.mp3",
-      "description": "Deep forest night ambience",
-      "category": "nature",
-      "subcategory": "forest",
-      "premium": true
-    },
+
     {
       "id": "nature-forest-frogs",
       "name": "Forest Frogs",
@@ -120,6 +111,16 @@
       "description": "Woodpecker in the forest",
       "category": "nature",
       "subcategory": "birds",
+      "premium": true
+    },
+    {
+      "id": "nature-forest-night",
+      "name": "Forest at Night",
+      "icon": "🌲",
+      "file": "Nature/forest_at_night.mp3",
+      "description": "Deep forest night ambience",
+      "category": "nature",
+      "subcategory": "forest",
       "premium": true
     }
   ],

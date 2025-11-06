@@ -129,7 +129,7 @@ export class PremiumUpsellModalComponent implements OnInit, OnDestroy {
       if (currentAudio === this.previewAudio) {
         this.#stopPreview();
       }
-    }, 3000);
+    }, 20000);
 
     this.previewAudio = previewAudio;
   }
@@ -140,7 +140,7 @@ export class PremiumUpsellModalComponent implements OnInit, OnDestroy {
   #stopPreview(): void {
     // Set stopped flag immediately to prevent any callbacks from running
     this.#previewStopped = true;
-    
+
     // Set playing state to false immediately
     this.isPreviewPlaying.set(false);
 
@@ -225,7 +225,8 @@ export class PremiumUpsellModalComponent implements OnInit, OnDestroy {
       const maxChecks = 20; // Check for 2 seconds (20 * 100ms)
       this.#premiumCheckInterval = window.setInterval(() => {
         checkCount++;
-        const isNowUnlocked = this.#inAppPurchaseService.isPremiumUnlockedSync();
+        const isNowUnlocked =
+          this.#inAppPurchaseService.isPremiumUnlockedSync();
 
         if (isNowUnlocked && !wasUnlocked) {
           if (this.#premiumCheckInterval !== null) {
