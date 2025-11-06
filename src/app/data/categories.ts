@@ -33,12 +33,13 @@ export const BASE_CATEGORIES: Category[] = [
     ],
   },
   {
-    id: 'ocean',
-    name: 'Ocean',
-    icon: '🌊',
+    id: 'beach',
+    name: 'Beach',
+    icon: '🏖️',
     subcategories: [
-      { id: 'waves', name: 'Waves' },
-      { id: 'deep', name: 'Deep' },
+      { id: 'gentle', name: 'Gentle' },
+      { id: 'medium', name: 'Medium' },
+      { id: 'strong', name: 'Strong' },
     ],
   },
   { id: 'city', name: 'City', icon: '🚗' },
@@ -50,4 +51,3 @@ export const BASE_CATEGORIES: Category[] = [
  * Default selected category when the app starts
  */
 export const DEFAULT_CATEGORY = 'rain';
-

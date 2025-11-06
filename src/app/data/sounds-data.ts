@@ -2,6 +2,7 @@ import { RAIN_SOUNDS } from './rain-sounds';
 import { WIND_SOUNDS } from './wind-sounds';
 import { NATURE_SOUNDS } from './nature-sounds';
 import type { SoundData } from '../types';
+import { BEACH_SOUNDS } from './beach-sounds';
 export { BASE_CATEGORIES, DEFAULT_CATEGORY } from './categories';
 export type { Category } from '../types';
 
@@ -13,4 +14,5 @@ export const SOUNDS_DATA: SoundData[] = [
   ...RAIN_SOUNDS,
   ...WIND_SOUNDS,
   ...NATURE_SOUNDS,
+  ...BEACH_SOUNDS,
 ];
