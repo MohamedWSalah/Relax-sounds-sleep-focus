@@ -20,13 +20,7 @@ import {
   IonRow,
   IonCol,
   IonLabel,
-  IonItem,
   IonText,
-  IonBackButton,
-  IonButtons,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
   IonSegment,
   IonSegmentButton,
 } from '@ionic/angular/standalone';

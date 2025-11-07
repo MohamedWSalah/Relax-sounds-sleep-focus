@@ -11,6 +11,8 @@ export class MusicControlsService {
   #isPlaying = signal(false);
   #isAppInForeground = signal(true);
   #listenersSetup = false;
+  #documentListener?: (event: any) => void;
+  #appStateListener?: any;
 
   // Event handlers for sounds service actions
   #pauseAllSoundsHandler?: () => void;
@@ -53,7 +55,7 @@ export class MusicControlsService {
   }
 
   #setupAppStateListeners(): void {
-    App.addListener('appStateChange', ({ isActive }) => {
+    this.#appStateListener = App.addListener('appStateChange', ({ isActive }) => {
       this.#isAppInForeground.set(isActive);
 
       if (isActive) {
@@ -79,15 +81,31 @@ export class MusicControlsService {
       );
 
       // Android listener (for Android 13+)
-      document.addEventListener('controlsNotification', (event: any) => {
+      this.#documentListener = (event: any) => {
         const info = { message: event.message, position: 0 };
         this.#handleControlsEvent(info);
-      });
+      };
+      document.addEventListener('controlsNotification', this.#documentListener);
 
       this.#listenersSetup = true;
     } catch (error) {
       console.error('Failed to set up music control listeners:', error);
     }
+  }
+
+  /**
+   * Clean up all listeners
+   */
+  cleanup(): void {
+    if (this.#documentListener) {
+      document.removeEventListener('controlsNotification', this.#documentListener);
+      this.#documentListener = undefined;
+    }
+    if (this.#appStateListener) {
+      this.#appStateListener.remove();
+      this.#appStateListener = undefined;
+    }
+    this.#listenersSetup = false;
   }
 
   #handleControlsEvent(action: any): void {

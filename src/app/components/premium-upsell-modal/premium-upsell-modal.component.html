@@ -27,22 +27,18 @@
         [name]="isPreviewPlaying() ? 'pause' : 'play'"
         class="preview-icon"
       ></ion-icon>
-      <span>{{ isPreviewPlaying() ? 'Playing Preview...' : 'Play Preview' }}</span>
+      <span>{{
+        isPreviewPlaying() ? "Playing Preview..." : "Play Preview"
+      }}</span>
     </button>
 
     <!-- Upsell Text -->
-    <p class="upsell-text">
-      Unlock all premium sounds with Premium Access
-    </p>
+    <p class="upsell-text">Unlock all premium sounds with Premium Access</p>
 
     <!-- Unlock Premium Button -->
-    <ion-button
-      class="unlock-button"
-      expand="block"
-      (click)="unlockPremium()"
-    >
+    <ion-button class="unlock-button" expand="block" (click)="unlockPremium()">
       <ion-icon name="diamond" slot="start"></ion-icon>
-      Unlock Premium
+      Unlock Premium!!!
     </ion-button>
   </div>
 </div>

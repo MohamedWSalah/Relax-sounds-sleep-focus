@@ -1,4 +1,5 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, inject, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Preferences } from '@capacitor/preferences';
 import type { Sound } from '../types';
 import { Observable, from, of } from 'rxjs';
@@ -9,6 +10,7 @@ import { catchError, tap, switchMap } from 'rxjs/operators';
 })
 export class FavoritesService {
   private readonly STORAGE_KEY = 'favorites';
+  #destroyRef = inject(DestroyRef);
 
   // Signal to hold favorites list
   #favorites = signal<string[]>([]);
@@ -23,7 +25,11 @@ export class FavoritesService {
   }
 
   constructor() {
-    this.loadFavorites().subscribe();
+    // For root services, subscriptions in constructor are fine since service lives for app lifetime
+    // But using takeUntilDestroyed for consistency and best practices
+    this.loadFavorites()
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe();
   }
 
   /**

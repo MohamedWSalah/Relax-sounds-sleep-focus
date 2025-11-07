@@ -6,10 +6,10 @@ import {
   computed,
   ViewChild,
   AfterViewInit,
+  OnDestroy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonContent } from '@ionic/angular/standalone';
-import { RouterModule } from '@angular/router';
 import { Particles } from 'src/app/components/particles/particles';
 import { Footer } from 'src/app/components/footer/footer/footer';
 import { SoundsPage } from '../sounds-page/sounds.page';
@@ -27,7 +27,6 @@ import type { Mix } from 'src/app/types';
     CommonModule,
     IonContent,
     Particles,
-    RouterModule,
     Footer,
     SoundsPage,
     SleepTimerPage,
@@ -36,7 +35,7 @@ import type { Mix } from 'src/app/types';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HomePage implements AfterViewInit {
+export class HomePage implements AfterViewInit, OnDestroy {
   private soundsService = inject(SoundsService);
   @ViewChild(IonContent) content?: IonContent;
 
@@ -46,14 +45,29 @@ export class HomePage implements AfterViewInit {
   // Get playing state from sounds service
   isPlaying = this.soundsService.isPlaying;
 
+  // Store scroll listener reference for cleanup
+  #scrollElement?: HTMLElement;
+  #scrollHandler?: () => void;
+
   ngAfterViewInit() {
     // Listen to scroll events
     this.content?.getScrollElement().then((element) => {
-      element.addEventListener('scroll', () => {
+      this.#scrollElement = element;
+      this.#scrollHandler = () => {
         const scrollTop = element.scrollTop;
         this.isScrolled.set(scrollTop > 50);
-      });
+      };
+      element.addEventListener('scroll', this.#scrollHandler);
     });
+  }
+
+  ngOnDestroy(): void {
+    // Clean up scroll listener
+    if (this.#scrollElement && this.#scrollHandler) {
+      this.#scrollElement.removeEventListener('scroll', this.#scrollHandler);
+      this.#scrollElement = undefined;
+      this.#scrollHandler = undefined;
+    }
   }
 
   onScroll(event: any) {

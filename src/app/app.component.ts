@@ -1,11 +1,10 @@
 import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
 import { ModalController } from '@ionic/angular';
 import { App } from '@capacitor/app';
 import { PluginListenerHandle } from '@capacitor/core';
 import { ThemeService } from './services/theme.service';
-import { FirebaseService } from './services/firebase.service';
-import { RemoteConfigService } from './services/remote-config.service';
 import { InAppPurchaseService } from './services/in-app-purchase.service';
 import {
   AppUpdate,
@@ -16,12 +15,10 @@ import {
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
-  standalone: false,
+  imports: [IonApp, IonRouterOutlet],
 })
 export class AppComponent implements OnInit, OnDestroy {
   private themeService = inject(ThemeService);
-  private firebaseService = inject(FirebaseService);
-  private remoteConfigService = inject(RemoteConfigService);
   private inAppPurchaseService = inject(InAppPurchaseService);
   private router = inject(Router);
   private modalController = inject(ModalController);
@@ -36,10 +33,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private initializeServices(): void {
-    // Initialize Firebase and Remote Config
-    // this.firebaseService.initializeApp();
-    // this.remoteConfigService.initializeAndFetch().subscribe();
-
     // Initialize In-App Purchase service
     // Loads saved premium status and sets up the store plugin
     this.inAppPurchaseService.initialize();

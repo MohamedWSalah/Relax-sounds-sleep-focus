@@ -33,8 +33,12 @@ export class PremiumUpsellModalComponent implements OnInit, OnDestroy {
   previewAudio: HTMLAudioElement | null = null;
   previewTimeout: number | null = null;
   #premiumCheckInterval: number | null = null;
-  #premiumUnlockSubscription?: () => void;
   #previewStopped = false; // Flag to prevent callbacks after stop
+  #audioEventHandlers?: {
+    canPlayHandler: () => void;
+    errorHandler: (e: Event) => void;
+  };
+  #fadeInterval: number | null = null;
 
   constructor() {
     // Watch for premium unlock status changes
@@ -48,10 +52,7 @@ export class PremiumUpsellModalComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // Subscribe to premium unlock changes
-    this.#premiumUnlockSubscription = () => {
-      // Effect already handles this
-    };
+    // Effect handles premium unlock changes
   }
 
   ngOnDestroy(): void {
@@ -60,8 +61,9 @@ export class PremiumUpsellModalComponent implements OnInit, OnDestroy {
       clearInterval(this.#premiumCheckInterval);
       this.#premiumCheckInterval = null;
     }
-    if (this.#premiumUnlockSubscription) {
-      this.#premiumUnlockSubscription();
+    if (this.#fadeInterval !== null) {
+      clearInterval(this.#fadeInterval);
+      this.#fadeInterval = null;
     }
   }
 
@@ -111,6 +113,12 @@ export class PremiumUpsellModalComponent implements OnInit, OnDestroy {
       }
     };
 
+    // Store handlers for cleanup
+    this.#audioEventHandlers = {
+      canPlayHandler,
+      errorHandler,
+    };
+
     previewAudio.addEventListener('canplaythrough', canPlayHandler);
     previewAudio.addEventListener('error', errorHandler);
 
@@ -155,6 +163,13 @@ export class PremiumUpsellModalComponent implements OnInit, OnDestroy {
       const audioToStop = this.previewAudio;
       this.previewAudio = null; // Clear reference immediately
 
+      // Remove event listeners explicitly
+      if (this.#audioEventHandlers) {
+        audioToStop.removeEventListener('canplaythrough', this.#audioEventHandlers.canPlayHandler);
+        audioToStop.removeEventListener('error', this.#audioEventHandlers.errorHandler);
+        this.#audioEventHandlers = undefined;
+      }
+
       // Fade out and clean up
       this.#fadeAudio(audioToStop, 0, 200, () => {
         // Double check the stopped flag before cleaning up
@@ -193,17 +208,26 @@ export class PremiumUpsellModalComponent implements OnInit, OnDestroy {
     duration: number,
     onComplete?: () => void
   ): void {
+    // Clear any existing fade interval
+    if (this.#fadeInterval !== null) {
+      clearInterval(this.#fadeInterval);
+      this.#fadeInterval = null;
+    }
+
     const steps = 20;
     const stepTime = duration / steps;
     const delta = (toVolume - audio.volume) / steps;
     let step = 0;
 
-    const fadeInterval = setInterval(() => {
+    this.#fadeInterval = window.setInterval(() => {
       audio.volume = Math.max(0, Math.min(1, audio.volume + delta));
       step++;
       if (step >= steps || Math.abs(audio.volume - toVolume) < 0.01) {
         audio.volume = toVolume;
-        clearInterval(fadeInterval);
+        if (this.#fadeInterval !== null) {
+          clearInterval(this.#fadeInterval);
+          this.#fadeInterval = null;
+        }
         if (onComplete) onComplete();
       }
     }, stepTime);

@@ -228,16 +228,25 @@ export class SoundsService {
       audio.loop = true;
       audio.volume = 0;
 
-      // Handle audio loading
-      audio.addEventListener('canplaythrough', () => {
+      // Store handler references for cleanup
+      const canPlayHandler = () => {
         this.updateSoundProperty(sound.id, 'loading', false);
-      });
+      };
 
-      // Handle audio loading errors
-      audio.addEventListener('error', (e) => {
+      const errorHandler = (e: Event) => {
         console.warn(`Failed to load sound: ${sound.name}`, e);
         this.updateSoundProperty(sound.id, 'loading', false);
-      });
+      };
+
+      // Handle audio loading
+      audio.addEventListener('canplaythrough', canPlayHandler);
+
+      // Handle audio loading errors
+      audio.addEventListener('error', errorHandler);
+
+      // Store handlers on audio element for cleanup
+      (audio as any).__canPlayHandler = canPlayHandler;
+      (audio as any).__errorHandler = errorHandler;
 
       // Update the signal with the new audio instance
       const currentSounds = this.#sounds();
@@ -269,6 +278,17 @@ export class SoundsService {
 
   stopSound(sound: Sound): void {
     if (sound.audio) {
+      // Remove event listeners before stopping
+      const audio = sound.audio;
+      if ((audio as any).__canPlayHandler) {
+        audio.removeEventListener('canplaythrough', (audio as any).__canPlayHandler);
+        delete (audio as any).__canPlayHandler;
+      }
+      if ((audio as any).__errorHandler) {
+        audio.removeEventListener('error', (audio as any).__errorHandler);
+        delete (audio as any).__errorHandler;
+      }
+
       this.fadeAudio(sound.audio, 0, 500, () => {
         sound.audio?.pause();
         sound.audio!.currentTime = 0;

@@ -76,6 +76,20 @@
       <ion-icon name="chevron-forward-outline" class="arrow-icon"></ion-icon>
     </div>
 
+    <!-- Development Only: Reset Premium -->
+    @if (isDevelopment) {
+    <div class="setting-card developer-option" (click)="resetPremiumStorage()">
+      <div class="setting-info">
+        <div class="setting-label">
+          <ion-icon name="construct-outline" class="setting-icon"></ion-icon>
+          <span class="setting-name">Reset Premium (Dev)</span>
+        </div>
+        <p class="setting-description">Remove premium flag from storage</p>
+      </div>
+      <ion-icon name="chevron-forward-outline" class="arrow-icon"></ion-icon>
+    </div>
+    }
+
     <!-- Listening Statistics Section -->
     <div class="section-header">
       <ion-icon name="headset-outline" class="section-icon"></ion-icon>

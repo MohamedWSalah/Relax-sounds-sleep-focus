@@ -1,18 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
 
 @Component({
   selector: 'app-splash',
   templateUrl: './splash.page.html',
   styleUrls: ['./splash.page.scss'],
-  imports: [CommonModule, IonicModule],
+  imports: [CommonModule],
 })
 export class SplashPage implements OnInit {
   particles: number[] = [];
-
-  constructor(private router: Router) {}
+  private router = inject(Router);
 
   ngOnInit() {
     // Generate floating particles

@@ -4,6 +4,7 @@ import {
   inject,
   computed,
   input,
+  isDevMode,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonIcon, IonToggle } from '@ionic/angular/standalone';
@@ -31,6 +32,9 @@ export class SettingsPage {
 
   // Premium unlock status
   isPremiumUnlocked = this.inAppPurchaseService.isPremiumUnlocked;
+
+  // Development mode check
+  readonly isDevelopment = isDevMode();
 
   /**
    * Toggle theme between light and dark
@@ -66,5 +70,13 @@ export class SettingsPage {
    */
   restorePurchases(): void {
     this.inAppPurchaseService.restorePurchases();
+  }
+
+  /**
+   * Reset premium storage (development only)
+   * Removes the premium flag from storage
+   */
+  resetPremiumStorage(): void {
+    this.inAppPurchaseService.resetPremiumStorage();
   }
 }

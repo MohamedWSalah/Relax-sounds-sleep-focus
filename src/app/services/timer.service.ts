@@ -1,4 +1,11 @@
-import { Injectable, signal, computed, inject } from '@angular/core';
+import {
+  Injectable,
+  signal,
+  computed,
+  inject,
+  DestroyRef,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SoundsService } from './sounds.service';
 import { SmartTimerMonitorService } from './smart-timer-monitor.service';
 import { ToastControllerService } from './toast.service';
@@ -13,6 +20,7 @@ export class TimerService {
   private soundsService = inject(SoundsService);
   private smartTimerMonitor = inject(SmartTimerMonitorService);
   private toastService = inject(ToastControllerService);
+  #destroyRef = inject(DestroyRef);
 
   #timerState = signal<TimerState>({
     isRunning: false,
@@ -59,7 +67,11 @@ export class TimerService {
   });
 
   constructor() {
-    this.loadTimerState().subscribe();
+    // For root services, subscriptions in constructor are fine since service lives for app lifetime
+    // But using takeUntilDestroyed for consistency and best practices
+    this.loadTimerState()
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe();
   }
 
   setTimer(hours: number, minutes: number, seconds: number): Observable<void> {
@@ -106,10 +118,14 @@ export class TimerService {
     });
 
     this.startCountdown();
-    this.saveTimerState().subscribe();
+    this.saveTimerState()
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe();
 
     // Start smart timer monitoring
-    this.startSmartTimerMonitoring().subscribe();
+    this.startSmartTimerMonitoring()
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe();
   }
 
   pauseTimer(): void {
@@ -177,7 +193,7 @@ export class TimerService {
       if (newRemaining <= 0) {
         this.onTimerComplete();
       }
-    }, 100);
+    }, 1000);
   }
 
   private stopCountdown(): void {
@@ -210,7 +226,9 @@ export class TimerService {
       pausedAt: null,
     });
 
-    this.saveTimerState().subscribe();
+    this.saveTimerState()
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe();
 
     // Show completion toast
     this.toastService.presentToast('Timer completed! Sweet dreams 🌙', 3000);
@@ -243,7 +261,9 @@ export class TimerService {
       });
 
       this.stopCountdown();
-      this.saveTimerState().subscribe();
+      this.saveTimerState()
+        .pipe(takeUntilDestroyed(this.#destroyRef))
+        .subscribe();
 
       // Show toast with reason
       this.toastService.presentToast(reason, 4000);

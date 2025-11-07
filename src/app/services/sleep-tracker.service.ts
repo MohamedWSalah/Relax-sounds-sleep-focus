@@ -1,9 +1,6 @@
 import { Injectable, signal, computed, inject, effect } from '@angular/core';
 import { SoundsService } from './sounds.service';
-import type {
-  DailyListeningData,
-  ListeningStorageData,
-} from '../types';
+import type { DailyListeningData, ListeningStorageData } from '../types';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +13,8 @@ export class SleepTrackerService {
   #currentSessionSeconds = signal<number>(0);
   #isTracking = signal<boolean>(false);
   #trackingInterval?: number;
+  #saveTimeoutId?: number;
+  #pendingSave = false;
 
   // Get the stored daily data
   #dailyData = signal<DailyListeningData>(this.loadStorageData().dailyData);
@@ -111,6 +110,13 @@ export class SleepTrackerService {
       this.#trackingInterval = undefined;
     }
 
+    // Clear pending save timeout and save immediately
+    if (this.#saveTimeoutId) {
+      clearTimeout(this.#saveTimeoutId);
+      this.#saveTimeoutId = undefined;
+    }
+    this.#pendingSave = false;
+
     // Save the current session data
     this.saveCurrentSession();
   }
@@ -132,9 +138,13 @@ export class SleepTrackerService {
     // Increment all-time total
     this.#allTimeTotal.update((total) => total + 1);
 
-    // Save to localStorage periodically (every 10 seconds to reduce I/O)
-    if (todaySeconds % 10 === 0) {
-      this.saveData();
+    // Throttle localStorage writes - save every 30 seconds or on stop
+    if (!this.#pendingSave) {
+      this.#pendingSave = true;
+      this.#saveTimeoutId = window.setTimeout(() => {
+        this.saveData();
+        this.#pendingSave = false;
+      }, 30000); // Save every 30 seconds instead of every 10 seconds
     }
   }
 

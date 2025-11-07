@@ -13,9 +13,8 @@ import { CommonModule } from '@angular/common';
 import { IonIcon, IonButton } from '@ionic/angular/standalone';
 import { ModalController } from '@ionic/angular';
 import { SleepStatisticsService } from '../../services/sleep-statistics.service';
-import { Chart, registerables } from 'chart.js';
-
-Chart.register(...registerables);
+import { ChartService } from '../../services/chart.service';
+import type { Chart } from 'chart.js';
 
 @Component({
   selector: 'app-sleep-statistics-modal',
@@ -32,6 +31,7 @@ export class SleepStatisticsModalComponent
 
   private modalController = inject(ModalController);
   private listeningStats = inject(SleepStatisticsService);
+  private chartService = inject(ChartService);
 
   last7Days = this.listeningStats.last7Days;
   totalWeek = this.listeningStats.totalWeekSleep;
@@ -140,6 +140,7 @@ export class SleepStatisticsModalComponent
     gradient.addColorStop(0, primaryGradientStart);
     gradient.addColorStop(1, primaryGradientEnd);
 
+    const Chart = this.chartService.Chart;
     this.chart = new Chart(ctx, {
       type: 'bar',
       data: {

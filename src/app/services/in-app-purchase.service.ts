@@ -418,4 +418,29 @@ export class InAppPurchaseService {
       'bottom'
     );
   }
+
+  /**
+   * FOR DEVELOPMENT ONLY - Reset premium by removing the storage key
+   * Works on all platforms but should only be called in development mode
+   */
+  async resetPremiumStorage(): Promise<void> {
+    try {
+      // Remove the premium_unlocked key from storage
+      await Preferences.remove({ key: this.#STORAGE_KEY });
+      this.#isPremiumUnlocked.set(false);
+      console.warn('⚠️ DEVELOPMENT: Premium storage reset');
+      this.#toastService.presentToast(
+        'Premium reset (Development mode)',
+        2000,
+        'bottom'
+      );
+    } catch (error) {
+      console.error('Failed to reset premium storage:', error);
+      this.#toastService.presentToast(
+        'Failed to reset premium',
+        2000,
+        'bottom'
+      );
+    }
+  }
 }
