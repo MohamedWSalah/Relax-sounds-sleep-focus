@@ -37,13 +37,12 @@ export const BASE_CATEGORIES: Category[] = [
     name: 'Beach',
     icon: '🏖️',
     subcategories: [
-      { id: 'gentle', name: 'Gentle' },
-      { id: 'medium', name: 'Medium' },
-      { id: 'strong', name: 'Strong' },
+      { id: 'waves', name: 'Waves' },
+      { id: 'shore', name: 'Shore' },
+      { id: 'swimming', name: 'Swimming' },
     ],
   },
   { id: 'city', name: 'City', icon: '🚗' },
-  { id: 'coffee', name: 'Coffee Shop', icon: '☕' },
   { id: 'asmr', name: 'ASMR', icon: '✨' },
 ];
 

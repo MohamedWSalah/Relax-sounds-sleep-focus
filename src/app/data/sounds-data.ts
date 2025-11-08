@@ -3,6 +3,8 @@ import { WIND_SOUNDS } from './wind-sounds';
 import { NATURE_SOUNDS } from './nature-sounds';
 import type { SoundData } from '../types';
 import { BEACH_SOUNDS } from './beach-sounds';
+import { CITY_SOUNDS } from './city-sounds';
+import { ASMR_SOUNDS } from './ASMR-sounds';
 export { BASE_CATEGORIES, DEFAULT_CATEGORY } from './categories';
 export type { Category } from '../types';
 
@@ -15,4 +17,6 @@ export const SOUNDS_DATA: SoundData[] = [
   ...WIND_SOUNDS,
   ...NATURE_SOUNDS,
   ...BEACH_SOUNDS,
+  ...CITY_SOUNDS,
+  ...ASMR_SOUNDS,
 ];

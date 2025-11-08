@@ -338,7 +338,7 @@ export class InAppPurchaseService {
     try {
       const result = await Preferences.get({ key: this.#STORAGE_KEY });
       const isPremium = result.value === 'true';
-      this.#isPremiumUnlocked.set(isPremium);
+      console.log('Premium status:', isPremium);
       return isPremium;
     } catch (error) {
       console.error('Failed to load premium status:', error);
@@ -425,12 +425,12 @@ export class InAppPurchaseService {
    */
   async resetPremiumStorage(): Promise<void> {
     try {
-      // Remove the premium_unlocked key from storage
-      await Preferences.remove({ key: this.#STORAGE_KEY });
-      this.#isPremiumUnlocked.set(false);
-      console.warn('⚠️ DEVELOPMENT: Premium storage reset');
+      const isPremium = await this.#loadPremiumStatus();
+      await this.#savePremiumStatus(!isPremium);
+      this.#isPremiumUnlocked.set(!isPremium);
+      console.warn('⚠️ DEVELOPMENT: Premium status switched');
       this.#toastService.presentToast(
-        'Premium reset (Development mode)',
+        `Premium status switched to ${!isPremium ? 'unlocked' : 'locked'}`,
         2000,
         'bottom'
       );

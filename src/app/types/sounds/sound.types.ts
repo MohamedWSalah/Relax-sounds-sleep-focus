@@ -8,7 +8,7 @@ export interface SoundData {
   icon: string;
   file: string;
   description?: string;
-  premium?: boolean;
+  premium: boolean;
   category: string;
   subcategory?: string;
 }
@@ -49,4 +49,3 @@ export interface Category {
   icon: string;
   subcategories?: Subcategory[];
 }
-

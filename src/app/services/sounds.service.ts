@@ -281,7 +281,10 @@ export class SoundsService {
       // Remove event listeners before stopping
       const audio = sound.audio;
       if ((audio as any).__canPlayHandler) {
-        audio.removeEventListener('canplaythrough', (audio as any).__canPlayHandler);
+        audio.removeEventListener(
+          'canplaythrough',
+          (audio as any).__canPlayHandler
+        );
         delete (audio as any).__canPlayHandler;
       }
       if ((audio as any).__errorHandler) {
