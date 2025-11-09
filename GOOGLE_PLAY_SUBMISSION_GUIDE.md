@@ -5,18 +5,14 @@
 ### Phase 1: Build the Android App Bundle (AAB)
 
 #### Step 1: Build the Ionic/Angular App
+
 ```bash
 # Build the production version of your web app
-npm run build -- --configuration production
-```
-
-#### Step 2: Sync with Capacitor
-```bash
-# Copy web assets to Android project
-npx cap sync android
+npm start release
 ```
 
 #### Step 3: Generate a Keystore (First Time Only)
+
 If you don't have a keystore yet:
 
 ```bash
@@ -27,7 +23,8 @@ cd android/app
 keytool -genkey -v -keystore my-release-key.keystore -alias my-key-alias -keyalg RSA -keysize 2048 -validity 10000
 ```
 
-**IMPORTANT:** 
+**IMPORTANT:**
+
 - Save the keystore file and passwords securely
 - You'll need the same keystore for all future updates
 - Losing it means you can't update your app!
@@ -52,7 +49,7 @@ Your `android/app/build.gradle` needs signing configuration. Add this after the 
 ```gradle
 android {
     // ... existing config ...
-    
+
     signingConfigs {
         release {
             def keystorePropertiesFile = rootProject.file("key.properties")
@@ -65,7 +62,7 @@ android {
             storePassword keystoreProperties['storePassword']
         }
     }
-    
+
     buildTypes {
         release {
             signingConfig signingConfigs.release
@@ -97,32 +94,38 @@ The AAB file will be located at:
 ### Phase 2: Upload to Google Play Console
 
 #### 1. **Upload the AAB File**
-   - Go to: Production → Releases → Create new release
-   - Upload the `app-release.aab` file
-   - This resolves errors: ✅ "You need to upload an APK or Android App Bundle"
+
+- Go to: Production → Releases → Create new release
+- Upload the `app-release.aab` file
+- This resolves errors: ✅ "You need to upload an APK or Android App Bundle"
 
 #### 2. **Set Version Information**
-   Current version in `build.gradle`:
-   - Version Code: 1
-   - Version Name: 1.0
-   
-   For future updates, increment versionCode (2, 3, 4...) and update versionName (1.1, 2.0, etc.)
+
+Current version in `build.gradle`:
+
+- Version Code: 1
+- Version Name: 1.0
+
+For future updates, increment versionCode (2, 3, 4...) and update versionName (1.1, 2.0, etc.)
 
 ---
 
 ### Phase 3: Complete App Information
 
 #### 3. **Add App Description**
+
 Go to: Store presence → Main store listing
 
 Add the following:
 
 **Short Description (80 characters max):**
+
 ```
 Relax with soothing sounds. Sleep better, focus more, and find your calm.
 ```
 
 **Full Description (4000 characters max):**
+
 ```
 🌙 Sleep Better, Focus More, Relax Deeper
 
@@ -210,6 +213,7 @@ This resolves: ✅ "Add a full description to save"
 #### 4. **Upload Screenshots and Graphics**
 
 Required assets:
+
 - **App Icon**: 512 x 512 px (already have in `resources/icon.png`)
 - **Feature Graphic**: 1024 x 500 px
 - **Phone Screenshots**: At least 2 (1080 x 1920 px recommended)
@@ -218,6 +222,7 @@ Required assets:
 ---
 
 #### 5. **Select Countries and Regions**
+
 Go to: Production → Countries/Regions
 
 - Click "Add countries/regions"
@@ -228,9 +233,11 @@ This resolves: ✅ "No countries or regions have been selected"
 ---
 
 #### 6. **Complete Data Safety Form**
+
 Go to: App content → Data safety
 
 Answer questions about:
+
 - Does your app collect user data? (For basic version: No)
 - Does your app share data with third parties? (Check Firebase Analytics if used)
 - Security practices
@@ -244,20 +251,25 @@ This resolves: ✅ "You must complete the health declaration"
 Go to: App content and complete:
 
 - **Privacy Policy** (required)
+
   - If you don't have one, you can use a privacy policy generator
   - Must include: what data you collect, how it's used, third-party services
 
-- **App Access** 
+- **App Access**
+
   - Explain if special credentials are needed (usually "All features available")
 
-- **Ads** 
+- **Ads**
+
   - Declare if app contains ads (No for your app)
 
 - **Content Rating**
+
   - Complete the questionnaire
   - Will likely be rated E (Everyone) or PEGI 3
 
 - **Target Audience**
+
   - Select age groups (likely 18+)
 
 - **News Apps** (if applicable): No
@@ -273,11 +285,13 @@ Go to: App content and complete:
 ### Phase 4: Final Review and Publishing
 
 #### 8. **Review Everything**
+
 - Check all sections in the Dashboard have green checkmarks
 - Review your store listing preview
 - Verify all information is correct
 
 #### 9. **Submit for Review**
+
 - Go to: Publishing overview
 - Click "Send for review" or "Start rollout to Production"
 - Google will review your app (typically 1-7 days)
@@ -287,18 +301,24 @@ Go to: App content and complete:
 ## Common Issues and Solutions
 
 ### "You can't rollout this release because it doesn't allow any existing users to upgrade"
+
 **Solution:** If this is your first release, ignore this. If updating, ensure:
+
 - New versionCode is higher than previous release
 - You're not removing any supported architectures
 
 ### "This release does not add or remove any app bundles"
+
 **Solution:** Make sure you:
+
 1. Uploaded a NEW AAB file (not previously uploaded)
 2. Have a higher versionCode than existing releases
 3. Clicked "Save" after uploading
 
 ### Build Fails with Signing Errors
-**Solution:** 
+
+**Solution:**
+
 - Verify `key.properties` exists and paths are correct
 - Ensure keystore file is in the correct location
 - Check passwords are correct
@@ -325,6 +345,7 @@ cd android
 When updating your app:
 
 1. Update version in `android/app/build.gradle`:
+
 ```gradle
 versionCode 2  // Increment by 1
 versionName "1.1"  // Update as needed
@@ -353,4 +374,3 @@ versionName "1.1"  // Update as needed
 ---
 
 Good luck with your app launch! 🚀
-

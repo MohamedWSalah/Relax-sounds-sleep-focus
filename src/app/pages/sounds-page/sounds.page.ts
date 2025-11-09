@@ -359,8 +359,6 @@ export class SoundsPage implements OnInit, AfterViewInit {
    */
   async #showPremiumUpsellModal(sound: Sound): Promise<void> {
     try {
-      console.log('🔴 1. Starting modal creation', this.#modalController);
-
       const { PremiumUpsellModalComponent } = await import(
         '../../components/premium-upsell-modal/premium-upsell-modal.component'
       );
@@ -376,10 +374,7 @@ export class SoundsPage implements OnInit, AfterViewInit {
         breakpoints: [0, 0.93, 0.95],
         initialBreakpoint: 0.95,
       });
-      console.log('🔴 2. Modal created, about to present');
-
       await modal.present();
-      console.log('🔴 3. Modal presented successfully');
 
       const { data, role } = await modal.onWillDismiss();
 
