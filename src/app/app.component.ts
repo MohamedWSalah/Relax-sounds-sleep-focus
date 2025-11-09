@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
-import { ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular/standalone';
 import { App } from '@capacitor/app';
 import { PluginListenerHandle } from '@capacitor/core';
 import { ThemeService } from './services/theme.service';

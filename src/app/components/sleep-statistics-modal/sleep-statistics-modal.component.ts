@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonIcon, IonButton } from '@ionic/angular/standalone';
-import { ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular/standalone';
 import { SleepStatisticsService } from '../../services/sleep-statistics.service';
 import { ChartService } from '../../services/chart.service';
 import type { Chart } from 'chart.js';

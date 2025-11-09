@@ -23,10 +23,11 @@
       [class.playing]="isPreviewPlaying()"
       (click)="playPreview()"
     >
-      <ion-icon
-        [name]="isPreviewPlaying() ? 'pause' : 'play'"
-        class="preview-icon"
-      ></ion-icon>
+      @if(isPreviewPlaying()){
+      <ion-icon name="pause" class="preview-icon"> </ion-icon>
+      } @else {
+      <ion-icon name="play" class="preview-icon"></ion-icon>
+      }
       <span>{{
         isPreviewPlaying() ? "Playing Preview..." : "Play Preview"
       }}</span>
@@ -38,7 +39,7 @@
     <!-- Unlock Premium Button -->
     <ion-button class="unlock-button" expand="block" (click)="unlockPremium()">
       <ion-icon name="diamond" slot="start"></ion-icon>
-      Unlock Premium!!!
+      Unlock Premium
     </ion-button>
   </div>
 </div>

@@ -9,7 +9,7 @@ import {
   effect,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular/standalone';
 import { IonIcon, IonButton } from '@ionic/angular/standalone';
 import type { Sound } from 'src/app/types';
 import { InAppPurchaseService } from 'src/app/services/in-app-purchase.service';
@@ -19,6 +19,7 @@ import { InAppPurchaseService } from 'src/app/services/in-app-purchase.service';
   templateUrl: './premium-upsell-modal.component.html',
   styleUrls: ['./premium-upsell-modal.component.scss'],
   imports: [CommonModule, IonIcon, IonButton],
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PremiumUpsellModalComponent implements OnInit, OnDestroy {
@@ -165,8 +166,14 @@ export class PremiumUpsellModalComponent implements OnInit, OnDestroy {
 
       // Remove event listeners explicitly
       if (this.#audioEventHandlers) {
-        audioToStop.removeEventListener('canplaythrough', this.#audioEventHandlers.canPlayHandler);
-        audioToStop.removeEventListener('error', this.#audioEventHandlers.errorHandler);
+        audioToStop.removeEventListener(
+          'canplaythrough',
+          this.#audioEventHandlers.canPlayHandler
+        );
+        audioToStop.removeEventListener(
+          'error',
+          this.#audioEventHandlers.errorHandler
+        );
         this.#audioEventHandlers = undefined;
       }
 

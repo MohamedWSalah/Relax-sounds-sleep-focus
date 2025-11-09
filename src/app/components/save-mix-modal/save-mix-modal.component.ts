@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 import { IonInput, IonIcon, IonButton } from '@ionic/angular/standalone';
-import { ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular/standalone';
 import { FormsModule } from '@angular/forms';
 
 @Component({

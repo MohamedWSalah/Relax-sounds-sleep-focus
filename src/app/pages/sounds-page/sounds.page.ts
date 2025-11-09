@@ -15,7 +15,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { switchMap, tap } from 'rxjs/operators';
 import { IonRange, IonIcon } from '@ionic/angular/standalone';
-import { ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular/standalone';
 import { SoundsService } from 'src/app/services/sounds.service';
 import type { Sound, Category, Subcategory } from 'src/app/types';
 import { ToastControllerService } from 'src/app/services/toast.service';
@@ -23,11 +23,11 @@ import { MixesService } from 'src/app/services/mixes.service';
 import { InAppPurchaseService } from 'src/app/services/in-app-purchase.service';
 import { SaveMixModalComponent } from 'src/app/components/save-mix-modal/save-mix-modal.component';
 import { PremiumUpsellModalComponent } from 'src/app/components/premium-upsell-modal/premium-upsell-modal.component';
-import { of } from 'rxjs';
 
 @Component({
   selector: 'app-sounds',
   imports: [CommonModule, IonRange, IonIcon],
+  providers: [ModalController],
   templateUrl: './sounds.page.html',
   styleUrl: './sounds.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -359,6 +359,12 @@ export class SoundsPage implements OnInit, AfterViewInit {
    */
   async #showPremiumUpsellModal(sound: Sound): Promise<void> {
     try {
+      console.log('🔴 1. Starting modal creation', this.#modalController);
+
+      const { PremiumUpsellModalComponent } = await import(
+        '../../components/premium-upsell-modal/premium-upsell-modal.component'
+      );
+
       const modal = await this.#modalController.create({
         component: PremiumUpsellModalComponent,
         componentProps: {
@@ -370,8 +376,10 @@ export class SoundsPage implements OnInit, AfterViewInit {
         breakpoints: [0, 0.93, 0.95],
         initialBreakpoint: 0.95,
       });
+      console.log('🔴 2. Modal created, about to present');
 
       await modal.present();
+      console.log('🔴 3. Modal presented successfully');
 
       const { data, role } = await modal.onWillDismiss();
 

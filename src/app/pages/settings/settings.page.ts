@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonIcon, IonToggle } from '@ionic/angular/standalone';
-import { ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular/standalone';
 import { ThemeService } from '../../services/theme.service';
 import { InAppPurchaseService } from '../../services/in-app-purchase.service';
 import { SleepStatisticsModalComponent } from '../../components/sleep-statistics-modal/sleep-statistics-modal.component';
