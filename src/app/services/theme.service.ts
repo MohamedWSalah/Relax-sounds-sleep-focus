@@ -21,20 +21,18 @@ export class ThemeService {
   }
 
   /**
-   * Initialize theme from localStorage or system preference
+   * Initialize theme from localStorage, default always dark
    */
   private initializeTheme(): void {
-    const savedTheme = localStorage.getItem('theme') as Theme;
+    this.currentTheme.set('dark');
+    // const savedTheme = localStorage.getItem('theme') as Theme;
 
-    if (savedTheme) {
-      this.currentTheme.set(savedTheme);
-    } else {
-      // Check system preference
-      const prefersDark = window.matchMedia(
-        '(prefers-color-scheme: dark)'
-      ).matches;
-      this.currentTheme.set(prefersDark ? 'dark' : 'light');
-    }
+    // if (savedTheme) {
+    //   this.currentTheme.set(savedTheme);
+    // } else {
+    //   // Always default to dark regardless of system preference
+    //   this.currentTheme.set('dark');
+    // }
   }
 
   /**

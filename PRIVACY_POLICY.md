@@ -4,143 +4,89 @@
 
 ## Introduction
 
-This privacy policy applies to the Relax Sounds: Sleep Focus mobile application (the "App") for Android devices. This policy describes how we collect, use, and handle your information.
+This privacy policy applies to the Relax Sounds: Sleep Focus mobile application (the "App"). This document explains how we handle user data and privacy.
 
-## Information Collection and Use
+## Information We Collect
 
-### Data We Collect
+We value your privacy. **This app does NOT collect, store, or transmit personal data to any server.**
 
-**Local Storage Only:**
-- App preferences and settings (stored on your device only)
-- Sleep statistics and listening history (stored on your device only)
-- Sound mixing preferences (stored on your device only)
-- Timer settings (stored on your device only)
+### Stored Locally on Your Device
 
-**We Do NOT Collect:**
-- Personal identification information
+The app only stores necessary usage information locally on your device, such as:
+
+- App preferences & settings
+- Favorite sounds & mixes
+- Listening stats
+- Timer configurations
+
+### We DO NOT Collect
+
+- Personal identity information
 - Location data
-- Contact information
-- Photos or media files
-- Device information sent to our servers
+- Device identifiers
+- Contacts or files
+- Any data sent to an external server
 
-### How We Use Your Information
+## Third‑Party Services
 
-All data collected by the App is stored locally on your device using Capacitor Preferences. This data includes:
-- Your favorite sounds
-- Custom sound mixes
-- Sleep tracking statistics
-- App settings and preferences
+### Google Play Billing
 
-**This data never leaves your device and is not transmitted to any servers.**
+Used only to process premium purchases. We do not access or store payment information.
 
-## Third-Party Services
+### Analytics (Optional)
 
-The App may use third-party services that may collect information:
+The app may provide optional anonymous usage analytics (e.g., crash events, feature usage) — controlled via app settings.
 
-### Firebase Analytics (Optional)
-If enabled, Firebase may collect:
-- Anonymous usage statistics
-- App performance data
-- Crash reports
-
-You can opt out of analytics in the app settings.
-
-### Google Play Services
-The App uses Google Play Services for:
-- In-app purchases (Premium features)
-- App updates
-
-Google Play Services is subject to Google's Privacy Policy: https://policies.google.com/privacy
-
-## Data Security
-
-We prioritize your privacy:
-- All personal data is stored locally on your device
-- No user accounts or login required
-- No personal information is collected or transmitted
-- No third-party advertising networks
-
-## Children's Privacy
-
-The App does not knowingly collect personal information from children under 13. If you believe we have inadvertently collected such information, please contact us.
-
-## Premium Features
-
-When purchasing Premium features:
-- Payment is processed by Google Play
-- We do not store credit card information
-- Purchase history is managed by Google Play
-
-## Data Retention and Deletion
-
-Since all data is stored locally on your device:
-- You can delete all app data by uninstalling the app
-- You can clear app data through your device's app settings
-- Uninstalling the app removes all associated data
-
-## Your Rights
-
-You have the right to:
-- Access your data (all stored locally on your device)
-- Delete your data (uninstall the app or clear app data)
-- Opt out of analytics (in app settings)
-- Request information about data practices
-
-## Changes to This Privacy Policy
-
-We may update this Privacy Policy from time to time. Changes will be posted in the app and on this page. Your continued use of the App after changes constitutes acceptance of the updated policy.
+Google privacy policy: https://policies.google.com/privacy
 
 ## Permissions Used
 
-The App requests the following permissions:
+| Permission         | Purpose                              | Data Access           |
+| ------------------ | ------------------------------------ | --------------------- |
+| FOREGROUND_SERVICE | Play sounds in background            | No data collected     |
+| WAKE_LOCK          | Keep sound active when screen is off | No data collected     |
+| INTERNET           | For purchases & optional analytics   | No personal data sent |
+| VIBRATE            | Haptic feedback                      | No data collected     |
 
-### FOREGROUND_SERVICE
-- **Purpose:** To continue playing sounds in the background
-- **Data Collected:** None
+## Children's Privacy
 
-### WAKE_LOCK
-- **Purpose:** To keep sounds playing when screen is off
-- **Data Collected:** None
+We do not knowingly collect information from children under 13. The app is safe for all ages and contains no ads.
 
-### INTERNET (Optional)
-- **Purpose:** For Firebase Analytics (if enabled) and checking for updates
-- **Data Collected:** Anonymous usage statistics only if analytics enabled
+## Data Retention & Control
 
-### VIBRATE
-- **Purpose:** For haptic feedback on button presses
-- **Data Collected:** None
+- All data stays on your device
+- You may delete all app data anytime by uninstalling the app or clearing app storage
 
-## Data Sharing
+## Security
 
-**We do not sell, trade, or share your personal information with third parties.**
+- No external servers
+- No data transmission
+- No user accounts or login required
 
-The only data that may be shared is anonymous analytics (if you opt in), which is handled by Firebase and subject to Google's privacy policies.
+## Your Rights
 
-## Contact Us
+You have full control of your information since it stays on your device. You may:
 
-If you have questions about this Privacy Policy, please contact us:
+- View your app data
+- Delete app data anytime
 
-**Email:** [YOUR_EMAIL_HERE]
-**App Developer:** [YOUR_NAME_OR_COMPANY]
+## Updates to Policy
 
-## Compliance
+We may update this policy if necessary. Changes will be reflected in the app or store listing.
 
-This Privacy Policy complies with:
-- Google Play Developer Policy
-- General Data Protection Regulation (GDPR)
-- California Consumer Privacy Act (CCPA)
-- Children's Online Privacy Protection Act (COPPA)
+## Contact
 
----
+If you have any privacy questions, contact us:
+
+**Email:** moonchan.ltd@gmail.com  
+**Developer:** Mohamed Salah
 
 ## Summary
 
-**In Short:**
-- ✅ All your data stays on your device
-- ✅ No personal information collected
-- ✅ No ads or tracking (except optional anonymous analytics)
-- ✅ No user accounts required
-- ✅ Your privacy is our priority
+- ✅ No user data collected
+- ✅ No online tracking
+- ✅ Only local storage used
+- ✅ Safe for all ages
+- ✅ Optional anonymous analytics only
 
-By using Relax Sounds: Sleep Focus, you agree to this Privacy Policy.
-
+By using Relax Sounds: Sleep Focus, you agree to this privacy policy.

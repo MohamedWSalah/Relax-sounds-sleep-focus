@@ -141,7 +141,7 @@
           min="0"
           max="100"
           [value]="sound.volume * 100"
-          (ionChange)="setVolume(sound, $event.detail.value)"
+          (ionInput)="setVolume(sound, $event.detail.value)"
           (click)="$event.stopPropagation()"
         >
         </ion-range>
