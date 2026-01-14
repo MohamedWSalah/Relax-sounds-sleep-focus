@@ -6,6 +6,7 @@ import { App } from '@capacitor/app';
 import { PluginListenerHandle } from '@capacitor/core';
 import { ThemeService } from './services/theme.service';
 import { InAppPurchaseService } from './services/in-app-purchase.service';
+import { InAppReviewService } from './services/in-app-review.service';
 import {
   AppUpdate,
   AppUpdateAvailability,
@@ -20,6 +21,7 @@ import {
 export class AppComponent implements OnInit, OnDestroy {
   private themeService = inject(ThemeService);
   private inAppPurchaseService = inject(InAppPurchaseService);
+  private inAppReviewService = inject(InAppReviewService);
   private router = inject(Router);
   private modalController = inject(ModalController);
   private backButtonListener?: PluginListenerHandle;
@@ -30,6 +32,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.initializeServices();
     this.checkForUpdate();
     this.setupBackButtonHandler();
+    this.trackAppLaunch();
   }
 
   private initializeServices(): void {
@@ -81,6 +84,31 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     } catch (err) {
       console.error('Error checking for app update:', err);
+    }
+  }
+
+  /**
+   * Track app launch for in-app review eligibility
+   * Called once per app startup
+   * Also requests review if eligible (with delay to avoid showing immediately on launch)
+   */
+  private async trackAppLaunch(): Promise<void> {
+    try {
+      await this.inAppReviewService.trackAppLaunch();
+
+      // Request review if eligible, but wait a few seconds after app launch
+      // to avoid showing the dialog immediately when user opens the app
+      setTimeout(async () => {
+        try {
+          await this.inAppReviewService.requestReviewIfEligible();
+        } catch (error) {
+          // Fail silently - review request should not break app
+          console.debug('Failed to request review:', error);
+        }
+      }, 3000); // Wait 3 seconds after launch
+    } catch (error) {
+      // Fail silently - tracking should not break app startup
+      console.debug('Failed to track app launch:', error);
     }
   }
 }

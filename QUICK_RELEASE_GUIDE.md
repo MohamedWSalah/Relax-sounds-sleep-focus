@@ -3,7 +3,7 @@
 ## Building Your App Bundle (Every Release)
 
 Upgrade version in package.json
-Upgrade version in buikd.gradle
+Upgrade version in build.gradle
 
 ### Step by Step (Recommended)
 

@@ -1,5 +1,6 @@
 import { Injectable, signal, computed, inject, effect } from '@angular/core';
 import { SoundsService } from './sounds.service';
+import { InAppReviewService } from './in-app-review.service';
 import type { DailyListeningData, ListeningStorageData } from '../types';
 
 @Injectable({
@@ -7,7 +8,9 @@ import type { DailyListeningData, ListeningStorageData } from '../types';
 })
 export class SleepTrackerService {
   private readonly STORAGE_KEY = 'listening_data';
+  private readonly MIN_SESSION_DURATION_SECONDS = 30; // Minimum 30 seconds to count as a completed session
   private soundsService = inject(SoundsService);
+  private inAppReviewService = inject(InAppReviewService);
 
   // Track the current session time (seconds)
   #currentSessionSeconds = signal<number>(0);
@@ -101,6 +104,30 @@ export class SleepTrackerService {
   private stopTracking(): void {
     if (!this.#isTracking()) {
       return; // Not tracking
+    }
+
+    // Check if this session qualifies as a completed session for review eligibility
+    const sessionDuration = this.#currentSessionSeconds();
+    if (sessionDuration >= this.MIN_SESSION_DURATION_SECONDS) {
+      // Track completed session for in-app review eligibility
+      this.inAppReviewService
+        .trackCompletedSession()
+        .then(async () => {
+          // Request review if eligible, but wait a moment after session ends
+          // to avoid showing dialog immediately when user stops playback
+          setTimeout(async () => {
+            try {
+              await this.inAppReviewService.requestReviewIfEligible();
+            } catch (error) {
+              // Fail silently - review request should not break session stop
+              console.debug('Failed to request review:', error);
+            }
+          }, 2000); // Wait 2 seconds after session ends
+        })
+        .catch((error) => {
+          // Fail silently - tracking should not break session stop
+          console.debug('Failed to track completed session:', error);
+        });
     }
 
     this.#isTracking.set(false);
